@@ -28,7 +28,6 @@ function Table({ columns, data, testName, userId }) {
                   column.Header !== "" ? styles.Header : styles.HeaderNone
                 }
               >
-                {console.log(column)}
                 {column.render("Header")}
                 <span>
                   {column.isSorted ? (column.isSortedDesc ? " ⬇︎" : " ⬆︎") : ""}
@@ -41,14 +40,13 @@ function Table({ columns, data, testName, userId }) {
       <tbody {...getTableBodyProps()}>
         {rows.map((row, i) => {
           prepareRow(row);
-
           return (
             <tr {...row.getRowProps()} key={i}>
               {row.cells.map((cell) => (
                 <td
                   {...cell.getCellProps()}
                   className={
-                    cell.value != undefined
+                    cell.column.Header !== ""
                       ? styles.Content
                       : styles.ContentNone
                   }
@@ -127,7 +125,7 @@ function Table({ columns, data, testName, userId }) {
                           });
                       });
                     }
-                    console.log(cell.column.id == "fileName");
+                    console.log(cell.Header);
                   }}
                 >
                   {cell.render("Cell")}

@@ -85,7 +85,7 @@ export default function Test_F_QB_SG() {
       location.state.sound
         ? {
             accessor: "fileNameList",
-            Header: "파일리 다운로드",
+            Header: "파일 다운로드",
           }
         : {
             accessor: "fileName",

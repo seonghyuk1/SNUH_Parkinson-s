@@ -9,45 +9,17 @@ export default function User() {
   let location = useLocation();
   let navigate = useNavigate();
   console.log(location.state);
-  let zip = new JSZip();
+  let url = "https://kwhcclab.com:20757/tests/download/" + location.state.id;
   return (
     <>
       <div className={styles.Container}>
         <div className={styles.UserInfo}>
           <span className={styles.Name}>{location.state.name}</span>
-          <Button
-            className={styles.BtnFile}
-            variant="primary"
-            size="lg"
-            onClick={() => {
-              axios
-                .get("/tests/download/" + Number(location.state.id), {
-                  params: {
-                    userId: location.state.id,
-                  },
-                  headers: {
-                    contentType: "application/zip",
-                  },
-                })
-                .then((response) => {
-                  console.log(response);
-
-                  /* const url = window.URL.createObjectURL(
-                    new Blob([response.data])
-                  );
-                  const link = document.createElement("a");
-                  link.href = url;
-                  link.setAttribute("download", `${location.state.name}.zip`);
-                  document.body.appendChild(link);
-                  link.click();
-                  document.body.removeChild(link);*/
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
-            }}
-          >
-            전체 테스트 파일 다운로드
+          <Button className={styles.BtnFile} size="lg">
+            <a className={styles.All} href={url}>
+              {console.log(url)}
+              전체 테스트 파일 다운로드
+            </a>
           </Button>
         </div>
         <div className="d-grid gap-2">

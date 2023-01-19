@@ -32,5 +32,13 @@
 }
 
 .BtnFile, .BtnFile:hover{
+    background-color: green !important;
+    height: 30%;
+}
+
+.All, .All:hover{
+    color: white;
     background-color: green;
+    text-decoration: none;
+    display: inline;
 }
