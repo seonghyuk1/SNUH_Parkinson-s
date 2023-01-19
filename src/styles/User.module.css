@@ -1,0 +1,36 @@
+.Container{
+    padding: 3%;
+    width: 60%;
+    margin: 0 auto;
+}
+
+.Btn{
+    width: 80%;
+    margin: 0 auto;
+    height: 70%;
+    margin-bottom: 3%;
+    font-size: 1.5em;
+    background-color: rgb(108, 107, 105) !important;
+}
+
+.UserInfo{
+    width: 100%;
+    margin-bottom: 5%;
+}
+
+.Name{
+    font-size: 3em;
+    font-weight: bold;
+    border: 2px solid;
+    border-radius: 15px;
+    text-align: center;
+    width: 60%;
+    padding: 1%;
+    margin: 0 auto;
+
+    margin-right: 4%;
+}
+
+.BtnFile, .BtnFile:hover{
+    background-color: green;
+}
