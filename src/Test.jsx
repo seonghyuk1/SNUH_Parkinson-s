@@ -2,10 +2,13 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import Table from "./TableTest";
+import Pagination from "./Pagination";
 
 export default function Test_F_QB_SG() {
   let location = useLocation();
   const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(5);
   console.log(location.state.test);
   useEffect(() => {
     axios
@@ -28,7 +31,7 @@ export default function Test_F_QB_SG() {
         accessor: "id",
         Header: "id",
       },
-      location.state.test == "finger"
+      location.state.count
         ? {
             accessor: "count",
             Header: "count",
@@ -94,6 +97,14 @@ export default function Test_F_QB_SG() {
     ],
     []
   );
+
+  const indexOfLast = currentPage * postsPerPage;
+  const indexOfFirst = indexOfLast - postsPerPage;
+  const currentPosts = (posts) => {
+    let currentPosts = 0;
+    currentPosts = posts.slice(indexOfFirst, indexOfLast);
+    return currentPosts;
+  };
   return (
     <>
       <div>
@@ -101,10 +112,17 @@ export default function Test_F_QB_SG() {
       </div>
       <Table
         columns={columns}
-        data={data}
+        data={currentPosts(data)}
         testName="fingerTest"
         userId={location.state.id}
       />
+      <Pagination
+        // className={styles.paging}
+        postsPerPage={postsPerPage}
+        totalPosts={data.length}
+        paginate={setCurrentPage}
+        currentPage={currentPage}
+      ></Pagination>
     </>
   );
 }

@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import styles from "./styles/User.module.css";
 import axios from "axios";
-import JSZip from "jszip";
 
 export default function User() {
   let location = useLocation();
   let navigate = useNavigate();
   console.log(location.state);
   let url = "https://kwhcclab.com:20757/tests/download/" + location.state.id;
+
   return (
     <>
       <div className={styles.Container}>
@@ -34,6 +34,7 @@ export default function User() {
                   name: location.state.name,
                   testName: "finger Test",
                   test: "finger",
+                  count: true,
                 },
               });
             }}
@@ -51,6 +52,7 @@ export default function User() {
                   name: location.state.name,
                   testName: "Screen Gaze Test",
                   test: "screen-gaze",
+                  count: true,
                 },
               });
             }}
@@ -68,6 +70,7 @@ export default function User() {
                   name: location.state.name,
                   testName: "Quick Blink Test",
                   test: "quick-blink",
+                  count: true,
                 },
               });
             }}
@@ -167,18 +170,4 @@ export default function User() {
       </div>
     </>
   );
-}
-
-function download_base64_content(filename, base64Text) {
-  //window.location="data:application/octastream;base64, " + base64Text;
-  var element = document.createElement("a");
-  element.setAttribute(
-    "href",
-    "data:application/octastream;base64," + base64Text
-  );
-  element.setAttribute("download", filename);
-  element.style.display = "none";
-  document.body.appendChild(element);
-  element.click();
-  document.body.removeChild(element);
 }

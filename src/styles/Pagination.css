@@ -1,0 +1,17 @@
+.pagination{
+    margin-top: 2%;
+    margin-left: 45%;
+    margin-bottom: 1%;
+}
+
+.page-link{
+    background-color:rgba(5, 47, 95, 0.1);
+    color:rgba(5, 47, 95, 1);
+    cursor: pointer;
+}
+
+.page-link:hover{
+    background-color:rgba(5, 47, 95, 1);
+    color:#D5C67A;
+    cursor: pointer;
+}
