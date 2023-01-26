@@ -1,0 +1,10 @@
+.Title{
+    border: 2px solid;
+    width: 35%;
+    padding: 1.5%;
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: 2%;
+    border-radius: 15px;
+    margin-top: 2%;
+}

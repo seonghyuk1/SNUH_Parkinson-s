@@ -3,13 +3,15 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import Table from "./TableTest";
 import Pagination from "./Pagination";
+import styles from "./styles/Test.module.css";
 
 export default function Test_F_QB_SG() {
   let location = useLocation();
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(5);
-  console.log(location.state.test);
+  // console.log(location.state.test);
+  let data2 = [];
   useEffect(() => {
     axios
       .get("/tests/" + location.state.test, {
@@ -20,6 +22,12 @@ export default function Test_F_QB_SG() {
       })
       .then((response) => {
         console.log(response);
+        /* data2.push(response.data);
+        response.data.map((a, i) => {
+          return a.fileNameList.map((s, k) => {
+            console.log(s);
+          });
+        });*/
         setData(response.data);
       })
       .catch((error) => {});
@@ -107,7 +115,7 @@ export default function Test_F_QB_SG() {
   };
   return (
     <>
-      <div>
+      <div className={styles.Title}>
         {location.state.name} - {location.state.testName}
       </div>
       <Table
@@ -117,7 +125,7 @@ export default function Test_F_QB_SG() {
         userId={location.state.id}
       />
       <Pagination
-        // className={styles.paging}
+        className={styles.paging}
         postsPerPage={postsPerPage}
         totalPosts={data.length}
         paginate={setCurrentPage}
