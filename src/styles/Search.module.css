@@ -1,0 +1,22 @@
+.container {
+  /* justify-content: center; */
+  /* margin: 0 auto; */
+  /* align-content: center; */
+  /* text-align: center; */
+}
+
+.btn {
+  margin-left: 1%;
+  background-color: #122389;
+  color: white;
+  border-radius: 10px;
+}
+
+.info {
+  margin: 1%;
+}
+
+.input {
+  width: 20%;
+  height: 30px;
+}

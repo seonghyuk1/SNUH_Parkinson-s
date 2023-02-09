@@ -1,47 +1,46 @@
-
-.cell{
-    text-decoration: none;
-    color: black;
-
+.cell {
+  text-decoration: none;
+  color: black;
 }
 
-.Head{
-    height: 60px;
-    border: 1px solid;
-    font-size: larger;
-    font-weight: bolder;
+.Head {
+  height: 60px;
+  border: 1px solid;
+  font-size: larger;
+  font-weight: bolder;
 }
 
-.Content{
-    height:80px;
-    border: 1px solid;
-    font-size: larger;
+.Content {
+  height: 80px;
+  border: 1px solid;
+  font-size: larger;
+  /* border-left: none; */
+  /* border-right: none; */
 }
 
-.ContentNone{
-    display: none;
+.ContentNone {
+  display: none;
 }
 
-.Header{
-    border: 1px solid;
-    height: 60px;
-    background-color: aliceblue;
+.Header {
+  border: 1px solid;
+  height: 60px;
+  background-color: aliceblue;
 }
 
-.HeaderNone{
-    display: none;
+.HeaderNone {
+  display: none;
 }
 
-.Content:hover{
-    cursor: pointer;
-
-    color: #0d6efd;
-    border: 2px solid;
+.Content:hover {
+  cursor: pointer;
+  color: white;
+  /* border: 3px solid; */
+  background-color: #63b4f7;
 }
 
-.Table{
-    border: 1px solid;
-    width: 100%;
-    text-align: center;
+.Table {
+  border: 1px solid;
+  width: 100%;
+  text-align: center;
 }
-

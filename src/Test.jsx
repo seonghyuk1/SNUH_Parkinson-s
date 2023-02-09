@@ -1,3 +1,4 @@
+/* eslint-disable*/
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
@@ -33,11 +34,28 @@ export default function Test_F_QB_SG() {
       .catch((error) => {});
   }, []);
 
+  {
+    /* 
+
+finger : id, count, timeAfterTakingMedicine, fileName, createdAt, userId
+screen-gaze : id, count, timeAfterTakingMedicine, fileName, createdAt, userId
+quick-blink : id, count, timeAfterTakingMedicine, fileName, createdAt, userId
+
+gait : id, "stride, step, distance, time", timeAfterTakingMedicine, fileName, createdAt, userId
+
+a-sound : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
+e-sound : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
+dadada : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
+pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
+
+*/
+  }
+
   const columns = useMemo(
     () => [
       {
         accessor: "id",
-        Header: "id",
+        Header: "검사 id",
       },
       location.state.count
         ? {
@@ -93,6 +111,10 @@ export default function Test_F_QB_SG() {
             accessor: "aaaaa",
             Header: "",
           },
+      {
+        accessor: "userId",
+        Header: "검사자 id",
+      },
       location.state.sound
         ? {
             accessor: "fileNameList",
@@ -118,19 +140,8 @@ export default function Test_F_QB_SG() {
       <div className={styles.Title}>
         {location.state.name} - {location.state.testName}
       </div>
-      <Table
-        columns={columns}
-        data={currentPosts(data)}
-        testName="fingerTest"
-        userId={location.state.id}
-      />
-      <Pagination
-        className={styles.paging}
-        postsPerPage={postsPerPage}
-        totalPosts={data.length}
-        paginate={setCurrentPage}
-        currentPage={currentPage}
-      ></Pagination>
+      <Table columns={columns} data={currentPosts(data)} testName="fingerTest" userId={location.state.id} />
+      <Pagination className={styles.paging} postsPerPage={postsPerPage} totalPosts={data.length} paginate={setCurrentPage} currentPage={currentPage}></Pagination>
     </>
   );
 }

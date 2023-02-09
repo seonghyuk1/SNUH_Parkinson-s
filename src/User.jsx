@@ -1,3 +1,4 @@
+/* eslint-disable*/
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
@@ -14,7 +15,7 @@ export default function User() {
     <>
       <div className={styles.Container}>
         <div className={styles.UserInfo}>
-          <span className={styles.Name}>{location.state.name}</span>
+          <span className={styles.Name}>ID : {location.state.name}</span>
           <Button className={styles.BtnFile} size="lg">
             <a className={styles.All} href={url}>
               {console.log(url)}

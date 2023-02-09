@@ -1,44 +1,50 @@
-.Container{
-    padding: 3%;
-    width: 60%;
-    margin: 0 auto;
+.Container {
+  padding: 3%;
+  width: 60%;
+  margin: 0 auto;
 }
 
-.Btn{
-    width: 80%;
-    margin: 0 auto;
-    height: 70%;
-    margin-bottom: 3%;
-    font-size: 1.5em;
-    background-color: rgb(108, 107, 105) !important;
+.Btn {
+  width: 80%;
+  margin: 0 auto;
+  height: 70%;
+  margin-bottom: 3%;
+  font-size: 1.5em;
+  background-color: rgb(25, 0, 168) !important;
 }
 
-.UserInfo{
-    width: 100%;
-    margin-bottom: 5%;
+.Btn:hover {
+  opacity: 0.8;
 }
 
-.Name{
-    font-size: 3em;
-    font-weight: bold;
-    border: 2px solid;
-    border-radius: 15px;
-    text-align: center;
-    width: 60%;
-    padding: 1%;
-    margin: 0 auto;
-
-    margin-right: 4%;
+.UserInfo {
+  width: 100%;
+  margin-bottom: 5%;
+  text-align: center;
 }
 
-.BtnFile, .BtnFile:hover{
-    background-color: green !important;
-    height: 30%;
+.Name {
+  font-size: 2em;
+  border: 2px solid;
+  border-radius: 15px;
+  text-align: center;
+  width: 40%;
+  padding: 1%;
+  margin: 0 auto;
+  display: block;
+  margin-bottom: 4%;
 }
 
-.All, .All:hover{
-    color: white;
-    background-color: green;
-    text-decoration: none;
-    display: inline;
+.BtnFile,
+.BtnFile:hover {
+  display: inline-block;
+  background-color: rgb(241, 32, 67) !important;
+  height: 30%;
+}
+
+.All,
+.All:hover {
+  color: white;
+  text-decoration: none;
+  display: inline;
 }

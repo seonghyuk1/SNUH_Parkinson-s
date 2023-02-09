@@ -1,3 +1,4 @@
+/* eslint-disable*/
 import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
@@ -39,8 +40,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate, currentPage }) => {
                   id={number}
                   style={{
                     color: currentPage == number && "#D5C67A",
-                    backgroundColor:
-                      currentPage == number && "rgba(5, 47, 95, 1)",
+                    backgroundColor: currentPage == number && "rgba(5, 47, 95, 1)",
                   }}
                 >
                   {number}

@@ -1,3 +1,4 @@
+/* eslint-disable*/
 import styles from "./styles/App.module.css";
 import axios from "axios";
 import Table from "./TableUser";
@@ -16,6 +17,7 @@ function App() {
       })
       .then((response) => {
         console.log(response);
+        console.log(response.data);
         setData(response.data);
         console.log(response.data.length);
       })
@@ -25,8 +27,8 @@ function App() {
   const columns = useMemo(
     () => [
       {
-        accessor: "id",
-        Header: "id",
+        accessor: "id", // 객체의 어느 속성을 읽어야하는지
+        Header: "id", // 테이블 헤더에 보여줄 텍스트
       },
       {
         accessor: "name",
@@ -48,25 +50,24 @@ function App() {
     []
   );
 
-  const indexOfLast = currentPage * postsPerPage;
-  const indexOfFirst = indexOfLast - postsPerPage;
+  const indexOfLast = currentPage * postsPerPage; // 5
+  const indexOfFirst = indexOfLast - postsPerPage; // 5 - 5
+
   const currentPosts = (posts) => {
-    let currentPosts = 0;
-    currentPosts = posts.slice(indexOfFirst, indexOfLast);
+    let currentPosts;
+    // 현재 페이지에 들어갈 갯수
+    currentPosts = posts.slice(indexOfFirst, indexOfLast); // 0, 5
     return currentPosts;
   };
+
   return (
-    <div className={styles.Container}>
-      <div className={styles.Title}>전체 명단</div>
-      <Table columns={columns} data={currentPosts(data)} />
-      <Pagination
-        className={styles.paging}
-        postsPerPage={postsPerPage}
-        totalPosts={data.length}
-        paginate={setCurrentPage}
-        currentPage={currentPage}
-      ></Pagination>
-    </div>
+    <>
+      <div className={styles.Container}>
+        <div className={styles.Title}>전체 명단</div>
+        <Table columns={columns} data={currentPosts(data)} />
+        <Pagination className={styles.paging} postsPerPage={postsPerPage} totalPosts={data.length} paginate={setCurrentPage} currentPage={currentPage}></Pagination>
+      </div>
+    </>
   );
 }
 
