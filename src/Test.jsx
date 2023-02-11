@@ -11,8 +11,6 @@ export default function Test_F_QB_SG() {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(5);
-  // console.log(location.state.test);
-  let data2 = [];
   useEffect(() => {
     axios
       .get("/tests/" + location.state.test, {
@@ -23,13 +21,13 @@ export default function Test_F_QB_SG() {
       })
       .then((response) => {
         console.log(response);
-        /* data2.push(response.data);
-        response.data.map((a, i) => {
-          return a.fileNameList.map((s, k) => {
-            console.log(s);
-          });
-        });*/
-        setData(response.data);
+        const sortData = response.data.sort((a, b) => {
+          if (a.id > b.id) return 1;
+          if (a.id < b.id) return -1;
+          return 0;
+        });
+
+        setData(sortData);
       })
       .catch((error) => {});
   }, []);
@@ -40,6 +38,7 @@ export default function Test_F_QB_SG() {
 finger : id, count, timeAfterTakingMedicine, fileName, createdAt, userId
 screen-gaze : id, count, timeAfterTakingMedicine, fileName, createdAt, userId
 quick-blink : id, count, timeAfterTakingMedicine, fileName, createdAt, userId
+
 
 gait : id, "stride, step, distance, time", timeAfterTakingMedicine, fileName, createdAt, userId
 
@@ -57,6 +56,11 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
         accessor: "id",
         Header: "검사 id",
       },
+      {
+        accessor: "createdAt",
+        Header: "생성시간",
+      },
+
       location.state.count
         ? {
             accessor: "count",
@@ -66,10 +70,6 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
             accessor: "a",
             Header: "",
           },
-      {
-        accessor: "createdAt",
-        Header: "생성시간",
-      },
       {
         accessor: "timeAfterTakingMedicine",
         Header: "약복용후 지난시간",
@@ -141,7 +141,6 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
         {location.state.name} - {location.state.testName}
       </div>
       <Table columns={columns} data={currentPosts(data)} testName="fingerTest" userId={location.state.id} />
-      <Pagination className={styles.paging} postsPerPage={postsPerPage} totalPosts={data.length} paginate={setCurrentPage} currentPage={currentPage}></Pagination>
     </>
   );
 }

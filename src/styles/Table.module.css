@@ -25,7 +25,8 @@
 .Header {
   border: 1px solid;
   height: 60px;
-  background-color: aliceblue;
+  background-color: #122389;
+  color: white;
 }
 
 .HeaderNone {
@@ -43,4 +44,10 @@
   border: 1px solid;
   width: 100%;
   text-align: center;
+}
+
+.theader {
+  background-color: #122389;
+  color: white;
+  font-size: 15px;
 }

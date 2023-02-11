@@ -14,3 +14,23 @@
   display: inline-block;
   justify-content: center;
 }
+
+.pagination {
+  margin-top: 2%;
+  margin-left: 47%;
+  margin-bottom: 1%;
+}
+
+.pagelink {
+  background-color: rgba(221, 226, 231, 0.1);
+  color: rgba(5, 47, 95, 1);
+  cursor: pointer;
+  border-radius: 15px;
+  margin-bottom: 1%;
+}
+
+/* .pagelink:hover {
+  background-color: rgba(5, 47, 95, 1);
+  color: #d5c67a;
+  cursor: pointer;
+} */
