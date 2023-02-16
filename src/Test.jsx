@@ -2,7 +2,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import Table from "./TableTest";
+import TableTest from "./TableTest";
 import Pagination from "./Pagination";
 import styles from "./styles/Test.module.css";
 
@@ -12,6 +12,8 @@ export default function Test_F_QB_SG() {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(5);
   useEffect(() => {
+    console.log("테테", location.state.test);
+
     axios
       .get("/tests/" + location.state.test, {
         params: {
@@ -140,7 +142,7 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
       <div className={styles.Title}>
         {location.state.name} - {location.state.testName}
       </div>
-      <Table columns={columns} data={currentPosts(data)} testName="fingerTest" userId={location.state.id} />
+      <TableTest columns={columns} data={currentPosts(data)} />
     </>
   );
 }

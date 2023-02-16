@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import styles from "./styles/User.module.css";
-import axios from "axios";
+// import axios from "axios";
 
 export default function User() {
   let location = useLocation();

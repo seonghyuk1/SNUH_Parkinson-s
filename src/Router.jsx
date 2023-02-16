@@ -1,5 +1,6 @@
 import { Routes, Route, Link } from "react-router-dom";
 import App from "./App";
+import { Table } from "./Table";
 import Test from "./Test";
 import User from "./User";
 
@@ -12,6 +13,7 @@ const AppRouter = () => {
       <Routes>
         <>
           <Route exact path="/" element={<App />} />
+          <Route exact path="table" element={<Table />} />
           <Route exact path="/user/:id" element={<User />} />
           <Route exact path="/fingerTest" element={<Test />} />
           <Route exact path="/screenGazeTest" element={<Test />} />

@@ -1,18 +1,26 @@
 /* eslint-disable*/
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useTable, useGlobalFilter, useSortBy } from "react-table";
 import Pagination from "./Pagination";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Search from "./Search";
 import styles from "./styles/Table.module.css";
 
 import { sortRows, filterRows, paginateRows } from "./helpers";
 
-function TableTest({ columns, data, testName, userId }) {
+function TableTest({ columns, data }) {
   // let navigate = useNavigate();
   // let str = "test한글";
   // let check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+
+  // *****
+  const location = useLocation();
+  const userId = location.state.id;
+  const fileList = location.state.sound;
+  const [fileLists, setFilelists] = useState([]);
+  // *****
+
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, setGlobalFilter } = useTable({ columns, data }, useGlobalFilter, useSortBy);
 
   const navigate = useNavigate();
@@ -27,6 +35,25 @@ function TableTest({ columns, data, testName, userId }) {
 
   const count = filteredRows.length;
   const totalPages = Math.ceil(count / rowsPerPage);
+
+  // useEffect(() => {
+  //   // headerGroups.push("d");
+  //   // console.log(fileList);
+  //   console.log(location.state.test);
+  //   location.state.sound && headerGroups[0].headers.push({ Header: "파일 다운로드" });
+  //   fileList &&
+  //     axios
+  //       .get("/tests/" + location.state.test, {
+  //         params: {
+  //           userId: location.state.id,
+  //         },
+  //         headers: {},
+  //       })
+  //       .then((res) => {
+  //         console.log("결과", res.data);
+  //         setFilelists(...res.data);
+  //       });
+  // }, []);
 
   return (
     <>
@@ -49,55 +76,28 @@ function TableTest({ columns, data, testName, userId }) {
         <tbody {...getTableBodyProps()}>
           {rows.map((row, i) => {
             prepareRow(row);
-
             // console.log(row.cells[row.cells.length - 1].value);
 
             return (
-              <tr {...row.getRowProps()} key={i}>
-                {row.cells.map((cell) => (
-                  <>
-                    {/* {i == 9 && console.log(cell.value)} */}
-                    <td
-                      {...cell.getCellProps()}
-                      className={cell.column.Header !== "" ? styles.Content : styles.ContentNone}
-                      onClick={() => {
-                        // fileNale이라 한 개 일 때
-                        if (cell.column.id == "fileName") {
-                          axios
-                            .get("/tests/download/" + Number(userId) + "/" + cell.row.original.fileName, {
-                              params: {
-                                userId: userId,
-                                fileName: cell.row.original.fileName,
-                              },
-                              headers: {
-                                contentType: "text/csv",
-                              },
-                            })
-                            .then((response) => {
-                              console.log(response);
-                              const url = window.URL.createObjectURL(new Blob([response.data]));
-                              const link = document.createElement("a");
-                              link.href = url;
-                              link.setAttribute("download", `${cell.row.original.fileName}.csv`);
-                              document.body.appendChild(link);
-                              link.click();
-                              document.body.removeChild(link);
-                            })
-                            .catch((error) => {
-                              console.log(error);
-                            });
-                        }
-                        // fileNameList여서 여러개 일 때
-                        if (cell.column.id == "fileNameList") {
-                          cell.row.original.fileNameList.map((a, i) => {
+              <>
+                <tr {...row.getRowProps()} key={i}>
+                  {row.cells.map((cell) => (
+                    <>
+                      {/* {i == 9 && console.log(cell.value)} */}
+                      <td
+                        {...cell.getCellProps()}
+                        className={cell.column.Header !== "" ? styles.Content : styles.ContentNone}
+                        onClick={() => {
+                          // fileName이라 한 개 일 때
+                          if (cell.column.id == "fileName") {
                             axios
-                              .get("/tests/download/" + Number(userId) + "/" + cell.row.original.fileNameList[i], {
+                              .get("/tests/download/" + Number(userId) + "/" + cell.row.original.fileName, {
                                 params: {
                                   userId: userId,
-                                  fileName: cell.row.original.fileNameList[i],
+                                  fileName: cell.row.original.fileName,
                                 },
                                 headers: {
-                                  contentType: "vedio/mp4",
+                                  contentType: "text/csv",
                                 },
                               })
                               .then((response) => {
@@ -105,7 +105,7 @@ function TableTest({ columns, data, testName, userId }) {
                                 const url = window.URL.createObjectURL(new Blob([response.data]));
                                 const link = document.createElement("a");
                                 link.href = url;
-                                link.setAttribute("download", `${cell.row.original.fileNameList[i]}.mp4`);
+                                link.setAttribute("download", `${cell.row.original.fileName}.csv`);
                                 document.body.appendChild(link);
                                 link.click();
                                 document.body.removeChild(link);
@@ -113,16 +113,47 @@ function TableTest({ columns, data, testName, userId }) {
                               .catch((error) => {
                                 console.log(error);
                               });
-                          });
-                        }
-                        console.log(cell.Header);
-                      }}
-                    >
-                      {cell.render("Cell")}
-                    </td>
-                  </>
-                ))}
-              </tr>
+                          }
+
+                          // fileNameList여서 여러개 일 때
+                          if (cell.column.id == "fileNameList") {
+                            cell.row.original.fileNameList.map((a, i) => {
+                              axios
+                                .get("/tests/download/" + Number(userId) + "/" + cell.row.original.fileNameList[i], {
+                                  params: {
+                                    userId: userId,
+                                    fileName: cell.row.original.fileNameList[i],
+                                  },
+                                  headers: {
+                                    contentType: "vedio/mp4",
+                                  },
+                                })
+                                .then((response) => {
+                                  console.log("결과 ", response);
+                                  const url = window.URL.createObjectURL(new Blob([response.data]));
+                                  const link = document.createElement("a");
+                                  link.href = url;
+                                  link.setAttribute("download", `${cell.row.original.fileNameList[i]}.mp4`);
+                                  document.body.appendChild(link);
+                                  link.click();
+                                  document.body.removeChild(link);
+                                })
+                                .catch((error) => {
+                                  console.log(error);
+                                });
+                            });
+                          }
+                          console.log(cell.Header);
+                        }}
+                      >
+                        {cell.render("Cell")}
+                      </td>
+                    </>
+                  ))}
+                  {/* {fileList && fileLists.map((i) => <td className={styles.Content}>{fileLists[i]}</td>)} */}
+                  {/* {fileList && <td className={styles.Content}>{fileLists[0]}</td>} */}
+                </tr>
+              </>
             );
           })}
         </tbody>

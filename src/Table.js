@@ -1,11 +1,56 @@
 /* eslint-disable*/
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { sortRows, filterRows, paginateRows } from "./helpers";
 import Pagination from "./Pagination";
 import styles from "./styles/Table.module.css";
+import axios from "axios";
 
-export const Table = ({ columns, rows }) => {
+export const Table = () => {
+  const [rows, setRows] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("/users", {
+        // 파라미터 전달로 최대 1,000개 받아옴
+        params: { size: 1000 },
+        headers: {},
+      })
+      .then((response) => {
+        console.log(response);
+        console.log(response.data);
+
+        setRows(response.data);
+      })
+      .catch((error) => {});
+  }, []);
+
+  const columns = useMemo(
+    () => [
+      {
+        accessor: "id", // 객체의 어느 속성을 읽어야하는지
+        Header: "id", // 테이블 헤더에 보여줄 텍스트
+      },
+      {
+        accessor: "name",
+        Header: "이름",
+      },
+      {
+        accessor: "birthdate",
+        Header: "생년월일",
+      },
+      {
+        accessor: "gender",
+        Header: "성별",
+      },
+      {
+        accessor: "diagnosis",
+        Header: "진단년도",
+      },
+    ],
+    []
+  );
+
   const navigate = useNavigate();
   // 현재 페이지
   const [activePage, setActivePage] = useState(1);
