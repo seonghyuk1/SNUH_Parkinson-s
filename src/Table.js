@@ -115,6 +115,9 @@ export const Table = () => {
   return (
     <>
       <div className={styles.Container}>
+        <div className={styles.Title}>전체 사용자 명단</div>
+      </div>
+      <div className={styles.Container}>
         <table className={styles.Table}>
           <thead className={styles.theader}>
             <tr>

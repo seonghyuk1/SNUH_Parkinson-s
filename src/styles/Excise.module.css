@@ -1,0 +1,60 @@
+/* .Container {
+  padding: 3%;
+  width: 60%;
+  margin: 0 auto;
+} */
+
+.Btn {
+  width: 80%;
+  margin: 0 auto;
+  height: 70%;
+  margin-bottom: 3%;
+  font-size: 1.5em;
+  background-color: rgb(0, 60, 150) !important;
+}
+
+.Btn:hover {
+  opacity: 0.8;
+}
+
+.UserInfo {
+  width: 100%;
+  margin-bottom: 5%;
+  text-align: center;
+}
+
+.Name {
+  font-size: 2em;
+  border: 2px solid;
+  border-radius: 15px;
+  text-align: center;
+  width: 40%;
+  padding: 1%;
+  margin: 0 auto;
+  display: block;
+  margin-bottom: 4%;
+}
+
+.All,
+.All:hover {
+  color: white;
+  text-decoration: none;
+  display: inline;
+}
+
+.Container {
+  text-align: center;
+}
+
+.Title {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 2%;
+  border: 2px solid;
+  width: 20%;
+  border-radius: 15px;
+  padding: 1%;
+  display: inline-block;
+  justify-content: center;
+  margin: 2%;
+}

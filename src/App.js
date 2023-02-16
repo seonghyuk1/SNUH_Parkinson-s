@@ -1,6 +1,6 @@
 /* eslint-disable*/
 import styles from "./styles/App.module.css";
-import React, { useEffect, useState, useMemo } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 function App() {
@@ -8,7 +8,10 @@ function App() {
     <>
       <div className={styles.Container}>
         <Link to="Table">
-          <div className={styles.Title}>전체 명단</div>
+          <div className={styles.Title}>전체 사용자 명단</div>
+        </Link>
+        <Link to="Excise">
+          <div className={styles.Title}>운동 기록</div>
         </Link>
       </div>
     </>

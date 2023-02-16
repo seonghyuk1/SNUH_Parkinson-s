@@ -3,6 +3,11 @@
   text-align: center;
 }
 
+.Title:hover {
+  background-color: rgba(5, 47, 95, 1);
+  color: white;
+}
+
 .Title {
   font-size: 1.5em;
   font-weight: bold;
@@ -13,6 +18,8 @@
   padding: 1%;
   display: inline-block;
   justify-content: center;
+  margin: 10%;
+  color: black;
 }
 
 .pagination {

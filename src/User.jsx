@@ -1,5 +1,5 @@
 /* eslint-disable*/
-import React, { useState } from "react";
+import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import styles from "./styles/User.module.css";
