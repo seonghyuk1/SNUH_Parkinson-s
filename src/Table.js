@@ -18,7 +18,6 @@ export const Table = () => {
       })
       .then((response) => {
         console.log(response);
-        console.log(response.data);
 
         setRows(response.data);
       })

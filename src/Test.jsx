@@ -1,35 +1,40 @@
 /* eslint-disable*/
 import React, { useEffect, useMemo, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import TableTest from "./TableTest";
+// import TableTest from "./TableTest";
 import styles from "./styles/Test.module.css";
+import { sortRows, filterRows, paginateRows } from "./helpers";
+import Pagination from "./Pagination";
 
-export default function Test_F_QB_SG() {
+export default function Test() {
   let location = useLocation();
   const [data, setData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(5);
 
   useEffect(() => {
-    console.log(location.state.test);
+    console.log(location.state);
+    console.log("헤드", location.state.colHead);
 
     axios
       .get("/tests/" + location.state.test, {
         params: {
           userId: location.state.id,
+          size: 1000,
         },
         headers: {},
       })
       .then((response) => {
         console.log(response);
-        const sortData = response.data.sort((a, b) => {
-          if (a.id > b.id) return 1;
-          if (a.id < b.id) return -1;
-          return 0;
-        });
 
-        setData(sortData);
+        setData(response.data);
+
+        axios.get("/tests/" + location.state.test, {
+          params: {
+            userId: location.state.id,
+            size: 1000,
+          },
+          headers: {},
+        });
       })
       .catch((error) => {});
   }, []);
@@ -49,97 +54,290 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
 */
   }
 
-  const columns = useMemo(
-    () => [
-      {
-        accessor: "id",
-        Header: "검사 id",
-      },
-      {
-        accessor: "createdAt",
-        Header: "생성시간",
-      },
+  // 스프레드 문법을 통해 받아온 객체를 리스트 안에
+  const columns = useMemo(() => [...location.state.colHead], []);
 
-      location.state.count
-        ? {
-            accessor: "count",
-            Header: "count",
-          }
-        : {
-            accessor: "a",
-            Header: "",
-          },
-      {
-        accessor: "timeAfterTakingMedicine",
-        Header: "약복용후 지난시간",
-      },
+  // const navigate = useNavigate();
 
-      location.state.test == "gait"
-        ? {
-            accessor: "stride",
-            Header: "보폭",
-          }
-        : {
-            accessor: "aa",
-            Header: "",
-          },
-      location.state.test == "gait"
-        ? {
-            accessor: "step",
-            Header: "발걸음 수",
-          }
-        : {
-            accessor: "aaa",
-            Header: "",
-          },
-      location.state.test == "gait"
-        ? {
-            accessor: "distance",
-            Header: "걸은거리",
-          }
-        : {
-            accessor: "aaaa",
-            Header: "",
-          },
-      location.state.test == "gait"
-        ? {
-            accessor: "time",
-            Header: "걸은시간(분)",
-          }
-        : {
-            accessor: "aaaaa",
-            Header: "",
-          },
-      {
-        accessor: "userId",
-        Header: "검사자 id",
-      },
-      location.state.sound
-        ? {
-            accessor: "fileNameList",
-            Header: "파일 다운로드",
-          }
-        : {
-            accessor: "fileName",
-            Header: "파일 다운로드",
-          },
-    ],
-    []
-  );
+  const [activePage, setActivePage] = useState(1);
+  const [filters, setFilters] = useState({});
 
-  const indexOfLast = currentPage * postsPerPage;
-  const indexOfFirst = indexOfLast - postsPerPage;
-  const currentPosts = (posts) => {
-    let currentPosts = 0;
-    currentPosts = posts.slice(indexOfFirst, indexOfLast);
-    return currentPosts;
+  const [sort, setSort] = useState({ order: "asc", orderBy: "id" });
+
+  const rowsPerPage = 5;
+
+  const filteredRows = useMemo(() => filterRows(data, filters), [data, filters]);
+  const sortedRows = useMemo(() => sortRows(filteredRows, sort), [filteredRows, sort]);
+  const calculatedRows = paginateRows(sortedRows, activePage, rowsPerPage);
+
+  const count = filteredRows.length;
+
+  const totalPages = Math.ceil(count / rowsPerPage);
+
+  const handleSearch = (value, accessor) => {
+    setActivePage(1);
+
+    if (value) {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        [accessor]: value,
+      }));
+    } else {
+      setFilters((prevFilters) => {
+        const updatedFilters = { ...prevFilters };
+        delete updatedFilters[accessor];
+
+        return updatedFilters;
+      });
+    }
   };
+
+  const handleSort = (accessor) => {
+    setActivePage(1);
+    setSort((prevSort) => ({
+      order: prevSort.order === "asc" && prevSort.orderBy === accessor ? "desc" : "asc",
+      orderBy: accessor,
+    }));
+  };
+
+  const clearAll = () => {
+    setSort({ order: "asc", orderBy: "id" });
+    setActivePage(1);
+    setFilters({});
+  };
+
   return (
     <>
       <div className={styles.Title}>
         {location.state.name} - {location.state.testName}
       </div>
-      <TableTest columns={columns} data={currentPosts(data)} />
+      <table className={styles.Table}>
+        <thead>
+          <tr>
+            {columns.map((column) => {
+              const sortIcon = () => {
+                if (column.accessor === sort.orderBy) {
+                  if (sort.order === "asc") {
+                    return "⬆";
+                  }
+                  return "⬇️";
+                } else {
+                  return "️↕️";
+                }
+              };
+              return (
+                <th key={column.accessor}>
+                  <span>{column.Header}</span>
+                  <button onClick={() => handleSort(column.accessor)}>{sortIcon()}</button>
+                </th>
+              );
+            })}
+          </tr>
+          <tr>
+            {columns.map((column) => {
+              return (
+                <th>
+                  <input key={`${column.accessor}-search`} type="search" placeholder={`${column.Header} 검색`} value={filters[column.accessor]} onChange={(e) => handleSearch(e.target.value, column.accessor)} />
+                </th>
+              );
+            })}
+          </tr>
+        </thead>
+
+        {/* 바디 */}
+        <tbody>
+          {console.log(calculatedRows)}
+
+          {calculatedRows.map((row, i) => {
+            {
+              console.log("쿨", calculatedRows[i]);
+            }
+            return (
+              <tr key={row.id}>
+                {/* {console.log(columns[columns.length - 1].accessor)} */}
+                {/* {console.log(columns[columns.length - 1])} */}
+
+                {columns.map((column) => {
+                  // {
+                  //   console.log("콜", row[column.accessor]);
+                  // }
+
+                  // {
+                  //   console.log("콜2", row.fileNameList);
+                  // }
+
+                  // {
+                  //   console.log("콜2", i);
+                  // }
+
+                  return (
+                    <>
+                      <td
+                        className={styles.Content}
+                        key={column.accessor}
+                        onClick={() => {
+                          // fileName이라 한 개 일 때
+                          if (columns[columns.length - 1].accessor == "fileName") {
+                            axios
+                              .get("/tests/download/" + Number(location.state.id) + "/" + calculatedRows[i].fileName, {
+                                params: {
+                                  userId: location.state.id,
+                                  fileName: calculatedRows[i].fileName,
+                                },
+                                headers: {
+                                  contentType: "text/csv",
+                                },
+                              })
+                              .then((response) => {
+                                console.log("결과 ", response);
+                                console.log("결과2 ", response.data);
+                                const url = window.URL.createObjectURL(new Blob([response.data]));
+                                const link = document.createElement("a");
+                                link.href = url;
+                                link.setAttribute("download", `${calculatedRows[i].fileName}`);
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                              })
+                              .catch((error) => {
+                                console.log(error);
+                              });
+                          }
+
+                          // fileNameList여서 여러개 일 때
+                          if (columns[columns.length - 1].accessor == "fileNameList") {
+                            row.fileNameList.map((a, k) => {
+                              console.log("파일명 : ", calculatedRows[i].fileNameList[k]);
+                              axios
+                                .get("/tests/download/" + Number(location.state.id) + "/" + calculatedRows[i].fileNameList[k], {
+                                  params: {
+                                    userId: location.state.id,
+                                    fileName: calculatedRows[i].fileNameList[k],
+                                  },
+                                  headers: {
+                                    contentType: "video/mp4",
+                                  },
+                                })
+                                .then((response) => {
+                                  console.log("결과 ", response);
+                                  console.log("결과2 ", response.data);
+                                  const url = window.URL.createObjectURL(new Blob([response.data]));
+                                  const link = document.createElement("a");
+                                  link.href = url;
+                                  link.setAttribute("download", `${calculatedRows[i].fileNameList[k]}`);
+                                  document.body.appendChild(link);
+                                  link.click();
+                                  document.body.removeChild(link);
+                                })
+                                .catch((error) => {
+                                  console.log(error);
+                                });
+                            });
+                          }
+                        }}
+                      >
+                        {row[column.accessor]}
+                      </td>
+                    </>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      {count > 0 ? <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} /> : <h1>해당 검색 결과가 존재하지 않습니다.</h1>}
+      <div>
+        <p>
+          <button onClick={clearAll}>필터 초기화</button>
+        </p>
+      </div>
     </>
   );
 }
+
+// {calculatedRows.map((row, i) => {
+//   // prepareRow(row);
+//   // console.log(row.cells[row.cells.length - 1].value);
+
+//   return (
+//     <>
+//       <tr key={i}>
+//         {columns.map((cell) => (
+//           <>
+//             {/* {i == 9 && console.log(cell.value)} */}
+//             return(
+
+//             )
+//             <td
+
+//               className={cell.column.Header !== "" ? styles.Content : styles.ContentNone}
+//               onClick={() => {
+//                 // fileName이라 한 개 일 때
+//                 if (cell.column.id == "fileName") {
+//                   axios
+//                     .get("/tests/download/" + Number(userId) + "/" + cell.row.original.fileName, {
+//                       params: {
+//                         userId: userId,
+//                         fileName: cell.row.original.fileName,
+//                       },
+//                       headers: {
+//                         contentType: "text/csv",
+//                       },
+//                     })
+//                     .then((response) => {
+//                       console.log(response);
+//                       const url = window.URL.createObjectURL(new Blob([response.data]));
+//                       const link = document.createElement("a");
+//                       link.href = url;
+//                       link.setAttribute("download", `${cell.row.original.fileName}.csv`);
+//                       document.body.appendChild(link);
+//                       link.click();
+//                       document.body.removeChild(link);
+//                     })
+//                     .catch((error) => {
+//                       console.log(error);
+//                     });
+//                 }
+
+//                 // fileNameList여서 여러개 일 때
+//                 if (cell.column.id == "fileNameList") {
+//                   cell.row.original.fileNameList.map((a, i) => {
+//                     axios
+//                       .get("/tests/download/" + Number(userId) + "/" + cell.row.original.fileNameList[i], {
+//                         params: {
+//                           userId: userId,
+//                           fileName: cell.row.original.fileNameList[i],
+//                         },
+//                         headers: {
+//                           contentType: "vedio/mp4",
+//                         },
+//                       })
+//                       .then((response) => {
+//                         console.log("결과 ", response);
+//                         const url = window.URL.createObjectURL(new Blob([response.data]));
+//                         const link = document.createElement("a");
+//                         link.href = url;
+//                         link.setAttribute("download", `${cell.row.original.fileNameList[i]}.mp4`);
+//                         document.body.appendChild(link);
+//                         link.click();
+//                         document.body.removeChild(link);
+//                       })
+//                       .catch((error) => {
+//                         console.log(error);
+//                       });
+//                   });
+//                 }
+//                 console.log(cell.Header);
+//               }}
+//             >
+//               {cell.render("Cell")}
+//             </td>
+//           </>
+//         ))}
+//         {/* {fileList && fileLists.map((i) => <td className={styles.Content}>{fileLists[i]}</td>)} */}
+//         {/* {fileList && <td className={styles.Content}>{fileLists[0]}</td>} */}
+//       </tr>
+//     </>
+//   );
+// })}

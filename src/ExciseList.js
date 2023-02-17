@@ -31,25 +31,25 @@ function ExciseList() {
     axios
       .get("/tests/" + location.state.test, {
         params: {
-          userId: 1,
+          userId: 2,
+          size: 1000,
         },
         headers: {},
       })
       .then((response) => {
         console.log("응답", response);
-        const sortData = response.data.sort((a, b) => {
-          if (a.id > b.id) return 1;
-          if (a.id < b.id) return -1;
-          return 0;
-        });
 
-        setData(sortData);
+        setData(response.data);
       })
       .catch((error) => {});
   }, []);
 
   const columns = useMemo(
     () => [
+      {
+        accessor: "name",
+        Header: "이름",
+      },
       {
         accessor: "id",
         Header: "검사 id",
@@ -132,7 +132,7 @@ function ExciseList() {
   // sorting 기본 : 오름차순, id 기준
   const [sort, setSort] = useState({ order: "asc", orderBy: "id" });
   // 한 페이지에 보여줄 행의 갯수
-  const rowsPerPage = 5;
+  const rowsPerPage = 1000;
 
   // 헬퍼 함수 메모이제이션
   // 처음 계산된 값을 메모리에 저장하여 계산된 값을 가져와 재사용 (리턴값 동일시 재사용X)
@@ -148,7 +148,7 @@ function ExciseList() {
   // 결과 행수 계산
   const calculatedRows = paginateRows(sortedRows, activePage, rowsPerPage);
 
-  console.log("칼", calculatedRows);
+  // console.log("칼", calculatedRows);
   // 결과 길이
   const count = filteredRows.length;
 

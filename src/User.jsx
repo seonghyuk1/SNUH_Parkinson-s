@@ -36,6 +36,7 @@ export default function User() {
                   testName: "finger Test",
                   test: "finger",
                   count: true,
+                  colHead: Finger_Screengaze_Quickblink,
                 },
               });
             }}
@@ -54,6 +55,7 @@ export default function User() {
                   testName: "Screen Gaze Test",
                   test: "screen-gaze",
                   count: true,
+                  colHead: Finger_Screengaze_Quickblink,
                 },
               });
             }}
@@ -72,6 +74,7 @@ export default function User() {
                   testName: "Quick Blink Test",
                   test: "quick-blink",
                   count: true,
+                  colHead: Finger_Screengaze_Quickblink,
                 },
               });
             }}
@@ -89,6 +92,7 @@ export default function User() {
                   name: location.state.name,
                   testName: "Gait Test",
                   test: "gait",
+                  colHead: Gait,
                 },
               });
             }}
@@ -107,6 +111,7 @@ export default function User() {
                   testName: "A Sound Test",
                   test: "a-sound",
                   sound: true,
+                  colHead: Sound_Dadada_Pataka,
                 },
               });
             }}
@@ -125,6 +130,7 @@ export default function User() {
                   testName: "E Sound Test",
                   test: "e-sound",
                   sound: true,
+                  colHead: Sound_Dadada_Pataka,
                 },
               });
             }}
@@ -143,6 +149,7 @@ export default function User() {
                   testName: "DaDaDa Test",
                   test: "dadada",
                   sound: true,
+                  colHead: Sound_Dadada_Pataka,
                 },
               });
             }}
@@ -161,6 +168,7 @@ export default function User() {
                   testName: "PaTaKa Test",
                   test: "pataka",
                   sound: true,
+                  colHead: Sound_Dadada_Pataka,
                 },
               });
             }}
@@ -172,3 +180,93 @@ export default function User() {
     </>
   );
 }
+
+const Finger_Screengaze_Quickblink = [
+  {
+    accessor: "id",
+    Header: "검사 id",
+  },
+  {
+    accessor: "count",
+    Header: "count",
+  },
+  {
+    accessor: "createdAt",
+    Header: "생성시간",
+  },
+  {
+    accessor: "userId",
+    Header: "검사자 id",
+  },
+  {
+    accessor: "timeAfterTakingMedicine",
+    Header: "약복용후 지난시간",
+  },
+  {
+    accessor: "fileName",
+    Header: "파일 다운로드",
+  },
+];
+
+const Sound_Dadada_Pataka = [
+  {
+    accessor: "id",
+    Header: "검사 id",
+  },
+  {
+    accessor: "createdAt",
+    Header: "생성시간",
+  },
+  {
+    accessor: "userId",
+    Header: "검사자 id",
+  },
+  {
+    accessor: "timeAfterTakingMedicine",
+    Header: "약복용후 지난시간",
+  },
+  {
+    accessor: "fileNameList",
+    Header: "파일 다운로드",
+  },
+];
+
+const Gait = [
+  {
+    accessor: "id",
+    Header: "검사 id",
+  },
+  {
+    accessor: "createdAt",
+    Header: "생성시간",
+  },
+  {
+    accessor: "timeAfterTakingMedicine",
+    Header: "약복용후 지난시간",
+  },
+
+  {
+    accessor: "stride",
+    Header: "보폭",
+  },
+  {
+    accessor: "step",
+    Header: "발걸음 수",
+  },
+  {
+    accessor: "distance",
+    Header: "걸은거리",
+  },
+  {
+    accessor: "time",
+    Header: "걸은시간(분)",
+  },
+  {
+    accessor: "userId",
+    Header: "검사자 id",
+  },
+  {
+    accessor: "fileName",
+    Header: "파일 다운로드",
+  },
+];
