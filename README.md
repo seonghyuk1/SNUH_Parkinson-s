@@ -19,17 +19,18 @@
 ![image](https://user-images.githubusercontent.com/38232501/219429448-70a6c9bf-4966-47f3-9c7d-8104db9f4bc0.png)
 
 
-환자별 기록
+# 환자별 기록
+
 ![image](https://user-images.githubusercontent.com/38232501/219430124-f9a454a8-ddcb-4c56-b6ca-80e3f5017d7a.png)
 
 
-운동 전체 기록
+# 운동 전체 기록
 
-<h1> 전 </ h1>
+### 전
 
 ![image](https://user-images.githubusercontent.com/38232501/219429492-568b7940-af45-4af5-b1ac-3f1edd45cce7.png)
 
 
-<h1> 후 </ h1>
+### 후 
 
 ![image](https://user-images.githubusercontent.com/38232501/219856349-c245b034-553b-4eba-9d7e-1055fba759fc.png)
