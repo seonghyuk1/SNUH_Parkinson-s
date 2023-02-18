@@ -12,7 +12,10 @@
 
 ### 비고
 - 사용자 전체명단은 각 header별 검색 기능 + 오름차순 내림차순 기능 설정
-- 이름 onClick을 통한 환자별 운동 내역은 개별 Filter 미적용 (1차 필터적용 - 여기는 페이지 당 전체검색이 더 수월할 것 같습니다.) 
+
+
+
+# UI
 
 ![image](https://user-images.githubusercontent.com/38232501/219429385-796aa29e-5812-458d-82dc-6de6f7bc4502.png)
 
@@ -26,11 +29,18 @@
 
 # 운동 전체 기록
 
-### 전
+## 중간 운동 select 페이지
+
+![image](https://user-images.githubusercontent.com/38232501/219856446-3ca2eb25-0e08-432b-a29b-de5acc708660.png)
+
+
+# 운동 테스트별 기록 
+
+###  전
 
 ![image](https://user-images.githubusercontent.com/38232501/219429492-568b7940-af45-4af5-b1ac-3f1edd45cce7.png)
 
 
 ### 후 
 
-![image](https://user-images.githubusercontent.com/38232501/219856349-c245b034-553b-4eba-9d7e-1055fba759fc.png)
+![image](https://user-images.githubusercontent.com/38232501/219856462-c79fb175-41ab-439c-b7b3-19478b0b7439.png)
