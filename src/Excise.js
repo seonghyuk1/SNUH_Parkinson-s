@@ -8,11 +8,12 @@ import axios from "axios";
 function Excise() {
   const [rows, setRows] = useState([]);
 
-  //   let test = [];
-  //   const [userId, setUserId] = useState([]);
+  // const [ids, setIds] = useState([]);
+
+  // let test = [];
 
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
 
   useEffect(() => {
     axios
@@ -27,23 +28,23 @@ function Excise() {
 
         setRows(response.data);
 
-        // rows.map((v, i) => {
-        //   test.push(rows[i].id);
+        // response.data.map((v, i) => {
+        //   ids.push(response.data[i].id);
         // });
 
-        // console.log(test);
-
-        // setUserId(...[test]);
-        // console.log("유저", userId);
+        // setOds2(ids);
       })
       .catch((error) => {});
   }, []);
+
+  console.log(rows);
 
   return (
     <>
       <div className={styles.Container}>
         <div className={styles.Title}>운동 기록</div>
       </div>
+
       <div className="d-grid">
         <Button
           className={styles.Btn}
@@ -51,83 +52,89 @@ function Excise() {
           onClick={() => {
             navigate("/fingerTest_Records", {
               state: {
-                testName: "finger Test",
                 test: "finger",
-                count: true,
+                colHead: Finger_Screengaze_Quickblink,
+                ids: rows,
               },
             });
           }}
         >
           Finger Test 기록
         </Button>
+
         <Button
           className={styles.Btn}
           size="lg"
           onClick={() => {
             navigate("/screenGazeTest_Records", {
               state: {
-                testName: "Screen Gaze Test",
                 test: "screen-gaze",
-                count: true,
+                colHead: Finger_Screengaze_Quickblink,
+                ids: rows,
               },
             });
           }}
         >
           Screen Gaze Test 기록
         </Button>
+
         <Button
           className={styles.Btn}
           size="lg"
           onClick={() => {
             navigate("/quickBlinkTest_Records", {
               state: {
-                testName: "Quick Blink Test",
                 test: "quick-blink",
-                count: true,
+                colHead: Finger_Screengaze_Quickblink,
+                ids: rows,
               },
             });
           }}
         >
           Quick Blink Test 기록
         </Button>
+
         <Button
           className={styles.Btn}
           size="lg"
           onClick={() => {
             navigate("/gaitTest_Records", {
               state: {
-                testName: "Gait Test",
                 test: "gait",
+                colHead: Gait,
+                ids: rows,
               },
             });
           }}
         >
           Gait Test 기록
         </Button>
+
         <Button
           className={styles.Btn}
           size="lg"
           onClick={() => {
             navigate("/aSoundTest_Records", {
               state: {
-                testName: "A Sound Test",
                 test: "a-sound",
-                sound: true,
+                colHead: Sound_Dadada_Pataka,
+                ids: rows,
               },
             });
           }}
         >
           A Sound Test 기록
         </Button>
+
         <Button
           className={styles.Btn}
           size="lg"
           onClick={() => {
             navigate("/eSoundTest_Records", {
               state: {
-                testName: "E Sound Test",
                 test: "e-sound",
-                sound: true,
+                colHead: Sound_Dadada_Pataka,
+                ids: rows,
               },
             });
           }}
@@ -140,9 +147,9 @@ function Excise() {
           onClick={() => {
             navigate("/dadadaTest_Records", {
               state: {
-                testName: "DaDaDa Test",
                 test: "dadada",
-                sound: true,
+                colHead: Sound_Dadada_Pataka,
+                ids: rows,
               },
             });
           }}
@@ -155,9 +162,9 @@ function Excise() {
           onClick={() => {
             navigate("/patakaTest_Records", {
               state: {
-                testName: "PaTaKa Test",
                 test: "pataka",
-                sound: true,
+                colHead: Sound_Dadada_Pataka,
+                ids: rows,
               },
             });
           }}
@@ -170,3 +177,93 @@ function Excise() {
 }
 
 export default Excise;
+
+const Finger_Screengaze_Quickblink = [
+  {
+    accessor: "id",
+    Header: "검사 번호",
+  },
+  {
+    accessor: "count",
+    Header: "터치 횟수",
+  },
+  {
+    accessor: "createdAt",
+    Header: "생성시간",
+  },
+  {
+    accessor: "userId",
+    Header: "검사자 ID",
+  },
+  {
+    accessor: "timeAfterTakingMedicine",
+    Header: "약복용후 지난시간",
+  },
+  {
+    accessor: "fileName",
+    Header: "파일 다운로드",
+  },
+];
+
+const Sound_Dadada_Pataka = [
+  {
+    accessor: "id",
+    Header: "검사 번호",
+  },
+  {
+    accessor: "createdAt",
+    Header: "생성시간",
+  },
+  {
+    accessor: "userId",
+    Header: "검사자 ID",
+  },
+  {
+    accessor: "timeAfterTakingMedicine",
+    Header: "약복용후 지난시간",
+  },
+  {
+    accessor: "fileNameList",
+    Header: "파일 다운로드",
+  },
+];
+
+const Gait = [
+  {
+    accessor: "id",
+    Header: "검사 번호",
+  },
+  {
+    accessor: "createdAt",
+    Header: "생성시간",
+  },
+  {
+    accessor: "timeAfterTakingMedicine",
+    Header: "약복용후 지난시간",
+  },
+
+  {
+    accessor: "stride",
+    Header: "보폭",
+  },
+  {
+    accessor: "step",
+    Header: "발걸음 수",
+  },
+  {
+    accessor: "distance",
+    Header: "걸은거리",
+  },
+  {
+    accessor: "time",
+    Header: "걸은시간(분)",
+  },
+  {
+    accessor: "userId",
+    Header: "검사자 ID",
+  },
+  {
+    accessor: "fileName",
+    Header: "파일 다운로드",
+  },
+];

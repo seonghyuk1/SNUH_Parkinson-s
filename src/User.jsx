@@ -35,7 +35,6 @@ export default function User() {
                   name: location.state.name,
                   testName: "finger Test",
                   test: "finger",
-                  count: true,
                   colHead: Finger_Screengaze_Quickblink,
                 },
               });
@@ -54,7 +53,6 @@ export default function User() {
                   name: location.state.name,
                   testName: "Screen Gaze Test",
                   test: "screen-gaze",
-                  count: true,
                   colHead: Finger_Screengaze_Quickblink,
                 },
               });
@@ -73,7 +71,6 @@ export default function User() {
                   name: location.state.name,
                   testName: "Quick Blink Test",
                   test: "quick-blink",
-                  count: true,
                   colHead: Finger_Screengaze_Quickblink,
                 },
               });
@@ -110,7 +107,6 @@ export default function User() {
                   name: location.state.name,
                   testName: "A Sound Test",
                   test: "a-sound",
-                  sound: true,
                   colHead: Sound_Dadada_Pataka,
                 },
               });
@@ -129,7 +125,6 @@ export default function User() {
                   name: location.state.name,
                   testName: "E Sound Test",
                   test: "e-sound",
-                  sound: true,
                   colHead: Sound_Dadada_Pataka,
                 },
               });
@@ -148,7 +143,6 @@ export default function User() {
                   name: location.state.name,
                   testName: "DaDaDa Test",
                   test: "dadada",
-                  sound: true,
                   colHead: Sound_Dadada_Pataka,
                 },
               });
@@ -167,7 +161,6 @@ export default function User() {
                   name: location.state.name,
                   testName: "PaTaKa Test",
                   test: "pataka",
-                  sound: true,
                   colHead: Sound_Dadada_Pataka,
                 },
               });
@@ -184,11 +177,11 @@ export default function User() {
 const Finger_Screengaze_Quickblink = [
   {
     accessor: "id",
-    Header: "검사 id",
+    Header: "검사 번호",
   },
   {
     accessor: "count",
-    Header: "count",
+    Header: "터치 횟수",
   },
   {
     accessor: "createdAt",
@@ -196,7 +189,7 @@ const Finger_Screengaze_Quickblink = [
   },
   {
     accessor: "userId",
-    Header: "검사자 id",
+    Header: "검사자 ID",
   },
   {
     accessor: "timeAfterTakingMedicine",
@@ -211,7 +204,7 @@ const Finger_Screengaze_Quickblink = [
 const Sound_Dadada_Pataka = [
   {
     accessor: "id",
-    Header: "검사 id",
+    Header: "검사 번호",
   },
   {
     accessor: "createdAt",
@@ -219,7 +212,7 @@ const Sound_Dadada_Pataka = [
   },
   {
     accessor: "userId",
-    Header: "검사자 id",
+    Header: "검사자 ID",
   },
   {
     accessor: "timeAfterTakingMedicine",
@@ -234,7 +227,7 @@ const Sound_Dadada_Pataka = [
 const Gait = [
   {
     accessor: "id",
-    Header: "검사 id",
+    Header: "검사 번호",
   },
   {
     accessor: "createdAt",
@@ -263,7 +256,7 @@ const Gait = [
   },
   {
     accessor: "userId",
-    Header: "검사자 id",
+    Header: "검사자 ID",
   },
   {
     accessor: "fileName",

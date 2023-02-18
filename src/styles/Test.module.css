@@ -1,10 +1,96 @@
-.Title{
-    border: 2px solid;
-    width: 35%;
-    padding: 1.5%;
-    font-size: 2em;
-    text-align: center;
-    margin-bottom: 2%;
-    border-radius: 15px;
-    margin-top: 2%;
+.Title {
+  border: 2px solid;
+  width: 35%;
+  padding: 1.5%;
+  font-size: 2em;
+  text-align: center;
+  margin-bottom: 2%;
+  border-radius: 15px;
+  margin-top: 2%;
+}
+
+/* ************************** */
+
+.cell {
+  text-decoration: none;
+  color: black;
+}
+
+.Head {
+  height: 60px;
+  border: 1px solid;
+  font-size: larger;
+  font-weight: bolder;
+}
+
+.Content {
+  height: 80px;
+  border: 1px solid;
+  font-size: larger;
+  /* border-left: none; */
+  /* border-right: none; */
+}
+
+.ContentNone {
+  display: none;
+}
+
+.Header {
+  border: 1px solid;
+  height: 60px;
+  background-color: #122389;
+  color: white;
+}
+
+.HeaderNone {
+  display: none;
+}
+
+.Content:hover {
+  cursor: pointer;
+  color: white;
+  /* border: 3px solid; */
+  background-color: #63b4f7;
+}
+
+.Table {
+  border: 1px solid;
+  width: 100%;
+  text-align: center;
+}
+
+.theader {
+  background-color: #122389;
+  color: white;
+  font-size: 15px;
+}
+
+.Container {
+  text-align: center;
+}
+
+.Title {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 2%;
+  border: 2px solid;
+  width: 20%;
+  border-radius: 15px;
+  padding: 1%;
+  display: inline-block;
+  justify-content: center;
+  margin: 2%;
+}
+
+.Btn {
+  width: 15%;
+  margin: 0 auto;
+  font-size: 1em;
+  background-color: rgb(59, 232, 255) !important;
+  color: black;
+  margin-bottom: 2%;
+}
+
+.Btn:hover {
+  opacity: 0.8;
 }

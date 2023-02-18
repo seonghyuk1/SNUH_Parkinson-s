@@ -5,6 +5,7 @@ import { sortRows, filterRows, paginateRows } from "./helpers";
 import Pagination from "./Pagination";
 import styles from "./styles/Table.module.css";
 import axios from "axios";
+import Button from "react-bootstrap/Button";
 
 export const Table = () => {
   const [rows, setRows] = useState([]);
@@ -124,11 +125,11 @@ export const Table = () => {
                 const sortIcon = () => {
                   if (column.accessor === sort.orderBy) {
                     if (sort.order === "asc") {
-                      return "⬆";
+                      return "🔼";
                     }
-                    return "⬇️";
+                    return "🔽";
                   } else {
-                    return "️↕️";
+                    return "️🔁";
                   }
                 };
                 return (
@@ -178,11 +179,19 @@ export const Table = () => {
           </tbody>
         </table>
 
-        {count > 0 ? <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} /> : <h3>해당하는 검색결과가 없습니다.</h3>}
+        {count > 0 ? (
+          <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} />
+        ) : (
+          <center>
+            <h3>해당하는 검색결과가 없습니다.</h3>
+          </center>
+        )}
 
         <div>
           <p>
-            <button onClick={clearAll}>필터 초기화</button>
+            <Button className={styles.Btn} variant="none" onClick={clearAll}>
+              필터 초기화
+            </Button>
           </p>
         </div>
       </div>

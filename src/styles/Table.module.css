@@ -68,3 +68,15 @@
   justify-content: center;
   margin: 2%;
 }
+
+.Btn {
+  width: 20%;
+  margin: 0 auto;
+  font-size: 1em;
+  background-color: #63b4f7 !important;
+  color: black;
+}
+
+.Btn:hover {
+  opacity: 0.8;
+}

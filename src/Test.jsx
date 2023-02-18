@@ -1,11 +1,11 @@
 /* eslint-disable*/
 import React, { useEffect, useMemo, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
-// import TableTest from "./TableTest";
 import styles from "./styles/Test.module.css";
 import { sortRows, filterRows, paginateRows } from "./helpers";
 import Pagination from "./Pagination";
+import Button from "react-bootstrap/Button";
 
 export default function Test() {
   let location = useLocation();
@@ -27,14 +27,6 @@ export default function Test() {
         console.log(response);
 
         setData(response.data);
-
-        axios.get("/tests/" + location.state.test, {
-          params: {
-            userId: location.state.id,
-            size: 1000,
-          },
-          headers: {},
-        });
       })
       .catch((error) => {});
   }, []);
@@ -112,7 +104,7 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
         {location.state.name} - {location.state.testName}
       </div>
       <table className={styles.Table}>
-        <thead>
+        <thead className={styles.theader}>
           <tr>
             {columns.map((column) => {
               const sortIcon = () => {
@@ -149,9 +141,9 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
           {console.log(calculatedRows)}
 
           {calculatedRows.map((row, i) => {
-            {
-              console.log("쿨", calculatedRows[i]);
-            }
+            // {
+            //   console.log("쿨", calculatedRows[i]);
+            // }
             return (
               <tr key={row.id}>
                 {/* {console.log(columns[columns.length - 1].accessor)} */}
@@ -219,8 +211,11 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
                                   },
                                 })
                                 .then((response) => {
+                                  console.log("파일명22 :" + calculatedRows[i].fileNameList[k]);
+
                                   console.log("결과 ", response);
                                   console.log("결과2 ", response.data);
+
                                   const url = window.URL.createObjectURL(new Blob([response.data]));
                                   const link = document.createElement("a");
                                   link.href = url;
@@ -246,11 +241,19 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
           })}
         </tbody>
       </table>
-      {count > 0 ? <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} /> : <h1>해당 검색 결과가 존재하지 않습니다.</h1>}
+      {count > 0 ? (
+        <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} />
+      ) : (
+        <center>
+          <h3>해당하는 검색결과가 없습니다.</h3>
+        </center>
+      )}
       <div>
-        <p>
-          <button onClick={clearAll}>필터 초기화</button>
-        </p>
+        <center>
+          <Button className={styles.Btn} variant="none" onClick={clearAll}>
+            필터 초기화
+          </Button>
+        </center>
       </div>
     </>
   );

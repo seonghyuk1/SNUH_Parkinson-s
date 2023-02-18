@@ -1,130 +1,45 @@
 /* eslint-disable*/
 import { useState, useMemo, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import Pagination from "./Pagination";
 import { sortRows, filterRows, paginateRows } from "./helpers";
 import axios from "axios";
+import Button from "react-bootstrap/Button";
+import styles from "./styles/Test.module.css";
+
+import Pagination from "./Pagination";
 
 function ExciseList() {
   const [rows, setRows] = useState([]);
   const [data, setData] = useState([]);
   const location = useLocation();
 
+  let test = [];
+
   useEffect(() => {
-    console.log("로케", location);
+    location.state.ids.map((v, i) => {
+      axios
+        .get("/tests/" + location.state.test, {
+          params: {
+            userId: location.state.ids[i].id,
+            size: 1000,
+          },
+          headers: {},
+        })
+        .then((response) => {
+          console.log("운동 응답", response.data);
 
-    // axios
-    //   .get("/users", {
-    //     // 파라미터 전달로 최대 1,000개 받아옴
-    //     params: { size: 1000 },
-    //     headers: {},
-    //   })
-    //   .then((response) => {
-    //     console.log(response);
-    //     console.log(response.data);
+          test.push(...response.data);
+          console.log("테스트", test);
 
-    //     setRows(response.data);
-    //   })
-    //   .catch((error) => {});
+          setData(test);
 
-    // 운동정보
-    axios
-      .get("/tests/" + location.state.test, {
-        params: {
-          userId: 2,
-          size: 1000,
-        },
-        headers: {},
-      })
-      .then((response) => {
-        console.log("응답", response);
-
-        setData(response.data);
-      })
-      .catch((error) => {});
+          // test.push(response.data);
+        })
+        .catch((error) => {});
+    });
   }, []);
 
-  const columns = useMemo(
-    () => [
-      {
-        accessor: "name",
-        Header: "이름",
-      },
-      {
-        accessor: "id",
-        Header: "검사 id",
-      },
-      {
-        accessor: "createdAt",
-        Header: "생성시간",
-      },
-
-      location.state.count
-        ? {
-            accessor: "count",
-            Header: "count",
-          }
-        : {
-            accessor: "a",
-            Header: "",
-          },
-      {
-        accessor: "timeAfterTakingMedicine",
-        Header: "약복용후 지난시간",
-      },
-
-      //   location.state.test == "gait"
-      //     ? {
-      //         accessor: "stride",
-      //         Header: "보폭",
-      //       }
-      //     : {
-      //         accessor: "aa",
-      //         Header: "",
-      //       },
-      //   location.state.test == "gait"
-      //     ? {
-      //         accessor: "step",
-      //         Header: "발걸음 수",
-      //       }
-      //     : {
-      //         accessor: "aaa",
-      //         Header: "",
-      //       },
-      //   location.state.test == "gait"
-      //     ? {
-      //         accessor: "distance",
-      //         Header: "걸은거리",
-      //       }
-      //     : {
-      //         accessor: "aaaa",
-      //         Header: "",
-      //       },
-      //   location.state.test == "gait"
-      //     ? {
-      //         accessor: "time",
-      //         Header: "걸은시간(분)",
-      //       }
-      //     : {
-      //         accessor: "aaaaa",
-      //         Header: "",
-      //       },
-      //   {
-      //     accessor: "userId",
-      //     Header: "검사자 id",
-      //   },
-      location.state.sound
-        ? {
-            accessor: "fileNameList",
-            Header: "파일 다운로드",
-          }
-        : {
-            accessor: "fileName",
-            Header: "파일 다운로드",
-          },
-    ],
-    []
-  );
+  const columns = useMemo(() => [...location.state.colHead], []);
 
   // 현재 페이지
   const [activePage, setActivePage] = useState(1);
@@ -132,7 +47,7 @@ function ExciseList() {
   // sorting 기본 : 오름차순, id 기준
   const [sort, setSort] = useState({ order: "asc", orderBy: "id" });
   // 한 페이지에 보여줄 행의 갯수
-  const rowsPerPage = 1000;
+  const rowsPerPage = 5;
 
   // 헬퍼 함수 메모이제이션
   // 처음 계산된 값을 메모리에 저장하여 계산된 값을 가져와 재사용 (리턴값 동일시 재사용X)
@@ -189,19 +104,26 @@ function ExciseList() {
 
   return (
     <>
-      <table>
-        <thead>
+      <div>
+        <center>
+          <Button variant="none" onClick={clearAll} className={styles.Btn}>
+            필터 초기화
+          </Button>
+        </center>
+      </div>
+      <table className={styles.Table}>
+        <thead className={styles.theader}>
           <tr>
             {/* 헤더 */}
             {columns.map((column) => {
               const sortIcon = () => {
                 if (column.accessor === sort.orderBy) {
                   if (sort.order === "asc") {
-                    return "⬆";
+                    return "🔼";
                   }
-                  return "⬇️";
+                  return "🔽";
                 } else {
-                  return "️↕️";
+                  return "️🔁";
                 }
               };
               return (
@@ -229,13 +151,25 @@ function ExciseList() {
             return (
               <tr key={row.id}>
                 {columns.map((column) => {
-                  return <td key={column.accessor}>{row[column.accessor]}</td>;
+                  return (
+                    <td className={styles.Content} key={column.accessor}>
+                      {row[column.accessor]}
+                    </td>
+                  );
                 })}
               </tr>
             );
           })}
         </tbody>
       </table>
+
+      {count > 0 ? (
+        <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} />
+      ) : (
+        <center>
+          <h3>해당하는 검색결과가 없습니다.</h3>
+        </center>
+      )}
     </>
   );
 }
