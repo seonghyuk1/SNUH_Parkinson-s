@@ -26,8 +26,10 @@
 운동 전체 기록
 
 <h1> 전 </ h1>
+
 ![image](https://user-images.githubusercontent.com/38232501/219429492-568b7940-af45-4af5-b1ac-3f1edd45cce7.png)
 
 
 <h1> 후 </ h1>
+
 ![image](https://user-images.githubusercontent.com/38232501/219856349-c245b034-553b-4eba-9d7e-1055fba759fc.png)
