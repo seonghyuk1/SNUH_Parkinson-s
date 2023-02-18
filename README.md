@@ -5,6 +5,7 @@
 #### 해야할 작업 및 이슈
 - 네이버 플레이스식 검색하면 필터에 적용 고정
 - mp4 파일 다운로드 (fileNameList - 3가지로 된 것) 시 코덱오류인지 영상 재생 X (하지만 파일명 일치 모두 확인, 직접 주소창 GET 요청으로도 확인 완료.. why?!?!?)
+-- fileName (1가지 csv)는 정상적 이 또한 직접 GET 요청으로 비교 완료
 
 - useEffect, useState 렌터링 관련 비동기 이슈
 - 3가지 다운로드가 존재하는 FileNameList 같은 경우 useTable을 사용한 유진님 특성상 일괄 받음으로 나에게 보여지지 않는 형태로 렌더링이 되느라 <br/> 태그 못넣는 이슈..
@@ -23,6 +24,10 @@
 
 
 운동 전체 기록
+
+<h1> 전 </ h1>
 ![image](https://user-images.githubusercontent.com/38232501/219429492-568b7940-af45-4af5-b1ac-3f1edd45cce7.png)
 
+
+<h1> 후 </ h1>
 ![image](https://user-images.githubusercontent.com/38232501/219856349-c245b034-553b-4eba-9d7e-1055fba759fc.png)
