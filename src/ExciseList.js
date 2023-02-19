@@ -8,35 +8,92 @@ import styles from "./styles/Test.module.css";
 
 import Pagination from "./Pagination";
 
+// import { useAsync } from "react-async";
+
+// async function getUsers() {
+//   const response = location.state.ids.map((v, i) => {
+//     axios.get("/tests/" + location.state.test, {
+//       params: {
+//         userId: location.state.ids[i].id,
+//         size: 1000,
+//       },
+//       headers: {},
+//     });
+//     // .then((response) => {
+//     //   console.log("운동 응답", response.data);
+
+//     //   // 중간 단계인 test를 통해도 됨
+//     //   test.push(...response.data);
+//     //   // console.log("테스트", test);
+//     //   // data.push(...response.data);
+
+//     //   // console.log(data);
+//     // })
+//     // .catch((error) => {
+//     //   console.log(error);
+//     // });
+//   });
+//   console.log(response.data);
+//   return response.data;
+// }
+
 function ExciseList() {
-  const [rows, setRows] = useState([]);
+  // const [rows, setRows] = useState([]);
   const [data, setData] = useState([]);
   const location = useLocation();
 
-  let test = [];
+  // useEffect(() => {
+  //   location.state.ids.map((v, i) => {
+  //     axios
+  //       .get("/tests/" + location.state.test, {
+  //         params: {
+  //           userId: location.state.ids[i].id,
+  //           size: 1000,
+  //         },
+  //         headers: {},
+  //       })
+  //       .then((response) => {
+  //         console.log("운동 응답", response.data);
+
+  //         // 중간 단계인 test를 통해도 됨
+  //         test.push(...response.data);
+  //         // console.log("테스트", test);
+  //         // data.push(...response.data);
+
+  //         // console.log(data);
+
+  //         setData(test);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   });
+
+  //   // setData(test);
+  //   console.log("얘가 렌더링 후 반복문 보다 먼저 실행 서버 통신이 비동기니 ");
+  // }, []);
 
   useEffect(() => {
-    location.state.ids.map((v, i) => {
-      axios
-        .get("/tests/" + location.state.test, {
-          params: {
-            userId: location.state.ids[i].id,
-            size: 1000,
-          },
-          headers: {},
-        })
-        .then((response) => {
-          console.log("운동 응답", response.data);
-
-          test.push(...response.data);
-          console.log("테스트", test);
-
-          setData(test);
-
-          // test.push(response.data);
-        })
-        .catch((error) => {});
+    const promises = location.state.ids.map((v, i) => {
+      return axios.get("/tests/" + location.state.test, {
+        params: {
+          userId: location.state.ids[i].id,
+          size: 1000,
+        },
+        headers: {},
+      });
     });
+
+    // Promise.all 사용하여 모든 처리가 끝났을 때 넣어줌
+    Promise.all(promises)
+      .then((responses) => {
+        // flatMap 활용하여 모든 응답의 중복구조를 평면화
+        const test = responses.flatMap((response) => response.data);
+        setData(test);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   const columns = useMemo(() => [...location.state.colHead], []);
@@ -102,8 +159,18 @@ function ExciseList() {
     setFilters({});
   };
 
+  // const {
+  //   data: users,
+  //   error,
+  //   isLoading,
+  //   reload,
+  // } = useAsync({
+  //   promiseFn: getUsers,
+  // });
+
   return (
     <>
+      {console.log("들어온 데이터", data)}
       <div>
         <center>
           <Button variant="none" onClick={clearAll} className={styles.Btn}>
@@ -166,9 +233,7 @@ function ExciseList() {
       {count > 0 ? (
         <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} />
       ) : (
-        <center>
-          <h3>해당하는 검색결과가 없습니다.</h3>
-        </center>
+        <center>{data.length == 0 ? <h3 style={{ marginTop: "3%" }}>데이터를 불러오는 중입니다.</h3> : <h3 style={{ marginTop: "3%" }}>해당하는 검색결과가 없습니다.</h3>}</center>
       )}
     </>
   );

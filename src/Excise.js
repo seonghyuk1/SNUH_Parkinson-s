@@ -10,10 +10,12 @@ function Excise() {
 
   // const [ids, setIds] = useState([]);
 
+  // const location = useLocation();
+  // console.log("로케", location.state);
+
   // let test = [];
 
   const navigate = useNavigate();
-  // const location = useLocation();
 
   useEffect(() => {
     axios
@@ -27,17 +29,11 @@ function Excise() {
         console.log(response.data);
 
         setRows(response.data);
-
-        // response.data.map((v, i) => {
-        //   ids.push(response.data[i].id);
-        // });
-
-        // setOds2(ids);
       })
-      .catch((error) => {});
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
-
-  console.log(rows);
 
   return (
     <>

@@ -22,7 +22,9 @@ export const Table = () => {
 
         setRows(response.data);
       })
-      .catch((error) => {});
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   const columns = useMemo(
