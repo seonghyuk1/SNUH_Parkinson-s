@@ -8,7 +8,7 @@ import axios from "axios";
 import Button from "react-bootstrap/Button";
 
 export const Table = () => {
-  const [rows, setRows] = useState([]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     axios
@@ -20,7 +20,7 @@ export const Table = () => {
       .then((response) => {
         console.log(response);
 
-        setRows(response.data);
+        setData(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -67,7 +67,7 @@ export const Table = () => {
 
   // 필터
   // rows와 filters의 값이 바뀔 때만 실행 (첫 계산 제외)
-  const filteredRows = useMemo(() => filterRows(rows, filters), [rows, filters]);
+  const filteredRows = useMemo(() => filterRows(data, filters), [data, filters]);
 
   // 결과 sort
   // filteredRows와 sort의 값이 바뀔 때만 실행 (첫 계산 제외)
@@ -182,12 +182,10 @@ export const Table = () => {
         </table>
 
         {count > 0 ? (
-          <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} />
-        ) : (
-          <center>
-            <h3>해당하는 검색결과가 없습니다.</h3>
-          </center>
-        )}
+        <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} />
+      ) : (
+        <center>{data.length == 0 ? <h3 style={{ marginTop: "3%" }}>데이터를 불러오는 중입니다.</h3> : <h3 style={{ marginTop: "3%" }}>해당하는 검색결과가 없습니다.</h3>}</center>
+      )}
 
         <div>
           <p>

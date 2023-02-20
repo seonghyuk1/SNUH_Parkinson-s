@@ -65,20 +65,19 @@
   font-size: 15px;
 }
 
-.Container {
-  text-align: center;
-}
-
 .Title {
   font-size: 1.5em;
   font-weight: bold;
   margin-bottom: 2%;
   border: 2px solid;
-  width: 20%;
+  width: 40%;
+  /* margin: 0 auto; */
   border-radius: 15px;
   padding: 1%;
   display: inline-block;
-  justify-content: center;
+  /* justify-content: center; */
+  /* position: absolute; */
+  text-align: center;
   margin: 2%;
 }
 

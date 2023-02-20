@@ -8,19 +8,14 @@ import axios from "axios";
 function Excise() {
   const [rows, setRows] = useState([]);
 
-  // const [ids, setIds] = useState([]);
-
   // const location = useLocation();
   // console.log("로케", location.state);
-
-  // let test = [];
 
   const navigate = useNavigate();
 
   useEffect(() => {
     axios
       .get("/users", {
-        // 파라미터 전달로 최대 1,000개 받아옴
         params: { size: 1000 },
         headers: {},
       })

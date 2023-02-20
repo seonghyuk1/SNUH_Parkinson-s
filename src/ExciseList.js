@@ -8,71 +8,17 @@ import styles from "./styles/Test.module.css";
 
 import Pagination from "./Pagination";
 
-// import { useAsync } from "react-async";
-
-// async function getUsers() {
-//   const response = location.state.ids.map((v, i) => {
-//     axios.get("/tests/" + location.state.test, {
-//       params: {
-//         userId: location.state.ids[i].id,
-//         size: 1000,
-//       },
-//       headers: {},
-//     });
-//     // .then((response) => {
-//     //   console.log("운동 응답", response.data);
-
-//     //   // 중간 단계인 test를 통해도 됨
-//     //   test.push(...response.data);
-//     //   // console.log("테스트", test);
-//     //   // data.push(...response.data);
-
-//     //   // console.log(data);
-//     // })
-//     // .catch((error) => {
-//     //   console.log(error);
-//     // });
-//   });
-//   console.log(response.data);
-//   return response.data;
-// }
-
 function ExciseList() {
-  // const [rows, setRows] = useState([]);
+  // ************************************
+
+  const [checkList, setCheckList] = useState([]);
+  const [modal, setModal] = useState(false);
+
+  // ************************************
   const [data, setData] = useState([]);
   const location = useLocation();
 
-  // useEffect(() => {
-  //   location.state.ids.map((v, i) => {
-  //     axios
-  //       .get("/tests/" + location.state.test, {
-  //         params: {
-  //           userId: location.state.ids[i].id,
-  //           size: 1000,
-  //         },
-  //         headers: {},
-  //       })
-  //       .then((response) => {
-  //         console.log("운동 응답", response.data);
-
-  //         // 중간 단계인 test를 통해도 됨
-  //         test.push(...response.data);
-  //         // console.log("테스트", test);
-  //         // data.push(...response.data);
-
-  //         // console.log(data);
-
-  //         setData(test);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   });
-
-  //   // setData(test);
-  //   console.log("얘가 렌더링 후 반복문 보다 먼저 실행 서버 통신이 비동기니 ");
-  // }, []);
-
+  console.log("로케", location.state);
   useEffect(() => {
     const promises = location.state.ids.map((v, i) => {
       return axios.get("/tests/" + location.state.test, {
@@ -90,6 +36,7 @@ function ExciseList() {
         // flatMap 활용하여 모든 응답의 중복구조를 평면화
         const test = responses.flatMap((response) => response.data);
         setData(test);
+        setCheckList(test);
       })
       .catch((error) => {
         console.log(error);
@@ -98,6 +45,11 @@ function ExciseList() {
 
   const columns = useMemo(() => [...location.state.colHead], []);
 
+  console.log("데데", data);
+  console.log("체크", checkList);
+
+  console.log(typeof checkList);
+
   // 현재 페이지
   const [activePage, setActivePage] = useState(1);
   const [filters, setFilters] = useState({});
@@ -105,9 +57,6 @@ function ExciseList() {
   const [sort, setSort] = useState({ order: "asc", orderBy: "id" });
   // 한 페이지에 보여줄 행의 갯수
   const rowsPerPage = 5;
-
-  // 헬퍼 함수 메모이제이션
-  // 처음 계산된 값을 메모리에 저장하여 계산된 값을 가져와 재사용 (리턴값 동일시 재사용X)
 
   // 필터
   // rows와 filters의 값이 바뀔 때만 실행 (첫 계산 제외)
@@ -159,18 +108,11 @@ function ExciseList() {
     setFilters({});
   };
 
-  // const {
-  //   data: users,
-  //   error,
-  //   isLoading,
-  //   reload,
-  // } = useAsync({
-  //   promiseFn: getUsers,
-  // });
-
   return (
     <>
       {console.log("들어온 데이터", data)}
+
+      <center className={styles.Title}>전체 {location.state.test} Test 데이터</center>
       <div>
         <center>
           <Button variant="none" onClick={clearAll} className={styles.Btn}>
@@ -178,6 +120,42 @@ function ExciseList() {
           </Button>
         </center>
       </div>
+
+      {/* 아무래도 체크박스보단 검색형식이 나을듯 
+      <Button
+        className={styles.Btn}
+        onClick={() => {
+          setModal(!modal);
+        }}
+      >
+        테스트
+      </Button>
+      <div>
+        {modal &&
+          checkList.map((item) => {
+            return (
+              <div key={item.id} style={{ display: "flex" }}>
+                <input
+                  type="checkbox"
+                  // 이때 value값으로 data를 지정해준다.
+                  value={item.id}
+                  // onChange이벤트가 발생하면 check여부와 value(data)값을 전달하여 배열에 data를 넣어준다.
+                  // 3️⃣ 체크표시 & 해제를 시키는 로직. 배열에 data가 있으면 true, 없으면 false
+                />
+                <div>{item.id}</div>
+
+                <input type="checkbox" value={item.count} />
+                <div>{item.count}</div>
+
+                <input type="checkbox" value={item.timeAfterTakingMedicine} />
+                <div>{item.timeAfterTakingMedicine}</div>
+              </div>
+            );
+          })}
+      </div>
+        */}
+
+      {console.log(location.state)}
       <table className={styles.Table}>
         <thead className={styles.theader}>
           <tr>
@@ -201,6 +179,7 @@ function ExciseList() {
               );
             })}
           </tr>
+
           {/* 필터  */}
           <tr>
             {columns.map((column) => {
@@ -212,15 +191,88 @@ function ExciseList() {
             })}
           </tr>
         </thead>
+
         <tbody>
           {/* 내용물 */}
           {calculatedRows.map((row, i) => {
             return (
               <tr key={row.id}>
                 {columns.map((column) => {
+                  // console.log("칼", calculatedRows);
+                  // console.log("콜", columns);
+
                   return (
-                    <td className={styles.Content} key={column.accessor}>
-                      {row[column.accessor]}
+                    <td
+                      className={styles.Content}
+                      key={column.accessor}
+                      onClick={() => {
+                        // fileName이라 한 개 일 때
+                        if (columns[columns.length - 1].accessor == "fileName") {
+                          axios
+                            .get("/tests/download/" + Number(calculatedRows[i].userId) + "/" + calculatedRows[i].fileName, {
+                              responseType: "blob",
+                              params: {
+                                userId: calculatedRows[i].userId,
+                                fileName: calculatedRows[i].fileName,
+                              },
+                              headers: {
+                                contentType: "text/csv",
+                              },
+                            })
+                            .then((response) => {
+                              console.log("결과 ", response);
+                              console.log("결과 속 ", response.data);
+                              const url = window.URL.createObjectURL(new Blob([response.data]));
+                              const link = document.createElement("a");
+                              link.href = url;
+                              link.setAttribute("download", `${calculatedRows[i].fileName}`);
+                              document.body.appendChild(link);
+                              link.click();
+                              document.body.removeChild(link);
+                            })
+                            .catch((error) => {
+                              console.log(error);
+                            });
+                        }
+
+                        // fileNameList여서 여러개 일 때
+                        if (columns[columns.length - 1].accessor == "fileNameList") {
+                          row.fileNameList.map((a, k) => {
+                            console.log("파일명 :" + calculatedRows[i].fileNameList[k]);
+
+                            axios
+                              .get("/tests/download/" + Number(calculatedRows[i].userId) + "/" + calculatedRows[i].fileNameList[k], {
+                                responseType: "blob",
+                                params: {
+                                  userId: calculatedRows[i].userId,
+                                  fileName: calculatedRows[i].fileNameList[k],
+                                },
+                                headers: {
+                                  contentType: "video/mp4",
+                                },
+                              })
+                              .then((response) => {
+                                console.log("파일명22 :" + calculatedRows[i].fileNameList[k]);
+
+                                console.log("결과 ", response);
+                                console.log("결과2 ", response.data);
+
+                                const url = window.URL.createObjectURL(new Blob([response.data]));
+                                const link = document.createElement("a");
+                                link.href = url;
+                                link.setAttribute("download", `${calculatedRows[i].fileNameList[k]}`);
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                              })
+                              .catch((error) => {
+                                console.log(error);
+                              });
+                          });
+                        }
+                      }}
+                    >
+                      {column.accessor == "fileNameList" ? Array(row[column.accessor].join(",ㅤ")) : row[column.accessor]}
                     </td>
                   );
                 })}
@@ -229,7 +281,6 @@ function ExciseList() {
           })}
         </tbody>
       </table>
-
       {count > 0 ? (
         <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} />
       ) : (

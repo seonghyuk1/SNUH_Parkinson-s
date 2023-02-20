@@ -20,12 +20,13 @@ function Pagination({ activePage, count, rowsPerPage, totalPages, setActivePage 
         <button disabled={activePage === totalPages} onClick={() => setActivePage(totalPages)} className={styles.pagelink}>
           마지막 ⏭️
         </button>
-        <p>
-          쪽 : {activePage} of {totalPages}
-        </p>
-        <p>
-          행 : {beginning === end ? end : `${beginning} - ${end}`} of {count}
-        </p>
+
+        <h5 className={styles.forMargin}>
+          총 {count}개 중 {beginning === end ? end : `${beginning} - ${end}`}개
+        </h5>
+        <h5>
+          {totalPages} 페이지 중 {activePage} 페이지
+        </h5>
       </div>
     </>
   );
