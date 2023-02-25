@@ -60,7 +60,7 @@ export const Table = () => {
   // sorting 기본 : 오름차순, id 기준
   const [sort, setSort] = useState({ order: "asc", orderBy: "id" });
   // 한 페이지에 보여줄 행의 갯수
-  const rowsPerPage = 5;
+  const rowsPerPage = 10;
 
   // 헬퍼 함수 메모이제이션
   // 처음 계산된 값을 메모리에 저장하여 계산된 값을 가져와 재사용 (리턴값 동일시 재사용X)
@@ -116,8 +116,16 @@ export const Table = () => {
 
   return (
     <>
+      <h5>홈{" > "}전체 사용자 명단</h5>
       <div className={styles.Container}>
         <div className={styles.Title}>전체 사용자 명단</div>
+      </div>
+      <div>
+        <center>
+          <Button className={styles.Btn} variant="none" onClick={clearAll}>
+            필터 초기화
+          </Button>
+        </center>
       </div>
       <div className={styles.Container}>
         <table className={styles.Table}>
@@ -182,18 +190,10 @@ export const Table = () => {
         </table>
 
         {count > 0 ? (
-        <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} />
-      ) : (
-        <center>{data.length == 0 ? <h3 style={{ marginTop: "3%" }}>데이터를 불러오는 중입니다.</h3> : <h3 style={{ marginTop: "3%" }}>해당하는 검색결과가 없습니다.</h3>}</center>
-      )}
-
-        <div>
-          <p>
-            <Button className={styles.Btn} variant="none" onClick={clearAll}>
-              필터 초기화
-            </Button>
-          </p>
-        </div>
+          <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} />
+        ) : (
+          <center>{data.length == 0 ? <h3 style={{ marginTop: "3%" }}>데이터를 불러오는 중입니다.</h3> : <h3 style={{ marginTop: "3%" }}>해당하는 검색결과가 없습니다.</h3>}</center>
+        )}
       </div>
     </>
   );

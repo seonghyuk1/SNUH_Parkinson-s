@@ -1,6 +1,6 @@
 /* eslint-disable*/
-import { useState, useMemo, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import styles from "./styles/Excise.module.css";
 import axios from "axios";
@@ -32,6 +32,13 @@ function Excise() {
 
   return (
     <>
+      <h5>
+        {" "}
+        <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+          홈
+        </Link>
+        {" > "}운동기록{" "}
+      </h5>
       <div className={styles.Container}>
         <div className={styles.Title}>운동 기록</div>
       </div>

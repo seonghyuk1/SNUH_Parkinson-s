@@ -100,8 +100,23 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
 
   return (
     <>
-      <div className={styles.Title}>
-        {location.state.name}님의 {location.state.testName} 데이터
+      <h5>
+        홈{" > "}전체 사용자 명단{" > "}
+        {location.state.name}님{" > "}
+        {location.state.testName} 데이터
+      </h5>
+
+      <div className={styles.Container}>
+        <center className={styles.Title}>
+          {location.state.name}님의 {location.state.testName} 데이터{" "}
+        </center>
+      </div>
+      <div>
+        <center>
+          <Button className={styles.Btn} variant="none" onClick={clearAll}>
+            필터 초기화
+          </Button>
+        </center>
       </div>
       <table className={styles.Table}>
         <thead className={styles.theader}>
@@ -215,10 +230,16 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
                           }
                         }}
                       >
-                        {console.log(column.accessor)}
-                        {console.log(typeof row[column.accessor])}
+                        {console.log("ddd", column.accessor)}
+                        {console.log("zxczxc", row[column.accessor])}
+                        {console.log("kkk", Array(row[column.accessor])[0])}
                         {/* {column.accessor == "fileNameList" ? row[column.accessor][0] + "\n" + row[column.accessor][1] + "\n" + row[column.accessor][2] : row[column.accessor]} */}
-                        {column.accessor == "fileNameList" ? Array(row[column.accessor].join(",ㅤ")) : row[column.accessor]}
+                        {/* {row[column.accessor][0]}
+                        <br />
+                        {row[column.accessor][1]}
+                        <br />
+                        {row[column.accessor][2]} */}
+                        {column.accessor === "fileNameList" ? Array(row[column.accessor].join(",ㅤ")) : row[column.accessor]}
                       </td>
                     </>
                   );
@@ -229,13 +250,6 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
         </tbody>
       </table>
       {count > 0 ? <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} /> : <center>{<h3 style={{ marginTop: "3%" }}>해당하는 검색결과가 없습니다.</h3>}</center>}
-      <div>
-        <center>
-          <Button className={styles.Btn} variant="none" onClick={clearAll}>
-            필터 초기화
-          </Button>
-        </center>
-      </div>
     </>
   );
 }

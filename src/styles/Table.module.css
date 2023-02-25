@@ -11,9 +11,9 @@
 }
 
 .Content {
-  height: 80px;
+  height: 20px;
   border: 1px solid;
-  font-size: larger;
+  font-size: medium;
   /* border-left: none; */
   /* border-right: none; */
 }
@@ -42,8 +42,9 @@
 
 .Table {
   border: 1px solid;
-  width: 100%;
+  width: 80%;
   text-align: center;
+  margin: 0 auto;
 }
 
 .theader {
@@ -54,6 +55,7 @@
 
 .Container {
   text-align: center;
+  font-size: 0.8em;
 }
 
 .Title {
@@ -61,7 +63,7 @@
   font-weight: bold;
   margin-bottom: 2%;
   border: 2px solid;
-  width: 20%;
+  width: 30%;
   border-radius: 15px;
   padding: 1%;
   display: inline-block;
@@ -70,13 +72,18 @@
 }
 
 .Btn {
-  width: 20%;
+  width: 10%;
   margin: 0 auto;
   font-size: 1em;
-  background-color: #63b4f7 !important;
+  background-color: rgb(59, 232, 255) !important;
   color: black;
+  margin-bottom: 2%;
 }
 
 .Btn:hover {
   opacity: 0.8;
+}
+
+h5 {
+  margin-left: 3%;
 }

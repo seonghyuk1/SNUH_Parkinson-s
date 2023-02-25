@@ -1,6 +1,6 @@
 /* eslint-disable*/
 import { useState, useMemo, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { sortRows, filterRows, paginateRows } from "./helpers";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
@@ -56,7 +56,7 @@ function ExciseList() {
   // sorting 기본 : 오름차순, id 기준
   const [sort, setSort] = useState({ order: "asc", orderBy: "id" });
   // 한 페이지에 보여줄 행의 갯수
-  const rowsPerPage = 5;
+  const rowsPerPage = 10;
 
   // 필터
   // rows와 filters의 값이 바뀔 때만 실행 (첫 계산 제외)
@@ -112,7 +112,14 @@ function ExciseList() {
     <>
       {console.log("들어온 데이터", data)}
 
-      <center className={styles.Title}>전체 {location.state.test} Test 데이터</center>
+      <h5>
+        홈{" > "}운동기록{" > "}
+        {location.state.test} Test
+      </h5>
+      <div className={styles.Container}>
+        <center className={styles.Title}>전체 {location.state.test} Test 데이터</center>
+      </div>
+
       <div>
         <center>
           <Button variant="none" onClick={clearAll} className={styles.Btn}>
@@ -120,7 +127,6 @@ function ExciseList() {
           </Button>
         </center>
       </div>
-
       {/* 아무래도 체크박스보단 검색형식이 나을듯 
       <Button
         className={styles.Btn}
@@ -154,113 +160,78 @@ function ExciseList() {
           })}
       </div>
         */}
-
-      {console.log(location.state)}
-      <table className={styles.Table}>
-        <thead className={styles.theader}>
-          <tr>
-            {/* 헤더 */}
-            {columns.map((column) => {
-              const sortIcon = () => {
-                if (column.accessor === sort.orderBy) {
-                  if (sort.order === "asc") {
-                    return "🔼";
+      <div className={styles.Container}>
+        {console.log(location.state)}
+        <table className={styles.Table}>
+          <thead className={styles.theader}>
+            <tr>
+              {/* 헤더 */}
+              {columns.map((column) => {
+                const sortIcon = () => {
+                  if (column.accessor === sort.orderBy) {
+                    if (sort.order === "asc") {
+                      return "🔼";
+                    }
+                    return "🔽";
+                  } else {
+                    return "️🔁";
                   }
-                  return "🔽";
-                } else {
-                  return "️🔁";
-                }
-              };
+                };
+                return (
+                  <th key={column.accessor}>
+                    <span>{column.Header}</span>
+                    <button onClick={() => handleSort(column.accessor)}>{sortIcon()}</button>
+                  </th>
+                );
+              })}
+            </tr>
+
+            {/* 필터  */}
+            <tr>
+              {columns.map((column) => {
+                return (
+                  <th>
+                    <input key={`${column.accessor}-search`} type="search" placeholder={`${column.Header} 검색`} value={filters[column.accessor]} onChange={(e) => handleSearch(e.target.value, column.accessor)} />
+                  </th>
+                );
+              })}
+            </tr>
+          </thead>
+
+          <tbody>
+            {/* 내용물 */}
+            {calculatedRows.map((row, i) => {
               return (
-                <th key={column.accessor}>
-                  <span>{column.Header}</span>
-                  <button onClick={() => handleSort(column.accessor)}>{sortIcon()}</button>
-                </th>
-              );
-            })}
-          </tr>
+                <tr key={row.id}>
+                  {columns.map((column) => {
+                    // console.log("칼", calculatedRows);
+                    // console.log("콜", columns);
 
-          {/* 필터  */}
-          <tr>
-            {columns.map((column) => {
-              return (
-                <th>
-                  <input key={`${column.accessor}-search`} type="search" placeholder={`${column.Header} 검색`} value={filters[column.accessor]} onChange={(e) => handleSearch(e.target.value, column.accessor)} />
-                </th>
-              );
-            })}
-          </tr>
-        </thead>
-
-        <tbody>
-          {/* 내용물 */}
-          {calculatedRows.map((row, i) => {
-            return (
-              <tr key={row.id}>
-                {columns.map((column) => {
-                  // console.log("칼", calculatedRows);
-                  // console.log("콜", columns);
-
-                  return (
-                    <td
-                      className={styles.Content}
-                      key={column.accessor}
-                      onClick={() => {
-                        // fileName이라 한 개 일 때
-                        if (columns[columns.length - 1].accessor == "fileName") {
-                          axios
-                            .get("/tests/download/" + Number(calculatedRows[i].userId) + "/" + calculatedRows[i].fileName, {
-                              responseType: "blob",
-                              params: {
-                                userId: calculatedRows[i].userId,
-                                fileName: calculatedRows[i].fileName,
-                              },
-                              headers: {
-                                contentType: "text/csv",
-                              },
-                            })
-                            .then((response) => {
-                              console.log("결과 ", response);
-                              console.log("결과 속 ", response.data);
-                              const url = window.URL.createObjectURL(new Blob([response.data]));
-                              const link = document.createElement("a");
-                              link.href = url;
-                              link.setAttribute("download", `${calculatedRows[i].fileName}`);
-                              document.body.appendChild(link);
-                              link.click();
-                              document.body.removeChild(link);
-                            })
-                            .catch((error) => {
-                              console.log(error);
-                            });
-                        }
-
-                        // fileNameList여서 여러개 일 때
-                        if (columns[columns.length - 1].accessor == "fileNameList") {
-                          row.fileNameList.map((a, k) => {
-                            console.log("파일명 :" + calculatedRows[i].fileNameList[k]);
-
+                    return (
+                      <td
+                        className={styles.Content}
+                        key={column.accessor}
+                        onClick={() => {
+                          // fileName이라 한 개 일 때
+                          if (columns[columns.length - 1].accessor == "fileName") {
                             axios
-                              .get("/tests/download/" + Number(calculatedRows[i].userId) + "/" + calculatedRows[i].fileNameList[k], {
+                              .get("/tests/download/" + Number(calculatedRows[i].userId) + "/" + calculatedRows[i].fileName, {
                                 responseType: "blob",
                                 params: {
                                   userId: calculatedRows[i].userId,
-                                  fileName: calculatedRows[i].fileNameList[k],
+                                  fileName: calculatedRows[i].fileName,
                                 },
                                 headers: {
-                                  contentType: "video/mp4",
+                                  contentType: "text/csv",
                                 },
                               })
                               .then((response) => {
-                                console.log("파일명22 :" + calculatedRows[i].fileNameList[k]);
-
                                 console.log("결과 ", response);
-                                console.log("결과2 ", response.data);
-
+                                console.log("결과 속 ", response.data);
                                 const url = window.URL.createObjectURL(new Blob([response.data]));
                                 const link = document.createElement("a");
                                 link.href = url;
-                                link.setAttribute("download", `${calculatedRows[i].fileNameList[k]}`);
+                                link.setAttribute("download", `${calculatedRows[i].fileName}`);
                                 document.body.appendChild(link);
                                 link.click();
                                 document.body.removeChild(link);
@@ -268,19 +239,55 @@ function ExciseList() {
                               .catch((error) => {
                                 console.log(error);
                               });
-                          });
-                        }
-                      }}
-                    >
-                      {column.accessor == "fileNameList" ? Array(row[column.accessor].join(",ㅤ")) : row[column.accessor]}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                          }
+
+                          // fileNameList여서 여러개 일 때
+                          if (columns[columns.length - 1].accessor == "fileNameList") {
+                            row.fileNameList.map((a, k) => {
+                              console.log("파일명 :" + calculatedRows[i].fileNameList[k]);
+
+                              axios
+                                .get("/tests/download/" + Number(calculatedRows[i].userId) + "/" + calculatedRows[i].fileNameList[k], {
+                                  responseType: "blob",
+                                  params: {
+                                    userId: calculatedRows[i].userId,
+                                    fileName: calculatedRows[i].fileNameList[k],
+                                  },
+                                  headers: {
+                                    contentType: "video/mp4",
+                                  },
+                                })
+                                .then((response) => {
+                                  console.log("파일명22 :" + calculatedRows[i].fileNameList[k]);
+
+                                  console.log("결과 ", response);
+                                  console.log("결과2 ", response.data);
+
+                                  const url = window.URL.createObjectURL(new Blob([response.data]));
+                                  const link = document.createElement("a");
+                                  link.href = url;
+                                  link.setAttribute("download", `${calculatedRows[i].fileNameList[k]}`);
+                                  document.body.appendChild(link);
+                                  link.click();
+                                  document.body.removeChild(link);
+                                })
+                                .catch((error) => {
+                                  console.log(error);
+                                });
+                            });
+                          }
+                        }}
+                      >
+                        {column.accessor == "fileNameList" ? Array(row[column.accessor].join(",ㅤ")) : row[column.accessor]}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
       {count > 0 ? (
         <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} />
       ) : (

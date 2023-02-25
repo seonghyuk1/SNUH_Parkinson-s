@@ -13,6 +13,10 @@ export default function User() {
 
   return (
     <>
+      <h5>
+        홈{" > "}전체 사용자 명단{" > "}
+        {location.state.name}님
+      </h5>
       <div className={styles.Container}>
         <div className={styles.UserInfo}>
           <span className={styles.Name}>ID : {location.state.name}</span>
