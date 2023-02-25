@@ -2,20 +2,17 @@
 - 사용자 기록, 메인 페이지 분할, 운동 데이터 모두 받아오기 
 - 개별 기록 필터 완료, 운동 데이터 필터 및 페이지네이션 완료
 - 모든 운동기록 불러오기 완료
+- mp4 파일 다운로드 (fileNameList - 3가지로 된 것) 시 코덱오류인지 영상 재생 (해결 O)
 
 #### 해야할 작업 및 이슈
-- 네이버 플레이스식 검색하면 필터에 적용 고정
-- 운동기록에서 다운로드 onClick
-
-- mp4 파일 다운로드 (fileNameList - 3가지로 된 것) 시 코덱오류인지 영상 재생 X (하지만 파일명 일치 모두 확인, 직접 주소창 GET 요청으로도 확인 완료.. why?!?!?)
--- fileName (1가지 csv)는 정상적 이 또한 직접 GET 요청으로 비교 완료
+- 검색형 고정 필터
+- 여백, 행높이 등 CSS
+- 사용자 위치 네비게이션
 
 
 
 ### 비고
-- 사용자 전체명단은 각 header별 검색 기능 + 오름차순 내림차순 기능 설정
-- 3가지 다운로드가 존재하는 FileNameList 경우 배열 내역을 그대로 나오느라 띄어쓰기 불가 
-
+- === 사용
 
 
 # UI
@@ -27,7 +24,7 @@
 
 # 환자별 기록
 
-![image](https://user-images.githubusercontent.com/38232501/219430124-f9a454a8-ddcb-4c56-b6ca-80e3f5017d7a.png)
+![image](https://user-images.githubusercontent.com/38232501/220135691-4a215175-4436-4c30-9e1a-63b30a1a9728.png)
 
 
 # 운동 전체 기록
@@ -46,4 +43,4 @@
 
 ### 후 
 
-![image](https://user-images.githubusercontent.com/38232501/219856462-c79fb175-41ab-439c-b7b3-19478b0b7439.png)
+![image](https://user-images.githubusercontent.com/38232501/220135789-0195a430-b367-4f9d-98a7-666c797d4ce0.png)
