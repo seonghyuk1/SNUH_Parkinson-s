@@ -1,22 +1,30 @@
 /* eslint-disable*/
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import styles from "./styles/User.module.css";
-// import axios from "axios";
 
 export default function User() {
   let location = useLocation();
   let navigate = useNavigate();
-  console.log(location.state);
+  console.log("로케", location.state);
   let url = "https://kwhcclab.com:20757/tests/download/" + location.state.id;
 
   return (
     <>
       <h5>
-        홈{" > "}전체 사용자 명단{" > "}
+        {" "}
+        <Link to="/" className={styles.Links}>
+          홈
+        </Link>
+        {" > "}
+        <Link to="/Table" className={styles.Links}>
+          전체 사용자 명단
+        </Link>
+        {" > "}
         {location.state.name}님
       </h5>
+
       <div className={styles.Container}>
         <div className={styles.UserInfo}>
           <span className={styles.Name}>ID : {location.state.name}</span>

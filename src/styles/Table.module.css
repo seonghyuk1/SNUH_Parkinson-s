@@ -84,6 +84,13 @@
   opacity: 0.8;
 }
 
-h5 {
-  margin-left: 3%;
+.Links {
+  color: black;
+  text-decoration: none;
+}
+
+.Links:hover {
+  font-size: larger;
+  color: #003c96;
+  font-weight: bold;
 }

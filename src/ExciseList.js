@@ -113,7 +113,14 @@ function ExciseList() {
       {console.log("들어온 데이터", data)}
 
       <h5>
-        홈{" > "}운동기록{" > "}
+        <Link to="/" className={styles.Links}>
+          홈
+        </Link>
+        {" > "}
+        <Link to="/Excise" className={styles.Links}>
+          운동기록
+        </Link>
+        {" > "}
         {location.state.test} Test
       </h5>
       <div className={styles.Container}>

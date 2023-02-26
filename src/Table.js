@@ -1,6 +1,6 @@
 /* eslint-disable*/
 import { useState, useMemo, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { sortRows, filterRows, paginateRows } from "./helpers";
 import Pagination from "./Pagination";
 import styles from "./styles/Table.module.css";
@@ -116,7 +116,13 @@ export const Table = () => {
 
   return (
     <>
-      <h5>홈{" > "}전체 사용자 명단</h5>
+      <h5>
+        {" "}
+        <Link to="/" className={styles.Links}>
+          홈
+        </Link>
+        {" > "}전체 사용자 명단
+      </h5>
       <div className={styles.Container}>
         <div className={styles.Title}>전체 사용자 명단</div>
       </div>

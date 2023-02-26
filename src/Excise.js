@@ -33,8 +33,7 @@ function Excise() {
   return (
     <>
       <h5>
-        {" "}
-        <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+        <Link to="/" className={styles.Links}>
           홈
         </Link>
         {" > "}운동기록{" "}

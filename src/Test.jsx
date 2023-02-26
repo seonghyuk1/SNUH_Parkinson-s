@@ -1,6 +1,6 @@
 /* eslint-disable*/
 import React, { useEffect, useMemo, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import styles from "./styles/Test.module.css";
 import { sortRows, filterRows, paginateRows } from "./helpers";
@@ -12,7 +12,7 @@ export default function Test() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    console.log(location.state);
+    console.log("로케", location.state);
     console.log("헤드", location.state.colHead);
 
     axios
@@ -101,8 +101,19 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
   return (
     <>
       <h5>
-        홈{" > "}전체 사용자 명단{" > "}
-        {location.state.name}님{" > "}
+        {" "}
+        <Link to="/" className={styles.Links}>
+          홈
+        </Link>
+        {" > "}
+        <Link to="/Table" className={styles.Links}>
+          전체 사용자 명단
+        </Link>
+        {" > "}
+        <Link to={`/user/ + ${location.state.id}`} state={{ id: location.state.id, name: location.state.name }} className={styles.Links}>
+          {location.state.name}님
+        </Link>
+        {" > "}
         {location.state.testName} 데이터
       </h5>
 
@@ -230,9 +241,6 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
                           }
                         }}
                       >
-                        {console.log("ddd", column.accessor)}
-                        {console.log("zxczxc", row[column.accessor])}
-                        {console.log("kkk", Array(row[column.accessor])[0])}
                         {/* {column.accessor == "fileNameList" ? row[column.accessor][0] + "\n" + row[column.accessor][1] + "\n" + row[column.accessor][2] : row[column.accessor]} */}
                         {/* {row[column.accessor][0]}
                         <br />

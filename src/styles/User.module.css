@@ -48,3 +48,14 @@
   text-decoration: none;
   display: inline;
 }
+
+.Links {
+  color: black;
+  text-decoration: none;
+}
+
+.Links:hover {
+  font-size: larger;
+  color: #003c96;
+  font-weight: bold;
+}

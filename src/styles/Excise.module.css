@@ -10,7 +10,7 @@
   height: 70%;
   margin-bottom: 3%;
   font-size: 1.5em;
-  background-color: rgb(0, 60, 150) !important;
+  background-color: #003c96 !important;
 }
 
 .Btn:hover {
@@ -57,4 +57,19 @@
   display: inline-block;
   justify-content: center;
   margin: 2%;
+}
+
+.Links {
+  color: black;
+  text-decoration: none;
+}
+
+.Links:hover {
+  font-size: larger;
+  color: #003c96;
+  font-weight: bold;
+}
+
+h5 {
+  margin-left: 3%;
 }
