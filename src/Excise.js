@@ -7,10 +7,6 @@ import axios from "axios";
 
 function Excise() {
   const [rows, setRows] = useState([]);
-
-  // const location = useLocation();
-  // console.log("로케", location.state);
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -181,10 +177,6 @@ const Finger_Screengaze_Quickblink = [
     Header: "검사 번호",
   },
   {
-    accessor: "count",
-    Header: "터치 횟수",
-  },
-  {
     accessor: "createdAt",
     Header: "생성시간",
   },
@@ -192,6 +184,11 @@ const Finger_Screengaze_Quickblink = [
     accessor: "userId",
     Header: "검사자 ID",
   },
+  {
+    accessor: "count",
+    Header: "터치 횟수",
+  },
+
   {
     accessor: "timeAfterTakingMedicine",
     Header: "약복용후 지난시간",
@@ -235,6 +232,10 @@ const Gait = [
     Header: "생성시간",
   },
   {
+    accessor: "userId",
+    Header: "검사자 ID",
+  },
+  {
     accessor: "timeAfterTakingMedicine",
     Header: "약복용후 지난시간",
   },
@@ -255,10 +256,7 @@ const Gait = [
     accessor: "time",
     Header: "걸은시간(분)",
   },
-  {
-    accessor: "userId",
-    Header: "검사자 ID",
-  },
+
   {
     accessor: "fileName",
     Header: "파일 다운로드",

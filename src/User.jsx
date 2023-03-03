@@ -13,7 +13,6 @@ export default function User() {
   return (
     <>
       <h5>
-        {" "}
         <Link to="/" className={styles.Links}>
           홈
         </Link>
@@ -22,12 +21,12 @@ export default function User() {
           전체 사용자 명단
         </Link>
         {" > "}
-        {location.state.name}님
+        {location.state.name ? location.state.name : `${location.state.id}번 검사자`}
       </h5>
 
       <div className={styles.Container}>
         <div className={styles.UserInfo}>
-          <span className={styles.Name}>ID : {location.state.name}</span>
+          <span className={styles.Name}>{location.state.name ? `ID : ${location.state.name}` : `${location.state.id}번 검사자`}</span>
           <Button className={styles.BtnFile} size="lg">
             <a className={styles.All} href={url}>
               {console.log(url)}
@@ -185,15 +184,10 @@ export default function User() {
     </>
   );
 }
-
 const Finger_Screengaze_Quickblink = [
   {
     accessor: "id",
     Header: "검사 번호",
-  },
-  {
-    accessor: "count",
-    Header: "터치 횟수",
   },
   {
     accessor: "createdAt",
@@ -203,6 +197,11 @@ const Finger_Screengaze_Quickblink = [
     accessor: "userId",
     Header: "검사자 ID",
   },
+  {
+    accessor: "count",
+    Header: "터치 횟수",
+  },
+
   {
     accessor: "timeAfterTakingMedicine",
     Header: "약복용후 지난시간",
@@ -246,6 +245,10 @@ const Gait = [
     Header: "생성시간",
   },
   {
+    accessor: "userId",
+    Header: "검사자 ID",
+  },
+  {
     accessor: "timeAfterTakingMedicine",
     Header: "약복용후 지난시간",
   },
@@ -266,10 +269,7 @@ const Gait = [
     accessor: "time",
     Header: "걸은시간(분)",
   },
-  {
-    accessor: "userId",
-    Header: "검사자 ID",
-  },
+
   {
     accessor: "fileName",
     Header: "파일 다운로드",

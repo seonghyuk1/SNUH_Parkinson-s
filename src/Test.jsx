@@ -1,6 +1,6 @@
 /* eslint-disable*/
 import React, { useEffect, useMemo, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./styles/Test.module.css";
 import { sortRows, filterRows, paginateRows } from "./helpers";
@@ -10,6 +10,7 @@ import Button from "react-bootstrap/Button";
 export default function Test() {
   let location = useLocation();
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log("로케", location.state);
@@ -111,15 +112,15 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
         </Link>
         {" > "}
         <Link to={`/user/ + ${location.state.id}`} state={{ id: location.state.id, name: location.state.name }} className={styles.Links}>
-          {location.state.name}님
+          {location.state.name ? location.state.name : `${location.state.id}번 검사자`}
         </Link>
         {" > "}
-        {location.state.testName} 데이터
+        {location.state.testName}
       </h5>
 
       <div className={styles.Container}>
         <center className={styles.Title}>
-          {location.state.name}님의 {location.state.testName} 데이터{" "}
+          {location.state.name ? `${location.state.name}님의` : `${location.state.id}번 검사자`} {location.state.testName} 데이터{" "}
         </center>
       </div>
       <div>
@@ -169,89 +170,102 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
           {calculatedRows.map((row, i) => {
             return (
               <tr key={row.id}>
-                {columns.map((column) => {
-                  return (
-                    <>
-                      <td
-                        className={styles.Content}
-                        key={column.accessor}
-                        onClick={() => {
-                          // fileName이라 한 개 일 때
-                          if (columns[columns.length - 1].accessor == "fileName") {
-                            axios
-                              .get("/tests/download/" + Number(location.state.id) + "/" + calculatedRows[i].fileName, {
-                                responseType: "blob",
-                                params: {
-                                  userId: location.state.id,
-                                  fileName: calculatedRows[i].fileName,
-                                },
-                                headers: {
-                                  contentType: "text/csv",
-                                },
-                              })
-                              .then((response) => {
-                                console.log("결과 ", response);
-                                console.log("결과2 ", response.data);
-                                const url = window.URL.createObjectURL(new Blob([response.data]));
-                                const link = document.createElement("a");
-                                link.href = url;
-                                link.setAttribute("download", `${calculatedRows[i].fileName}`);
-                                document.body.appendChild(link);
-                                link.click();
-                                document.body.removeChild(link);
-                              })
-                              .catch((error) => {
-                                console.log(error);
-                              });
-                          }
+                {/* Finger, Screen, QuickBlink */}
+                {location.state.colHead.length == 6 ? (
+                  <>
+                    <td className={styles.ContentEx}>{calculatedRows[i].id}</td>
+                    <td className={styles.ContentEx}>{calculatedRows[i].createdAt}</td>
+                    <td
+                      className={styles.Content}
+                      onClick={() => {
+                        navigate(`/user/${calculatedRows[i].userId}`, {
+                          state: {
+                            id: calculatedRows[i].userId,
+                            name: location.state.name,
+                          },
+                        });
+                      }}
+                    >
+                      {calculatedRows[i].userId}
+                    </td>
+                    <td className={styles.ContentEx}>{calculatedRows[i].count}</td>
+                    <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}</td>
+                    <td
+                      className={styles.Content}
+                      onClick={() => {
+                        // fileName이라 한 개 일 때
+                        // 클릭 했을 때 가지고 온 열들에서 fileName이 있다면 이 형식으로 Axios
+                        FilenameDown(calculatedRows[i].userId, calculatedRows[i].fileName);
+                      }}
+                    >
+                      {calculatedRows[i].fileName}
+                    </td>
+                  </>
+                ) : location.state.colHead.length == 5 ? (
+                  <>
+                    {/* Sound, Dadada, Pataka*/}
+                    <td className={styles.ContentEx}>{calculatedRows[i].id}</td>
+                    <td className={styles.ContentEx}>{calculatedRows[i].createdAt}</td>
+                    <td
+                      className={styles.Content}
+                      onClick={() => {
+                        navigate(`/user/${calculatedRows[i].userId}`, {
+                          state: {
+                            id: calculatedRows[i].userId,
+                            name: location.state.name,
+                          },
+                        });
+                      }}
+                    >
+                      {calculatedRows[i].userId}
+                    </td>
+                    <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}</td>
 
-                          // fileNameList여서 여러개 일 때
-                          if (columns[columns.length - 1].accessor == "fileNameList") {
-                            row.fileNameList.map((a, k) => {
-                              console.log("파일명 : ", calculatedRows[i].fileNameList[k]);
-                              axios
-                                .get("/tests/download/" + Number(location.state.id) + "/" + calculatedRows[i].fileNameList[k], {
-                                  responseType: "blob",
-                                  params: {
-                                    userId: location.state.id,
-                                    fileName: calculatedRows[i].fileNameList[k],
-                                  },
-                                  headers: {
-                                    contentType: "video/mp4",
-                                  },
-                                })
-                                .then((response) => {
-                                  console.log("파일명22 :" + calculatedRows[i].fileNameList[k]);
+                    <td
+                      className={styles.Content}
+                      onClick={() => {
+                        row.fileNameList.map((a, k) => {
+                          FilenameListDown(calculatedRows[i].userId, calculatedRows[i].fileNameList[k]);
+                        });
+                      }}
+                    >
+                      {Array(calculatedRows[i].fileNameList).join("")}
+                    </td>
+                  </>
+                ) : (
+                  <>
+                    {/* Gait */}
+                    <td className={styles.ContentEx}>{calculatedRows[i].id}</td>
+                    <td className={styles.ContentEx}>{calculatedRows[i].createdAt}</td>
+                    <td
+                      className={styles.Content}
+                      onClick={() => {
+                        navigate(`/user/${calculatedRows[i].userId}`, {
+                          state: {
+                            id: calculatedRows[i].userId,
+                            name: location.state.name,
+                          },
+                        });
+                      }}
+                    >
+                      {calculatedRows[i].userId}
+                    </td>
+                    <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}</td>
+                    <td className={styles.ContentEx}>{calculatedRows[i].stride}</td>
+                    <td className={styles.ContentEx}>{calculatedRows[i].step}</td>
+                    <td className={styles.ContentEx}>{calculatedRows[i].distance}</td>
+                    <td className={styles.ContentEx}>{calculatedRows[i].time}</td>
 
-                                  console.log("결과 ", response);
-                                  console.log("결과2 ", response.data);
-
-                                  const url = window.URL.createObjectURL(new Blob([response.data]));
-                                  const link = document.createElement("a");
-                                  link.href = url;
-                                  link.setAttribute("download", `${calculatedRows[i].fileNameList[k]}`);
-                                  document.body.appendChild(link);
-                                  link.click();
-                                  document.body.removeChild(link);
-                                })
-                                .catch((error) => {
-                                  console.log(error);
-                                });
-                            });
-                          }
-                        }}
-                      >
-                        {/* {column.accessor == "fileNameList" ? row[column.accessor][0] + "\n" + row[column.accessor][1] + "\n" + row[column.accessor][2] : row[column.accessor]} */}
-                        {/* {row[column.accessor][0]}
-                        <br />
-                        {row[column.accessor][1]}
-                        <br />
-                        {row[column.accessor][2]} */}
-                        {column.accessor === "fileNameList" ? Array(row[column.accessor].join(",ㅤ")) : row[column.accessor]}
-                      </td>
-                    </>
-                  );
-                })}
+                    <td
+                      className={styles.Content}
+                      onClick={() => {
+                        FilenameDown(calculatedRows[i].userId, calculatedRows[i].fileName);
+                      }}
+                    >
+                      {calculatedRows[i].fileName}
+                    </td>
+                  </>
+                )}
               </tr>
             );
           })}
@@ -260,4 +274,63 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
       {count > 0 ? <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} /> : <center>{<h3 style={{ marginTop: "3%" }}>해당하는 검색결과가 없습니다.</h3>}</center>}
     </>
   );
+}
+
+function FilenameDown(userId, Name) {
+  axios
+    .get("/tests/download/" + Number(userId) + "/" + Name, {
+      responseType: "blob",
+      params: {
+        userId: userId,
+        fileName: Name,
+      },
+      headers: {
+        contentType: "text/csv",
+      },
+    })
+    .then((response) => {
+      console.log("결과 ", response);
+      console.log("결과 속 ", response.data);
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `${Name}`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+function FilenameListDown(userId, NameList) {
+  axios
+    .get("/tests/download/" + Number(userId) + "/" + NameList, {
+      responseType: "blob",
+      params: {
+        userId: userId,
+        fileName: NameList,
+      },
+      headers: {
+        contentType: "video/mp4",
+      },
+    })
+    .then((response) => {
+      console.log("파일명22 :" + NameList);
+
+      console.log("결과 ", response);
+      console.log("결과 속 ", response.data);
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `${NameList}`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }

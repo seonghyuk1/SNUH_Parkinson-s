@@ -166,14 +166,14 @@ export const Table = () => {
               })}
             </tr>
           </thead>
+
           <tbody>
             {calculatedRows.map((row, i) => {
               return (
-                <tr key={row.id}>
+                <tr className={styles.Content} key={row.id}>
                   {columns.map((column) => {
                     return (
                       <td
-                        className={styles.Content}
                         key={column.accessor}
                         onClick={() => {
                           navigate("/user/" + (i + 1), {
@@ -189,6 +189,16 @@ export const Table = () => {
                       </td>
                     );
                   })}
+
+                  {/* {columns.map((column) => {
+                      // 칼 : 들어있는 데이터들 (한페이지 10개)
+                      console.log("칼", calculatedRows);
+                      // 콜 : 열들
+                      console.log("콜", columns);
+                      // 로우
+                      console.log(row[column.accessor]);
+                      return <></>;
+                    })} */}
                 </tr>
               );
             })}
