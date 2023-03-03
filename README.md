@@ -1,4 +1,8 @@
 #### 현재 진행완료 작업 
+- 테이블 기능 분할 (검사자 ID 클릭 -> 해당 검사자 운동기록) 및 UI 개선
+
+- 여백, 행높이 등 CSS
+- 사용자 위치 네비게이션
 - 사용자 기록, 메인 페이지 분할, 운동 데이터 모두 받아오기 
 - 개별 기록 필터 완료, 운동 데이터 필터 및 페이지네이션 완료
 - 모든 운동기록 불러오기 완료
@@ -6,8 +10,7 @@
 
 #### 해야할 작업 및 이슈
 - 검색형 고정 필터
-- 여백, 행높이 등 CSS
-- 사용자 위치 네비게이션
+
 
 
 
@@ -17,14 +20,9 @@
 
 # UI
 
-![image](https://user-images.githubusercontent.com/38232501/219429385-796aa29e-5812-458d-82dc-6de6f7bc4502.png)
-
-![image](https://user-images.githubusercontent.com/38232501/219429448-70a6c9bf-4966-47f3-9c7d-8104db9f4bc0.png)
-
-
 # 환자별 기록
 
-![image](https://user-images.githubusercontent.com/38232501/220135691-4a215175-4436-4c30-9e1a-63b30a1a9728.png)
+![image](https://user-images.githubusercontent.com/38232501/222673333-d5e6a5cc-fcbf-4cbd-9c53-1532a389eb0f.png)
 
 
 # 운동 전체 기록
@@ -36,11 +34,10 @@
 
 # 운동 테스트별 기록 
 
-###  전
+###  운동 기록
 
-![image](https://user-images.githubusercontent.com/38232501/219429492-568b7940-af45-4af5-b1ac-3f1edd45cce7.png)
+![image](https://user-images.githubusercontent.com/38232501/222673146-2d28248f-7e84-4775-afa4-332c7ebea34f.png)
 
+### ID 클릭시 해당 ID의 전체 운동 
+![image](https://user-images.githubusercontent.com/38232501/222673281-b87c9255-afa1-4b14-ab4b-4b2b53928f52.png)
 
-### 후 
-
-![image](https://user-images.githubusercontent.com/38232501/220135789-0195a430-b367-4f9d-98a7-666c797d4ce0.png)
