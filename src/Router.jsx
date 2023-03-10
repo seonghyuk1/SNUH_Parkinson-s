@@ -5,17 +5,19 @@ import Test from "./Test";
 import User from "./User";
 import Excise from "./Excise";
 import ExciseList from "./ExciseList";
+import styles from "./styles/Test.module.css";
+
 const AppRouter = () => {
   return (
     <>
       <Link to="/">
-        <img src={process.env.PUBLIC_URL + "SNUH.jpg"} style={{ display: "block", margin: "2%", width: "300px" }} alt="로고" />
+        <img src={process.env.PUBLIC_URL + "SNUH.jpg"} alt="로고" className={styles.logo} />
       </Link>
       <Routes>
         <>
           <Route exact path="/" element={<App />} />
-          <Route exact path="table" element={<Table />} />
-          <Route exact path="Excise" element={<Excise />} />
+          <Route exact path="/table" element={<Table />} />
+          <Route exact path="/Excise" element={<Excise />} />
 
           <Route exact path="/user/:id" element={<User />} />
 

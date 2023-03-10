@@ -28,20 +28,25 @@ function Excise() {
 
   return (
     <>
-      <h5>
-        <Link to="/" className={styles.Links}>
-          홈
-        </Link>
-        {" > "}운동기록{" "}
-      </h5>
+      <div className={styles.Container_navi}>
+        <h5>
+          <Link to="/" className={styles.Links}>
+            홈
+          </Link>
+          {" > "}운동기록
+        </h5>
+      </div>
+
       <div className={styles.Container}>
-        <div className={styles.Title}>운동 기록</div>
+        <div>
+          <span className={styles.Name}>운동 기록</span>
+        </div>
       </div>
 
       <div className="d-grid">
         <Button
           className={styles.Btn}
-          size="lg"
+          size="ml"
           onClick={() => {
             navigate("/fingerTest_Records", {
               state: {
@@ -57,7 +62,7 @@ function Excise() {
 
         <Button
           className={styles.Btn}
-          size="lg"
+          size="ml"
           onClick={() => {
             navigate("/screenGazeTest_Records", {
               state: {
@@ -73,7 +78,7 @@ function Excise() {
 
         <Button
           className={styles.Btn}
-          size="lg"
+          size="ml"
           onClick={() => {
             navigate("/quickBlinkTest_Records", {
               state: {
@@ -89,7 +94,7 @@ function Excise() {
 
         <Button
           className={styles.Btn}
-          size="lg"
+          size="ml"
           onClick={() => {
             navigate("/gaitTest_Records", {
               state: {
@@ -105,7 +110,7 @@ function Excise() {
 
         <Button
           className={styles.Btn}
-          size="lg"
+          size="ml"
           onClick={() => {
             navigate("/aSoundTest_Records", {
               state: {
@@ -121,7 +126,7 @@ function Excise() {
 
         <Button
           className={styles.Btn}
-          size="lg"
+          size="ml"
           onClick={() => {
             navigate("/eSoundTest_Records", {
               state: {
@@ -136,7 +141,7 @@ function Excise() {
         </Button>
         <Button
           className={styles.Btn}
-          size="lg"
+          size="ml"
           onClick={() => {
             navigate("/dadadaTest_Records", {
               state: {
@@ -151,7 +156,7 @@ function Excise() {
         </Button>
         <Button
           className={styles.Btn}
-          size="lg"
+          size="ml"
           onClick={() => {
             navigate("/patakaTest_Records", {
               state: {

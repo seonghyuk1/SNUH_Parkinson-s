@@ -21,12 +21,13 @@ function Pagination({ activePage, count, rowsPerPage, totalPages, setActivePage 
           마지막 ⏭️
         </button>
 
-        <h5 className={styles.forMargin}>
+        <h6 className={styles.forMargin}>
           총 {count}개 중 {beginning === end ? end : `${beginning} - ${end}`}개
-        </h5>
-        <h5>
+        </h6>
+        <h6>
+          {"ㅤ"}
           {totalPages} 페이지 중 {activePage} 페이지
-        </h5>
+        </h6>
       </div>
     </>
   );

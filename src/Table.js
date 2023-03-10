@@ -23,7 +23,7 @@ export const Table = () => {
         setData(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        console.log("에러", error);
       });
   }, []);
 
@@ -58,7 +58,7 @@ export const Table = () => {
   const [activePage, setActivePage] = useState(1);
   const [filters, setFilters] = useState({});
   // sorting 기본 : 오름차순, id 기준
-  const [sort, setSort] = useState({ order: "asc", orderBy: "id" });
+  const [sort, setSort] = useState({ order: "desc", orderBy: "id" });
   // 한 페이지에 보여줄 행의 갯수
   const rowsPerPage = 10;
 
@@ -109,31 +109,28 @@ export const Table = () => {
   };
 
   const clearAll = () => {
-    setSort({ order: "asc", orderBy: "id" });
+    setSort({ order: "desc", orderBy: "id" });
     setActivePage(1);
     setFilters({});
   };
 
   return (
     <>
-      <h5>
-        {" "}
-        <Link to="/" className={styles.Links}>
-          홈
-        </Link>
-        {" > "}전체 사용자 명단
-      </h5>
       <div className={styles.Container}>
-        <div className={styles.Title}>전체 사용자 명단</div>
+        <h5>
+          <Link to="/" className={styles.Links}>
+            홈
+          </Link>
+          {" > "}전체 사용자 명단
+        </h5>
+
+        <center className={styles.Title}>전체 사용자 명단</center>
+        <Button className={styles.Btn} onClick={clearAll}>
+          필터 초기화
+        </Button>
       </div>
+
       <div>
-        <center>
-          <Button className={styles.Btn} variant="none" onClick={clearAll}>
-            필터 초기화
-          </Button>
-        </center>
-      </div>
-      <div className={styles.Container}>
         <table className={styles.Table}>
           <thead className={styles.theader}>
             <tr>

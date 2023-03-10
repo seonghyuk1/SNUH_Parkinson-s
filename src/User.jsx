@@ -12,33 +12,33 @@ export default function User() {
 
   return (
     <>
-      <h5>
-        <Link to="/" className={styles.Links}>
-          홈
-        </Link>
-        {" > "}
-        <Link to="/Table" className={styles.Links}>
-          전체 사용자 명단
-        </Link>
-        {" > "}
-        {location.state.name ? location.state.name : `${location.state.id}번 검사자`}
-      </h5>
+      <div className={styles.Container_navi}>
+        <h5>
+          <Link to="/" className={styles.Links}>
+            홈
+          </Link>
+          {" > "}
+          <Link to="/Table" className={styles.Links}>
+            전체 사용자 명단
+          </Link>
+          {" > "}
+          {location.state.name ? location.state.name : `${location.state.id}번 검사자`}
+        </h5>
+      </div>
 
       <div className={styles.Container}>
         <div className={styles.UserInfo}>
           <span className={styles.Name}>{location.state.name ? `ID : ${location.state.name}` : `${location.state.id}번 검사자`}</span>
-          <Button className={styles.BtnFile} size="lg">
-            <a className={styles.All} href={url}>
-              {console.log(url)}
-              전체 테스트 파일 다운로드
-            </a>
+          <Button className={styles.BtnFile}>
+            {console.log(url)}
+            전체 테스트 파일 다운로드
           </Button>
         </div>
-        <div className="d-grid gap-2">
+
+        <div className="d-grid">
           <Button
             className={styles.Btn}
-            variant="primary"
-            size="lg"
+            size="ml"
             onClick={() => {
               navigate("/fingerTest", {
                 state: {
@@ -53,10 +53,10 @@ export default function User() {
           >
             Finger Test
           </Button>
+
           <Button
             className={styles.Btn}
-            variant="primary"
-            size="lg"
+            size="ml"
             onClick={() => {
               navigate("/screenGazeTest", {
                 state: {
@@ -71,10 +71,10 @@ export default function User() {
           >
             Screen Gaze Test
           </Button>
+
           <Button
             className={styles.Btn}
-            variant="primary"
-            size="lg"
+            size="ml"
             onClick={() => {
               navigate("/quickBlinkTest", {
                 state: {
@@ -89,10 +89,10 @@ export default function User() {
           >
             Quick Blink Test
           </Button>
+
           <Button
             className={styles.Btn}
-            variant="primary"
-            size="lg"
+            size="ml"
             onClick={() => {
               navigate("/gaitTest", {
                 state: {
@@ -107,10 +107,10 @@ export default function User() {
           >
             Gait Test
           </Button>
+
           <Button
             className={styles.Btn}
-            variant="primary"
-            size="lg"
+            size="ml"
             onClick={() => {
               navigate("/aSoundTest", {
                 state: {
@@ -125,10 +125,10 @@ export default function User() {
           >
             A Sound Test
           </Button>
+
           <Button
             className={styles.Btn}
-            variant="primary"
-            size="lg"
+            size="ml"
             onClick={() => {
               navigate("/eSoundTest", {
                 state: {
@@ -143,10 +143,10 @@ export default function User() {
           >
             E Sound Test
           </Button>
+
           <Button
             className={styles.Btn}
-            variant="primary"
-            size="lg"
+            size="ml"
             onClick={() => {
               navigate("/dadadaTest", {
                 state: {
@@ -161,10 +161,10 @@ export default function User() {
           >
             DaDaDa Test
           </Button>
+
           <Button
             className={styles.Btn}
-            variant="primary"
-            size="lg"
+            size="ml"
             onClick={() => {
               navigate("/patakaTest", {
                 state: {

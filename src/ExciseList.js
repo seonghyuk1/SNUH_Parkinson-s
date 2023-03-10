@@ -57,7 +57,7 @@ function ExciseList() {
   // sorting 기본 : 오름차순, id 기준
   const [sort, setSort] = useState({ order: "desc", orderBy: "id" });
   // 한 페이지에 보여줄 행의 갯수
-  const rowsPerPage = 10;
+  const rowsPerPage = 15;
 
   // 필터
   // rows와 filters의 값이 바뀔 때만 실행 (첫 계산 제외)
@@ -104,7 +104,7 @@ function ExciseList() {
   };
 
   const clearAll = () => {
-    setSort({ order: "asc", orderBy: "id" });
+    setSort({ order: "desc", orderBy: "id" });
     setActivePage(1);
     setFilters({});
   };
@@ -113,30 +113,26 @@ function ExciseList() {
     <>
       {console.log("들어온 데이터", data)}
 
-      <h5>
-        <Link to="/" className={styles.Links}>
-          홈
-        </Link>
-        {" > "}
-        <Link to="/Excise" className={styles.Links}>
-          운동기록
-        </Link>
-        {" > "}
-        {location.state.test} Test
-      </h5>
       <div className={styles.Container}>
+        <h5>
+          <Link to="/" className={styles.Links}>
+            홈
+          </Link>
+          {" > "}
+          <Link to="/Excise" className={styles.Links}>
+            운동기록
+          </Link>
+          {" > "}
+          {location.state.test} Test
+        </h5>
+
         <center className={styles.Title}>전체 {location.state.test} Test 데이터</center>
+        <Button onClick={clearAll} className={styles.Btn}>
+          필터 초기화
+        </Button>
       </div>
 
       <div>
-        <center>
-          <Button variant="none" onClick={clearAll} className={styles.Btn}>
-            필터 초기화
-          </Button>
-        </center>
-      </div>
-      {/* 아무래도 체크박스보단 검색형식이 나을듯 */}
-      <div className={styles.Container}>
         {console.log(location.state)}
         <table className={styles.Table}>
           <thead className={styles.theader}>
@@ -175,7 +171,7 @@ function ExciseList() {
           </thead>
 
           {/* 바디 */}
-          <tbody>
+          <tbody className={styles.ttt}>
             {calculatedRows.map((row, i) => {
               return (
                 <>
@@ -188,7 +184,6 @@ function ExciseList() {
                         <td
                           className={styles.Content}
                           onClick={() => {
-                            // NavigateUser(calculatedRows[i].userId);
                             navigate(`/user/${calculatedRows[i].userId}`, {
                               state: {
                                 id: calculatedRows[i].userId,
@@ -231,7 +226,7 @@ function ExciseList() {
                         <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}</td>
 
                         <td
-                          className={styles.Content}
+                          className={styles.Content_Downloads}
                           onClick={() => {
                             row.fileNameList.map((a, k) => {
                               FilenameListDown(calculatedRows[i].userId, calculatedRows[i].fileNameList[k]);
@@ -281,11 +276,13 @@ function ExciseList() {
           </tbody>
         </table>
       </div>
-      {count > 0 ? (
-        <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} />
-      ) : (
-        <center>{data.length === 0 ? <h3 style={{ marginTop: "3%" }}>데이터를 불러오는 중입니다.</h3> : <h3 style={{ marginTop: "3%" }}>해당하는 검색결과가 없습니다.</h3>}</center>
-      )}
+      <div>
+        {count > 0 ? (
+          <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} />
+        ) : (
+          <center>{data.length === 0 ? <h3 style={{ marginTop: "3%" }}>데이터를 불러오는 중입니다.</h3> : <h3 style={{ marginTop: "3%" }}>해당하는 검색결과가 없습니다.</h3>}</center>
+        )}
+      </div>
     </>
   );
 }

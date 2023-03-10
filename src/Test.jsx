@@ -55,9 +55,9 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
   const [activePage, setActivePage] = useState(1);
   const [filters, setFilters] = useState({});
 
-  const [sort, setSort] = useState({ order: "asc", orderBy: "id" });
+  const [sort, setSort] = useState({ order: "desc", orderBy: "id" });
 
-  const rowsPerPage = 5;
+  const rowsPerPage = 15;
 
   const filteredRows = useMemo(() => filterRows(data, filters), [data, filters]);
   const sortedRows = useMemo(() => sortRows(filteredRows, sort), [filteredRows, sort]);
@@ -94,42 +94,38 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
   };
 
   const clearAll = () => {
-    setSort({ order: "asc", orderBy: "id" });
+    setSort({ order: "desc", orderBy: "id" });
     setActivePage(1);
     setFilters({});
   };
 
   return (
     <>
-      <h5>
-        {" "}
-        <Link to="/" className={styles.Links}>
-          홈
-        </Link>
-        {" > "}
-        <Link to="/Table" className={styles.Links}>
-          전체 사용자 명단
-        </Link>
-        {" > "}
-        <Link to={`/user/ + ${location.state.id}`} state={{ id: location.state.id, name: location.state.name }} className={styles.Links}>
-          {location.state.name ? location.state.name : `${location.state.id}번 검사자`}
-        </Link>
-        {" > "}
-        {location.state.testName}
-      </h5>
-
       <div className={styles.Container}>
-        <center className={styles.Title}>
-          {location.state.name ? `${location.state.name}님의` : `${location.state.id}번 검사자`} {location.state.testName} 데이터{" "}
-        </center>
+        <h5>
+          <Link to="/" className={styles.Links}>
+            홈
+          </Link>
+          {" > "}
+          <Link to="/Table" className={styles.Links}>
+            전체 사용자 명단
+          </Link>
+          {" > "}
+          <Link to={`/user/ + ${location.state.id}`} state={{ id: location.state.id, name: location.state.name }} className={styles.Links}>
+            {location.state.name ? location.state.name : `${location.state.id}번 검사자`}
+          </Link>
+          {" > "}
+          {location.state.testName}
+        </h5>
+
+        <div className={styles.Title}>
+          {location.state.name ? `${location.state.name}님의` : `${location.state.id}번 검사자`} {location.state.testName}{" "}
+        </div>
+        <Button onClick={clearAll} className={styles.Btn}>
+          필터 초기화
+        </Button>
       </div>
-      <div>
-        <center>
-          <Button className={styles.Btn} variant="none" onClick={clearAll}>
-            필터 초기화
-          </Button>
-        </center>
-      </div>
+
       <table className={styles.Table}>
         <thead className={styles.theader}>
           <tr>
