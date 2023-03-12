@@ -42,5 +42,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://kwhcclab.com:20757"
+  "proxy": "https://kwhcclab.com:20757",
+  "homepage": "."
 }
