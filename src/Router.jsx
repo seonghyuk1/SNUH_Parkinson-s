@@ -1,21 +1,25 @@
-import { Routes, Route, Link } from "react-router-dom";
+/* eslint-disable*/
+import { Routes, Route } from "react-router-dom";
 import App from "./App";
 import { Table } from "./Table";
 import Test from "./Test";
 import User from "./User";
 import Excise from "./Excise";
 import ExciseList from "./ExciseList";
-import styles from "./styles/Test.module.css";
+import Login from "./Login";
+import Header from "./Header";
 
 const AppRouter = () => {
+  console.log(sessionStorage.getItem("OK"));
   return (
     <>
-      <Link to="/">
-        <img src={process.env.PUBLIC_URL + "SNUH.jpg"} alt="로고" className={styles.logo} />
-      </Link>
+      {sessionStorage.getItem("OK") && <Header />}
+
       <Routes>
         <>
-          <Route exact path="/" element={<App />} />
+          <Route path="/" element={<Login />} />
+
+          <Route exact path="/Main" element={<App />} />
           <Route exact path="/table" element={<Table />} />
           <Route exact path="/Excise" element={<Excise />} />
 
