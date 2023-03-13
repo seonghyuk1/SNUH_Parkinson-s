@@ -1,17 +1,18 @@
+/* eslint-disable*/
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import Router from "./Router";
-import { HashRouter } from "react-router-dom";
+import { BrowserRouter, HashRouter } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
-
+import App from "./App";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <HashRouter basename={process.env.PUBLIC_URL}>
-    {/* <BrowserRouter basename={process.env.PUBLIC_URL}> */}
-    <Router />
-    {/* </BrowserRouter> */}
-  </HashRouter>
+  // <HashRouter basename={process.env.PUBLIC_URL}>
+  <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <App />
+  </BrowserRouter>
+  // </HashRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function

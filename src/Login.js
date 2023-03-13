@@ -11,7 +11,7 @@ function Login() {
     OK ? navigate("/Main") : navigate("/");
   }, []);
 
-  const password = "snukkuw2023";
+  const password = "snuhkwu2023";
   // const password = "test";
 
   const pwHandler = (e) => {
