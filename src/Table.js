@@ -19,7 +19,6 @@ export const Table = () => {
         // 파라미터 전달로 최대 1,000개 받아옴
         params: { size: 1000 },
         headers: {},
-        withCredentials: true,
       })
       .then((response) => {
         console.log(response);

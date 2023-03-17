@@ -8,6 +8,7 @@ export default function User() {
   let location = useLocation();
   let navigate = useNavigate();
   console.log("로케", location.state);
+
   let url = `${process.env.REACT_APP_DB_HOST}/tests/download/` + location.state.id;
   // let url = "https://kwhcclab.com:20757/tests/download/" + location.state.id;
 

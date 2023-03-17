@@ -18,6 +18,7 @@ function ExciseList() {
   const location = useLocation();
 
   const navigate = useNavigate();
+  axios.defaults.withCredentials = true;
 
   console.log("로케", location.state);
 

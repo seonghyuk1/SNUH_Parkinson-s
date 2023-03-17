@@ -8,7 +8,7 @@ import axios from "axios";
 function Excise() {
   const [rows, setRows] = useState([]);
   const navigate = useNavigate();
-
+  axios.defaults.withCredentials = true;
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_DB_HOST + "/users", {

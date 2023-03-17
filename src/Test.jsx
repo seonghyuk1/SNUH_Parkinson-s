@@ -11,6 +11,7 @@ export default function Test() {
   let location = useLocation();
   const [data, setData] = useState([]);
   const navigate = useNavigate();
+  axios.defaults.withCredentials = true;
 
   useEffect(() => {
     console.log("로케", location.state);
