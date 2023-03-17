@@ -63,3 +63,12 @@
 .Container_navi {
   margin-left: 15%;
 }
+
+.All {
+  text-decoration: none;
+  color: white;
+}
+
+.All:hover {
+  color: white;
+}

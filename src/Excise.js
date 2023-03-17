@@ -11,7 +11,7 @@ function Excise() {
 
   useEffect(() => {
     axios
-      .get("/users", {
+      .get(process.env.REACT_APP_DB_HOST + "/users", {
         params: { size: 1000 },
         headers: {},
       })

@@ -72,14 +72,12 @@ export const Table = () => {
   // 필터
   // rows와 filters의 값이 바뀔 때만 실행 (첫 계산 제외)
   const filteredRows = useMemo(() => filterRows(data, filters), [data, filters]);
-  console.log("ㄴㄴㄴ", filteredRows);
 
   // 결과 sort
   // filteredRows와 sort의 값이 바뀔 때만 실행 (첫 계산 제외)
   // sort 처음에 id 기준 내림차순으로 정렬돼있음
   const sortedRows = useMemo(() => sortRows(filteredRows, sort), [filteredRows, sort]);
 
-  console.log("ㅇㅇㅇ", sortedRows);
   // 결과 행수 계산
   const calculatedRows = paginateRows(sortedRows, activePage, rowsPerPage);
 

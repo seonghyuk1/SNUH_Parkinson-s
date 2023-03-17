@@ -8,7 +8,8 @@ export default function User() {
   let location = useLocation();
   let navigate = useNavigate();
   console.log("로케", location.state);
-  let url = "https://kwhcclab.com:20757/tests/download/" + location.state.id;
+  let url = `${process.env.REACT_APP_DB_HOST}/tests/download/` + location.state.id;
+  // let url = "https://kwhcclab.com:20757/tests/download/" + location.state.id;
 
   return (
     <>
@@ -30,8 +31,10 @@ export default function User() {
         <div className={styles.UserInfo}>
           <span className={styles.Name}>{location.state.name ? `ID : ${location.state.name}` : `${location.state.id}번 검사자`}</span>
           <Button className={styles.BtnFile}>
-            {console.log(url)}
-            전체 테스트 파일 다운로드
+            <a className={styles.All} href={url}>
+              {console.log(url)}
+              전체 테스트 파일 다운로드
+            </a>
           </Button>
         </div>
 

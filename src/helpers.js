@@ -65,7 +65,7 @@ export function filterRows(rows, filters) {
 
 // 필터결과 sorting
 export function sortRows(rows, sort) {
-  const rows2 = Array.from(rows);
+  const rows2 = [...rows];
   return rows2.sort((a, b) => {
     const { order, orderBy } = sort;
 

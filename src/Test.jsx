@@ -17,7 +17,7 @@ export default function Test() {
     console.log("헤드", location.state.colHead);
 
     axios
-      .get("/tests/" + location.state.test, {
+      .get(process.env.REACT_APP_DB_HOST + "/tests/" + location.state.test, {
         params: {
           userId: location.state.id,
           size: 1000,
@@ -174,7 +174,7 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
                     <td
                       className={styles.Content}
                       onClick={() => {
-                        navigate(`/user/${calculatedRows[i].userId}`, {
+                        navigate(process.env.REACT_APP_DB_HOST + `/user/${calculatedRows[i].userId}`, {
                           state: {
                             id: calculatedRows[i].userId,
                             name: location.state.name,
@@ -205,7 +205,7 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
                     <td
                       className={styles.Content}
                       onClick={() => {
-                        navigate(`/user/${calculatedRows[i].userId}`, {
+                        navigate(process.env.REACT_APP_DB_HOST + `/user/${calculatedRows[i].userId}`, {
                           state: {
                             id: calculatedRows[i].userId,
                             name: location.state.name,
@@ -236,7 +236,7 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
                     <td
                       className={styles.Content}
                       onClick={() => {
-                        navigate(`/user/${calculatedRows[i].userId}`, {
+                        navigate(process.env.REACT_APP_DB_HOST + `/user/${calculatedRows[i].userId}`, {
                           state: {
                             id: calculatedRows[i].userId,
                             name: location.state.name,
@@ -272,9 +272,10 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
   );
 }
 
+// 한 개짜리 파일 다운로드 함수
 function FilenameDown(userId, Name) {
   axios
-    .get("/tests/download/" + Number(userId) + "/" + Name, {
+    .get(process.env.REACT_APP_DB_HOST + "/tests/download/" + Number(userId) + "/" + Name, {
       responseType: "blob",
       params: {
         userId: userId,
@@ -300,9 +301,10 @@ function FilenameDown(userId, Name) {
     });
 }
 
+// 세 개짜리 파일 다운로드 함수
 function FilenameListDown(userId, NameList) {
   axios
-    .get("/tests/download/" + Number(userId) + "/" + NameList, {
+    .get(process.env.REACT_APP_DB_HOST + "/tests/download/" + Number(userId) + "/" + NameList, {
       responseType: "blob",
       params: {
         userId: userId,

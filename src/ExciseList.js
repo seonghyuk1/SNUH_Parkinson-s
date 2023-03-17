@@ -22,8 +22,11 @@ function ExciseList() {
   console.log("로케", location.state);
 
   useEffect(() => {
-    const promises = location.state.ids.map((v, i) => {
-      return axios.get("/tests/" + location.state.test, {
+    console.log(location.state.ids);
+
+    const ARRAY = [...location.state.ids];
+    const promises = ARRAY.map((v, i) => {
+      return axios.get(process.env.REACT_APP_DB_HOST + "/tests/" + location.state.test, {
         params: {
           userId: location.state.ids[i].id,
           size: 1000,
@@ -36,9 +39,9 @@ function ExciseList() {
     Promise.all(promises)
       .then((responses) => {
         // flatMap 활용하여 모든 응답의 중복구조를 평면화
-        const test = responses.flatMap((response) => response.data);
-        setData(test);
-        setCheckList(test);
+        const FLAT = responses.flatMap((response) => response.data);
+        setData(FLAT);
+        setCheckList(FLAT);
       })
       .catch((error) => {
         console.log(error);
