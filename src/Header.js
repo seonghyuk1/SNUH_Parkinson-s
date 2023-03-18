@@ -7,7 +7,7 @@ function Header() {
   const OK = sessionStorage.getItem("OK");
   const navigate = useNavigate();
 
-  // 헤더를 사용하여 스토리지 변경시 로그인으로 강제이동
+  // 헤더를 사용하여 스토리지 변경시(로그아웃) 로그인 화면 이동
   useEffect(() => {
     OK ? navigate("/Main") : navigate("/");
   }, []);

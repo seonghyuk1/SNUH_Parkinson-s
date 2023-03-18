@@ -8,6 +8,13 @@ import axios from "axios";
 function Excise() {
   const [rows, setRows] = useState([]);
   const navigate = useNavigate();
+
+  const OK = sessionStorage.getItem("OK");
+
+  useEffect(() => {
+    !OK && navigate("/");
+  }, []);
+
   axios.defaults.withCredentials = true;
   useEffect(() => {
     axios
@@ -51,61 +58,14 @@ function Excise() {
             navigate("/fingerTest_Records", {
               state: {
                 test: "finger",
+                name: "손가락 검사 데이터",
                 colHead: Finger_Screengaze_Quickblink,
                 ids: rows,
               },
             });
           }}
         >
-          Finger Test 기록
-        </Button>
-
-        <Button
-          className={styles.Btn}
-          size="ml"
-          onClick={() => {
-            navigate("/screenGazeTest_Records", {
-              state: {
-                test: "screen-gaze",
-                colHead: Finger_Screengaze_Quickblink,
-                ids: rows,
-              },
-            });
-          }}
-        >
-          Screen Gaze Test 기록
-        </Button>
-
-        <Button
-          className={styles.Btn}
-          size="ml"
-          onClick={() => {
-            navigate("/quickBlinkTest_Records", {
-              state: {
-                test: "quick-blink",
-                colHead: Finger_Screengaze_Quickblink,
-                ids: rows,
-              },
-            });
-          }}
-        >
-          Quick Blink Test 기록
-        </Button>
-
-        <Button
-          className={styles.Btn}
-          size="ml"
-          onClick={() => {
-            navigate("/gaitTest_Records", {
-              state: {
-                test: "gait",
-                colHead: Gait,
-                ids: rows,
-              },
-            });
-          }}
-        >
-          Gait Test 기록
+          손가락 검사 데이터
         </Button>
 
         <Button
@@ -115,13 +75,14 @@ function Excise() {
             navigate("/aSoundTest_Records", {
               state: {
                 test: "a-sound",
+                name: "소리 검사 (지속발성 'A') 데이터",
                 colHead: Sound_Dadada_Pataka,
                 ids: rows,
               },
             });
           }}
         >
-          A Sound Test 기록
+          소리 검사 (지속발성 'A') 데이터
         </Button>
 
         <Button
@@ -131,14 +92,16 @@ function Excise() {
             navigate("/eSoundTest_Records", {
               state: {
                 test: "e-sound",
+                name: "소리 검사 (지속발성 'E') 데이터",
                 colHead: Sound_Dadada_Pataka,
                 ids: rows,
               },
             });
           }}
         >
-          E Sound Test 기록
+          소리 검사 (지속발성 'E') 데이터
         </Button>
+
         <Button
           className={styles.Btn}
           size="ml"
@@ -146,13 +109,14 @@ function Excise() {
             navigate("/dadadaTest_Records", {
               state: {
                 test: "dadada",
+                name: "소리 검사 (반복발성 '다') 데이터",
                 colHead: Sound_Dadada_Pataka,
                 ids: rows,
               },
             });
           }}
         >
-          DaDaDa Test 기록
+          소리 검사 (반복발성 '다') 데이터
         </Button>
         <Button
           className={styles.Btn}
@@ -161,13 +125,64 @@ function Excise() {
             navigate("/patakaTest_Records", {
               state: {
                 test: "pataka",
+                name: "소리 검사 (반복발성 '파, 타, 카') 데이터",
                 colHead: Sound_Dadada_Pataka,
                 ids: rows,
               },
             });
           }}
         >
-          PaTaKa Test 기록
+          소리 검사 (반복발성 '파, 타, 카') 데이터
+        </Button>
+        <Button
+          className={styles.Btn}
+          size="ml"
+          onClick={() => {
+            navigate("/screenGazeTest_Records", {
+              state: {
+                test: "screen-gaze",
+                name: "눈 검사 (화면주시) 데이터",
+                colHead: Finger_Screengaze_Quickblink,
+                ids: rows,
+              },
+            });
+          }}
+        >
+          눈 검사 (화면주시) 데이터
+        </Button>
+
+        <Button
+          className={styles.Btn}
+          size="ml"
+          onClick={() => {
+            navigate("/quickBlinkTest_Records", {
+              state: {
+                test: "quick-blink",
+                name: "눈 검사 (빠른 깜빡임) 데이터",
+                colHead: Finger_Screengaze_Quickblink,
+                ids: rows,
+              },
+            });
+          }}
+        >
+          눈 검사 (빠른 깜빡임) 데이터
+        </Button>
+
+        <Button
+          className={styles.Btn}
+          size="ml"
+          onClick={() => {
+            navigate("/gaitTest_Records", {
+              state: {
+                test: "gait",
+                name: "걸음 검사 데이터",
+                colHead: Gait,
+                ids: rows,
+              },
+            });
+          }}
+        >
+          걸음 검사 데이터
         </Button>
       </div>
     </>

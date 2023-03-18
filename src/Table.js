@@ -13,6 +13,14 @@ export const Table = () => {
   console.log(process.env.REACT_APP_DB_HOST);
 
   axios.defaults.withCredentials = true;
+
+  const navigate = useNavigate();
+  const OK = sessionStorage.getItem("OK");
+
+  useEffect(() => {
+    !OK && navigate("/");
+  }, []);
+
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_DB_HOST + "/users", {
@@ -56,7 +64,6 @@ export const Table = () => {
     []
   );
 
-  const navigate = useNavigate();
   // 현재 페이지
   const [activePage, setActivePage] = useState(1);
   const [filters, setFilters] = useState({});
@@ -137,81 +144,74 @@ export const Table = () => {
       </div>
 
       <div>
-        <table className={styles.Table}>
-          <thead className={styles.theader}>
-            <tr>
-              {columns.map((column) => {
-                const sortIcon = () => {
-                  if (column.accessor === sort.orderBy) {
-                    if (sort.order === "asc") {
-                      return "🔼";
-                    }
-                    return "🔽";
-                  } else {
-                    return "️🔁";
-                  }
-                };
-                return (
-                  <th key={column.accessor}>
-                    <span>{column.Header}</span>
-                    <button onClick={() => handleSort(column.accessor)}>{sortIcon()}</button>
-                  </th>
-                );
-              })}
-            </tr>
-            <tr>
-              {columns.map((column) => {
-                return (
-                  <th>
-                    <input key={`${column.accessor}-search`} type="search" placeholder={`${column.Header} 검색`} value={filters[column.accessor]} onChange={(e) => handleSearch(e.target.value, column.accessor)} />
-                  </th>
-                );
-              })}
-            </tr>
-          </thead>
-
-          <tbody>
-            {calculatedRows.map((row, i) => {
-              return (
-                <tr className={styles.Content} key={row.id}>
+        {count > 0 ? (
+          <>
+            <table className={styles.Table}>
+              <thead className={styles.theader}>
+                <tr>
                   {columns.map((column) => {
+                    const sortIcon = () => {
+                      if (column.accessor === sort.orderBy) {
+                        if (sort.order === "asc") {
+                          return "🔼";
+                        }
+                        return "🔽";
+                      } else {
+                        return "️🔁";
+                      }
+                    };
                     return (
-                      <td
-                        key={column.accessor}
-                        onClick={() => {
-                          navigate("/user/" + (i + 1), {
-                            // 이름과 ID 전달
-                            state: {
-                              name: row.name,
-                              id: row.id,
-                            },
-                          });
-                        }}
-                      >
-                        {row[column.accessor]}
-                      </td>
+                      <th key={column.accessor}>
+                        <span>{column.Header}</span>
+                        <button onClick={() => handleSort(column.accessor)}>{sortIcon()}</button>
+                      </th>
                     );
                   })}
-
-                  {/* {columns.map((column) => {
-                      // 칼 : 들어있는 데이터들 (한페이지 10개)
-                      console.log("칼", calculatedRows);
-                      // 콜 : 열들
-                      console.log("콜", columns);
-                      // 로우
-                      console.log(row[column.accessor]);
-                      return <></>;
-                    })} */}
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                <tr>
+                  {columns.map((column) => {
+                    return (
+                      <th>
+                        <input key={`${column.accessor}-search`} type="search" placeholder={`${column.Header} 검색`} value={filters[column.accessor]} onChange={(e) => handleSearch(e.target.value, column.accessor)} />
+                      </th>
+                    );
+                  })}
+                </tr>
+              </thead>
 
-        {count > 0 ? (
-          <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} />
+              <tbody>
+                {calculatedRows.map((row, i) => {
+                  return (
+                    <tr className={styles.Content} key={row.id}>
+                      {columns.map((column) => {
+                        return (
+                          <td
+                            key={column.accessor}
+                            onClick={() => {
+                              navigate("/user/" + (i + 1), {
+                                // 이름과 ID 전달
+                                state: {
+                                  name: row.name,
+                                  id: row.id,
+                                },
+                              });
+                            }}
+                          >
+                            {row[column.accessor]}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+            <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} />
+          </>
         ) : (
-          <center>{data.length == 0 ? <h3 style={{ marginTop: "3%" }}>데이터를 불러오는 중입니다.</h3> : <h3 style={{ marginTop: "3%" }}>해당하는 검색결과가 없습니다.</h3>}</center>
+          <center>
+            <h1 style={{ marginTop: "10%" }}>데이터를 불러오는 중입니다.</h1>
+          </center>
         )}
       </div>
     </>

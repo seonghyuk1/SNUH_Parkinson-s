@@ -1,5 +1,3 @@
-/* ************************** */
-
 .Header {
   border: 1px solid;
   height: 60px;
@@ -8,12 +6,6 @@
 }
 
 .Table {
-  /* border: 1px solid;
-  height: 400px;
-  text-align: center;
-  margin: 0 auto;
-  width: min(70%, 1200px); */
-
   border: 1px solid;
   /* min-width: 60%; */
   /* max-width: 60%; */
@@ -53,7 +45,7 @@
 
   font-size: 1rem;
   margin: 1% 1% 2% 0%;
-  width: 15%;
+  width: 30%;
   border-radius: 15px;
   padding: 0.5%;
   display: inline-block;
@@ -76,6 +68,7 @@
 .Content {
   border: 1px solid;
   font-size: medium;
+  font-weight: bold;
 }
 
 .Content:hover {
@@ -87,7 +80,7 @@
 /* 위 두 열 제외 남은 열들 */
 .ContentEx {
   border: 1px solid;
-  font-size: small;
+  font-size: medium;
 }
 
 .Content_Downloads:hover {

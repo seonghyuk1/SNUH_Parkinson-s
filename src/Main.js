@@ -1,8 +1,16 @@
+/* eslint-disable*/
 import styles from "./styles/App.module.css";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 function Main() {
+  const navigate = useNavigate();
+  const OK = sessionStorage.getItem("OK");
+
+  useEffect(() => {
+    !OK && navigate("/");
+  }, []);
+
   return (
     <div className={styles.Container}>
       <Link to="/Table">

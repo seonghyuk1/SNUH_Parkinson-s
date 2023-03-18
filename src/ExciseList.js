@@ -8,12 +8,6 @@ import styles from "./styles/Test.module.css";
 import Pagination from "./Pagination";
 
 function ExciseList() {
-  // ************************************
-
-  const [checkList, setCheckList] = useState([]);
-  const [modal, setModal] = useState(false);
-
-  // ************************************
   const [data, setData] = useState([]);
   const location = useLocation();
 
@@ -42,7 +36,6 @@ function ExciseList() {
         // flatMap 활용하여 모든 응답의 중복구조를 평면화
         const FLAT = responses.flatMap((response) => response.data);
         setData(FLAT);
-        setCheckList(FLAT);
       })
       .catch((error) => {
         console.log(error);
@@ -50,10 +43,6 @@ function ExciseList() {
   }, []);
 
   const columns = useMemo(() => [...location.state.colHead], []);
-
-  // console.log("데데", data);
-  // console.log("체크", checkList);
-  // console.log(typeof checkList);
 
   // 현재 페이지
   const [activePage, setActivePage] = useState(1);
@@ -74,7 +63,6 @@ function ExciseList() {
   // 결과 행수 계산
   const calculatedRows = paginateRows(sortedRows, activePage, rowsPerPage);
 
-  // console.log("칼", calculatedRows);
   // 결과 길이
   const count = filteredRows.length;
 
@@ -127,165 +115,167 @@ function ExciseList() {
             운동기록
           </Link>
           {" > "}
-          {location.state.test} Test
+          {location.state.name}
         </h5>
 
-        <center className={styles.Title}>전체 {location.state.test} Test 데이터</center>
+        <center className={styles.Title}>전체 {location.state.name} </center>
         <Button onClick={clearAll} className={styles.Btn}>
           필터 초기화
         </Button>
       </div>
 
       <div>
-        {console.log(location.state)}
-        <table className={styles.Table}>
-          <thead className={styles.theader}>
-            <tr>
-              {/* 헤더 */}
-              {columns.map((column) => {
-                const sortIcon = () => {
-                  if (column.accessor === sort.orderBy) {
-                    if (sort.order === "asc") {
-                      return "🔼";
-                    }
-                    return "🔽";
-                  } else {
-                    return "️🔁";
-                  }
-                };
-                return (
-                  <th key={column.accessor}>
-                    <span>{column.Header}</span>
-                    <button onClick={() => handleSort(column.accessor)}>{sortIcon()}</button>
-                  </th>
-                );
-              })}
-            </tr>
-
-            {/* 필터  */}
-            <tr>
-              {columns.map((column) => {
-                return (
-                  <th>
-                    <input key={`${column.accessor}-search`} type="search" placeholder={`${column.Header} 검색`} value={filters[column.accessor]} onChange={(e) => handleSearch(e.target.value, column.accessor)} />
-                  </th>
-                );
-              })}
-            </tr>
-          </thead>
-
-          {/* 바디 */}
-          <tbody className={styles.ttt}>
-            {calculatedRows.map((row, i) => {
-              return (
-                <>
-                  <tr key={row.id}>
-                    {location.state.colHead.length == 6 ? (
-                      <>
-                        {/* Finger, Screen, QuickBlink */}
-                        <td className={styles.ContentEx}>{calculatedRows[i].id}</td>
-                        <td className={styles.ContentEx}>{calculatedRows[i].createdAt}</td>
-                        <td
-                          className={styles.Content}
-                          onClick={() => {
-                            navigate(`/user/${calculatedRows[i].userId}`, {
-                              state: {
-                                id: calculatedRows[i].userId,
-                              },
-                            });
-                          }}
-                        >
-                          {calculatedRows[i].userId}
-                        </td>
-                        <td className={styles.ContentEx}>{calculatedRows[i].count}</td>
-                        <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}</td>
-                        <td
-                          className={styles.Content}
-                          onClick={() => {
-                            // fileName이라 한 개 일 때
-                            // 클릭 했을 때 가지고 온 열들에서 fileName이 있다면 이 형식으로 Axios
-                            FilenameDown(calculatedRows[i].userId, calculatedRows[i].fileName);
-                          }}
-                        >
-                          {calculatedRows[i].fileName}
-                        </td>
-                      </>
-                    ) : location.state.colHead.length == 5 ? (
-                      <>
-                        {/* Sound, Dadada, Pataka*/}
-                        <td className={styles.ContentEx}>{calculatedRows[i].id}</td>
-                        <td className={styles.ContentEx}>{calculatedRows[i].createdAt}</td>
-                        <td
-                          className={styles.Content}
-                          onClick={() => {
-                            navigate(`/user/${calculatedRows[i].userId}`, {
-                              state: {
-                                id: calculatedRows[i].userId,
-                              },
-                            });
-                          }}
-                        >
-                          {calculatedRows[i].userId}
-                        </td>
-                        <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}</td>
-
-                        <td
-                          className={styles.Content_Downloads}
-                          onClick={() => {
-                            row.fileNameList.map((a, k) => {
-                              FilenameListDown(calculatedRows[i].userId, calculatedRows[i].fileNameList[k]);
-                            });
-                          }}
-                        >
-                          {Array(calculatedRows[i].fileNameList).join("")}
-                        </td>
-                      </>
-                    ) : (
-                      <>
-                        {/* Gait */}
-                        <td className={styles.ContentEx}>{calculatedRows[i].id}</td>
-                        <td className={styles.ContentEx}>{calculatedRows[i].createdAt}</td>
-                        <td
-                          className={styles.Content}
-                          onClick={() => {
-                            navigate(`/user/${calculatedRows[i].userId}`, {
-                              state: {
-                                id: calculatedRows[i].userId,
-                              },
-                            });
-                          }}
-                        >
-                          {calculatedRows[i].userId}
-                        </td>
-                        <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}</td>
-                        <td className={styles.ContentEx}>{calculatedRows[i].stride}</td>
-                        <td className={styles.ContentEx}>{calculatedRows[i].step}</td>
-                        <td className={styles.ContentEx}>{calculatedRows[i].distance}</td>
-                        <td className={styles.ContentEx}>{calculatedRows[i].time}</td>
-
-                        <td
-                          className={styles.Content}
-                          onClick={() => {
-                            FilenameDown(calculatedRows[i].userId, calculatedRows[i].fileName);
-                          }}
-                        >
-                          {calculatedRows[i].fileName}
-                        </td>
-                      </>
-                    )}
-                  </tr>
-                </>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-      <div>
         {count > 0 ? (
-          <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} />
+          <>
+            <table className={styles.Table}>
+              <thead className={styles.theader}>
+                <tr>
+                  {/* 헤더 */}
+                  {columns.map((column) => {
+                    const sortIcon = () => {
+                      if (column.accessor === sort.orderBy) {
+                        if (sort.order === "asc") {
+                          return "🔼";
+                        }
+                        return "🔽";
+                      } else {
+                        return "️🔁";
+                      }
+                    };
+                    return (
+                      <th key={column.accessor}>
+                        <span>{column.Header}</span>
+                        <button onClick={() => handleSort(column.accessor)}>{sortIcon()}</button>
+                      </th>
+                    );
+                  })}
+                </tr>
+
+                {/* 필터  */}
+                <tr>
+                  {columns.map((column) => {
+                    return (
+                      <th>
+                        <input key={`${column.accessor}-search`} type="search" placeholder={`${column.Header} 검색`} value={filters[column.accessor]} onChange={(e) => handleSearch(e.target.value, column.accessor)} />
+                      </th>
+                    );
+                  })}
+                </tr>
+              </thead>
+
+              {/* 바디 */}
+              <tbody>
+                {calculatedRows.map((row, i) => {
+                  return (
+                    <>
+                      <tr key={row.id}>
+                        {location.state.colHead.length == 6 ? (
+                          <>
+                            {/* Finger, Screen, QuickBlink */}
+                            <td className={styles.ContentEx}>{calculatedRows[i].id}</td>
+                            <td className={styles.ContentEx}>{calculatedRows[i].createdAt}</td>
+                            <td
+                              className={styles.Content}
+                              onClick={() => {
+                                navigate(`/user/${calculatedRows[i].userId}`, {
+                                  state: {
+                                    id: calculatedRows[i].userId,
+                                  },
+                                });
+                              }}
+                            >
+                              {calculatedRows[i].userId}
+                            </td>
+                            <td className={styles.ContentEx}>{calculatedRows[i].count}</td>
+                            <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}</td>
+                            <td
+                              className={styles.Content}
+                              onClick={() => {
+                                // fileName이라 한 개 일 때
+                                // 클릭 했을 때 가지고 온 열들에서 fileName이 있다면 이 형식으로 Axios
+                                FilenameDown(calculatedRows[i].userId, calculatedRows[i].fileName);
+                              }}
+                            >
+                              클릭하여 파일 다운로드
+                            </td>
+                          </>
+                        ) : location.state.colHead.length == 5 ? (
+                          <>
+                            {/* Sound, Dadada, Pataka*/}
+                            <td className={styles.ContentEx}>{calculatedRows[i].id}</td>
+                            <td className={styles.ContentEx}>{calculatedRows[i].createdAt}</td>
+                            <td
+                              className={styles.Content}
+                              onClick={() => {
+                                navigate(`/user/${calculatedRows[i].userId}`, {
+                                  state: {
+                                    id: calculatedRows[i].userId,
+                                  },
+                                });
+                              }}
+                            >
+                              {calculatedRows[i].userId}
+                            </td>
+                            <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}</td>
+
+                            <td
+                              className={styles.Content}
+                              onClick={() => {
+                                row.fileNameList.map((a, k) => {
+                                  FilenameListDown(calculatedRows[i].userId, calculatedRows[i].fileNameList[k]);
+                                });
+                              }}
+                            >
+                              클릭하여 파일 다운로드
+                            </td>
+                          </>
+                        ) : (
+                          <>
+                            {/* Gait */}
+                            <td className={styles.ContentEx}>{calculatedRows[i].id}</td>
+                            <td className={styles.ContentEx}>{calculatedRows[i].createdAt}</td>
+                            <td
+                              className={styles.Content}
+                              onClick={() => {
+                                navigate(`/user/${calculatedRows[i].userId}`, {
+                                  state: {
+                                    id: calculatedRows[i].userId,
+                                  },
+                                });
+                              }}
+                            >
+                              {calculatedRows[i].userId}
+                            </td>
+                            <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}</td>
+                            <td className={styles.ContentEx}>{calculatedRows[i].stride}</td>
+                            <td className={styles.ContentEx}>{calculatedRows[i].step}</td>
+                            <td className={styles.ContentEx}>{calculatedRows[i].distance}</td>
+                            <td className={styles.ContentEx}>{calculatedRows[i].time}</td>
+
+                            <td
+                              className={styles.Content}
+                              onClick={() => {
+                                FilenameDown(calculatedRows[i].userId, calculatedRows[i].fileName);
+                              }}
+                            >
+                              클릭
+                            </td>
+                          </>
+                        )}
+                      </tr>
+                    </>
+                  );
+                })}
+              </tbody>
+            </table>
+            <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} />
+          </>
         ) : (
-          <center>{data.length === 0 ? <h3 style={{ marginTop: "3%" }}>데이터를 불러오는 중입니다.</h3> : <h3 style={{ marginTop: "3%" }}>해당하는 검색결과가 없습니다.</h3>}</center>
+          <center>
+            <h1 style={{ marginTop: "10%" }}>데이터를 불러오는 중입니다.</h1>
+          </center>
         )}
+        {console.log(location.state)}
       </div>
     </>
   );
@@ -351,12 +341,3 @@ function FilenameListDown(userId, NameList) {
       console.log(error);
     });
 }
-
-// function NavigateUser(userId) {
-//   const navigate = useNavigate();
-//   navigate(`/user/${userId}`, {
-//     state: {
-//       id: userId,
-//     },
-//   });
-// }

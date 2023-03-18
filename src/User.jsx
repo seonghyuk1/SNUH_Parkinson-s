@@ -5,12 +5,11 @@ import Button from "react-bootstrap/Button";
 import styles from "./styles/User.module.css";
 
 export default function User() {
-  let location = useLocation();
-  let navigate = useNavigate();
+  const location = useLocation();
+  const navigate = useNavigate();
   console.log("로케", location.state);
 
-  let url = `${process.env.REACT_APP_DB_HOST}/tests/download/` + location.state.id;
-  // let url = "https://kwhcclab.com:20757/tests/download/" + location.state.id;
+  const url = `${process.env.REACT_APP_DB_HOST}/tests/download/` + location.state.id;
 
   return (
     <>
@@ -48,68 +47,14 @@ export default function User() {
                 state: {
                   id: location.state.id,
                   name: location.state.name,
-                  testName: "finger Test",
+                  testName: "손가락 검사",
                   test: "finger",
                   colHead: Finger_Screengaze_Quickblink,
                 },
               });
             }}
           >
-            Finger Test
-          </Button>
-
-          <Button
-            className={styles.Btn}
-            size="ml"
-            onClick={() => {
-              navigate("/screenGazeTest", {
-                state: {
-                  id: location.state.id,
-                  name: location.state.name,
-                  testName: "Screen Gaze Test",
-                  test: "screen-gaze",
-                  colHead: Finger_Screengaze_Quickblink,
-                },
-              });
-            }}
-          >
-            Screen Gaze Test
-          </Button>
-
-          <Button
-            className={styles.Btn}
-            size="ml"
-            onClick={() => {
-              navigate("/quickBlinkTest", {
-                state: {
-                  id: location.state.id,
-                  name: location.state.name,
-                  testName: "Quick Blink Test",
-                  test: "quick-blink",
-                  colHead: Finger_Screengaze_Quickblink,
-                },
-              });
-            }}
-          >
-            Quick Blink Test
-          </Button>
-
-          <Button
-            className={styles.Btn}
-            size="ml"
-            onClick={() => {
-              navigate("/gaitTest", {
-                state: {
-                  id: location.state.id,
-                  name: location.state.name,
-                  testName: "Gait Test",
-                  test: "gait",
-                  colHead: Gait,
-                },
-              });
-            }}
-          >
-            Gait Test
+            손가락 검사
           </Button>
 
           <Button
@@ -120,14 +65,14 @@ export default function User() {
                 state: {
                   id: location.state.id,
                   name: location.state.name,
-                  testName: "A Sound Test",
+                  testName: "소리 검사 (지속발성 'A')",
                   test: "a-sound",
                   colHead: Sound_Dadada_Pataka,
                 },
               });
             }}
           >
-            A Sound Test
+            소리 검사 (지속발성 'A')
           </Button>
 
           <Button
@@ -138,16 +83,15 @@ export default function User() {
                 state: {
                   id: location.state.id,
                   name: location.state.name,
-                  testName: "E Sound Test",
+                  testName: "소리 검사 (지속발성 'E')",
                   test: "e-sound",
                   colHead: Sound_Dadada_Pataka,
                 },
               });
             }}
           >
-            E Sound Test
+            소리 검사 (지속발성 'E')
           </Button>
-
           <Button
             className={styles.Btn}
             size="ml"
@@ -156,14 +100,14 @@ export default function User() {
                 state: {
                   id: location.state.id,
                   name: location.state.name,
-                  testName: "DaDaDa Test",
+                  testName: "소리 검사 (반복발성 '다')",
                   test: "dadada",
                   colHead: Sound_Dadada_Pataka,
                 },
               });
             }}
           >
-            DaDaDa Test
+            소리 검사 (반복발성 '다')
           </Button>
 
           <Button
@@ -174,14 +118,67 @@ export default function User() {
                 state: {
                   id: location.state.id,
                   name: location.state.name,
-                  testName: "PaTaKa Test",
+                  testName: "소리 검사 (반복발성 '파, 타, 카')",
                   test: "pataka",
                   colHead: Sound_Dadada_Pataka,
                 },
               });
             }}
           >
-            PaTaKa Test
+            소리 검사 (반복발성 '파, 타, 카')
+          </Button>
+          <Button
+            className={styles.Btn}
+            size="ml"
+            onClick={() => {
+              navigate("/screenGazeTest", {
+                state: {
+                  id: location.state.id,
+                  name: location.state.name,
+                  testName: "눈 검사 (화면주시)",
+                  test: "screen-gaze",
+                  colHead: Finger_Screengaze_Quickblink,
+                },
+              });
+            }}
+          >
+            눈 검사 (화면주시)
+          </Button>
+
+          <Button
+            className={styles.Btn}
+            size="ml"
+            onClick={() => {
+              navigate("/quickBlinkTest", {
+                state: {
+                  id: location.state.id,
+                  name: location.state.name,
+                  testName: "눈 검사 (빠른 깜빡임)",
+                  test: "quick-blink",
+                  colHead: Finger_Screengaze_Quickblink,
+                },
+              });
+            }}
+          >
+            눈 검사 (빠른 깜빡임)
+          </Button>
+
+          <Button
+            className={styles.Btn}
+            size="ml"
+            onClick={() => {
+              navigate("/gaitTest", {
+                state: {
+                  id: location.state.id,
+                  name: location.state.name,
+                  testName: "걸음 검사",
+                  test: "gait",
+                  colHead: Gait,
+                },
+              });
+            }}
+          >
+            걸음 검사
           </Button>
         </div>
       </div>

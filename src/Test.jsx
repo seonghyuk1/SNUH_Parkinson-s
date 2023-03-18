@@ -127,148 +127,159 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
         </Button>
       </div>
 
-      <table className={styles.Table}>
-        <thead className={styles.theader}>
-          <tr>
-            {columns.map((column) => {
-              const sortIcon = () => {
-                if (column.accessor === sort.orderBy) {
-                  if (sort.order === "asc") {
-                    return "🔼";
-                  }
-                  return "🔽";
-                } else {
-                  return "️🔁";
-                }
-              };
-              return (
-                <th key={column.accessor}>
-                  <span>{column.Header}</span>
-                  <button onClick={() => handleSort(column.accessor)}>{sortIcon()}</button>
-                </th>
-              );
-            })}
-          </tr>
-          <tr>
-            {columns.map((column) => {
-              return (
-                <th>
-                  <input key={`${column.accessor}-search`} type="search" placeholder={`${column.Header} 검색`} value={filters[column.accessor]} onChange={(e) => handleSearch(e.target.value, column.accessor)} />
-                </th>
-              );
-            })}
-          </tr>
-        </thead>
+      <div>
+        {count > 0 ? (
+          <>
+            <table className={styles.Table}>
+              <thead className={styles.theader}>
+                <tr>
+                  {columns.map((column) => {
+                    const sortIcon = () => {
+                      if (column.accessor === sort.orderBy) {
+                        if (sort.order === "asc") {
+                          return "🔼";
+                        }
+                        return "🔽";
+                      } else {
+                        return "️🔁";
+                      }
+                    };
+                    return (
+                      <th key={column.accessor}>
+                        <span>{column.Header}</span>
+                        <button onClick={() => handleSort(column.accessor)}>{sortIcon()}</button>
+                      </th>
+                    );
+                  })}
+                </tr>
+                <tr>
+                  {columns.map((column) => {
+                    return (
+                      <th>
+                        <input key={`${column.accessor}-search`} type="search" placeholder={`${column.Header} 검색`} value={filters[column.accessor]} onChange={(e) => handleSearch(e.target.value, column.accessor)} />
+                      </th>
+                    );
+                  })}
+                </tr>
+              </thead>
 
-        {/* 바디 */}
-        <tbody>
-          {console.log(calculatedRows)}
+              {/* 바디 */}
+              <tbody>
+                {console.log(calculatedRows)}
 
-          {calculatedRows.map((row, i) => {
-            return (
-              <tr key={row.id}>
-                {/* Finger, Screen, QuickBlink */}
-                {location.state.colHead.length == 6 ? (
-                  <>
-                    <td className={styles.ContentEx}>{calculatedRows[i].id}</td>
-                    <td className={styles.ContentEx}>{calculatedRows[i].createdAt}</td>
-                    <td
-                      className={styles.Content}
-                      onClick={() => {
-                        navigate(process.env.REACT_APP_DB_HOST + `/user/${calculatedRows[i].userId}`, {
-                          state: {
-                            id: calculatedRows[i].userId,
-                            name: location.state.name,
-                          },
-                        });
-                      }}
-                    >
-                      {calculatedRows[i].userId}
-                    </td>
-                    <td className={styles.ContentEx}>{calculatedRows[i].count}</td>
-                    <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}</td>
-                    <td
-                      className={styles.Content}
-                      onClick={() => {
-                        // fileName이라 한 개 일 때
-                        // 클릭 했을 때 가지고 온 열들에서 fileName이 있다면 이 형식으로 Axios
-                        FilenameDown(calculatedRows[i].userId, calculatedRows[i].fileName);
-                      }}
-                    >
-                      {calculatedRows[i].fileName}
-                    </td>
-                  </>
-                ) : location.state.colHead.length == 5 ? (
-                  <>
-                    {/* Sound, Dadada, Pataka*/}
-                    <td className={styles.ContentEx}>{calculatedRows[i].id}</td>
-                    <td className={styles.ContentEx}>{calculatedRows[i].createdAt}</td>
-                    <td
-                      className={styles.Content}
-                      onClick={() => {
-                        navigate(process.env.REACT_APP_DB_HOST + `/user/${calculatedRows[i].userId}`, {
-                          state: {
-                            id: calculatedRows[i].userId,
-                            name: location.state.name,
-                          },
-                        });
-                      }}
-                    >
-                      {calculatedRows[i].userId}
-                    </td>
-                    <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}</td>
+                {calculatedRows.map((row, i) => {
+                  return (
+                    <tr key={row.id}>
+                      {/* Finger, Screen, QuickBlink */}
+                      {location.state.colHead.length == 6 ? (
+                        <>
+                          <td className={styles.ContentEx}>{calculatedRows[i].id}</td>
+                          <td className={styles.ContentEx}>{calculatedRows[i].createdAt}</td>
+                          <td
+                            className={styles.Content}
+                            onClick={() => {
+                              navigate(process.env.REACT_APP_DB_HOST + `/user/${calculatedRows[i].userId}`, {
+                                state: {
+                                  id: calculatedRows[i].userId,
+                                  name: location.state.name,
+                                },
+                              });
+                            }}
+                          >
+                            {calculatedRows[i].userId}
+                          </td>
+                          <td className={styles.ContentEx}>{calculatedRows[i].count}</td>
+                          <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}</td>
+                          <td
+                            className={styles.Content}
+                            onClick={() => {
+                              // fileName이라 한 개 일 때
+                              // 클릭 했을 때 가지고 온 열들에서 fileName이 있다면 이 형식으로 Axios
+                              FilenameDown(calculatedRows[i].userId, calculatedRows[i].fileName);
+                            }}
+                          >
+                            클릭하여 파일 다운로드
+                          </td>
+                        </>
+                      ) : location.state.colHead.length == 5 ? (
+                        <>
+                          {/* Sound, Dadada, Pataka*/}
+                          <td className={styles.ContentEx}>{calculatedRows[i].id}</td>
+                          <td className={styles.ContentEx}>{calculatedRows[i].createdAt}</td>
+                          <td
+                            className={styles.Content}
+                            onClick={() => {
+                              navigate(process.env.REACT_APP_DB_HOST + `/user/${calculatedRows[i].userId}`, {
+                                state: {
+                                  id: calculatedRows[i].userId,
+                                  name: location.state.name,
+                                },
+                              });
+                            }}
+                          >
+                            {calculatedRows[i].userId}
+                          </td>
+                          <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}</td>
 
-                    <td
-                      className={styles.Content}
-                      onClick={() => {
-                        row.fileNameList.map((a, k) => {
-                          FilenameListDown(calculatedRows[i].userId, calculatedRows[i].fileNameList[k]);
-                        });
-                      }}
-                    >
-                      {Array(calculatedRows[i].fileNameList).join("")}
-                    </td>
-                  </>
-                ) : (
-                  <>
-                    {/* Gait */}
-                    <td className={styles.ContentEx}>{calculatedRows[i].id}</td>
-                    <td className={styles.ContentEx}>{calculatedRows[i].createdAt}</td>
-                    <td
-                      className={styles.Content}
-                      onClick={() => {
-                        navigate(process.env.REACT_APP_DB_HOST + `/user/${calculatedRows[i].userId}`, {
-                          state: {
-                            id: calculatedRows[i].userId,
-                            name: location.state.name,
-                          },
-                        });
-                      }}
-                    >
-                      {calculatedRows[i].userId}
-                    </td>
-                    <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}</td>
-                    <td className={styles.ContentEx}>{calculatedRows[i].stride}</td>
-                    <td className={styles.ContentEx}>{calculatedRows[i].step}</td>
-                    <td className={styles.ContentEx}>{calculatedRows[i].distance}</td>
-                    <td className={styles.ContentEx}>{calculatedRows[i].time}</td>
+                          <td
+                            className={styles.Content}
+                            onClick={() => {
+                              row.fileNameList.map((a, k) => {
+                                FilenameListDown(calculatedRows[i].userId, calculatedRows[i].fileNameList[k]);
+                              });
+                            }}
+                          >
+                            클릭하여 파일 다운로드
+                          </td>
+                        </>
+                      ) : (
+                        <>
+                          {/* Gait */}
+                          <td className={styles.ContentEx}>{calculatedRows[i].id}</td>
+                          <td className={styles.ContentEx}>{calculatedRows[i].createdAt}</td>
+                          <td
+                            className={styles.Content}
+                            onClick={() => {
+                              navigate(process.env.REACT_APP_DB_HOST + `/user/${calculatedRows[i].userId}`, {
+                                state: {
+                                  id: calculatedRows[i].userId,
+                                  name: location.state.name,
+                                },
+                              });
+                            }}
+                          >
+                            {calculatedRows[i].userId}
+                          </td>
+                          <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}</td>
+                          <td className={styles.ContentEx}>{calculatedRows[i].stride}</td>
+                          <td className={styles.ContentEx}>{calculatedRows[i].step}</td>
+                          <td className={styles.ContentEx}>{calculatedRows[i].distance}</td>
+                          <td className={styles.ContentEx}>{calculatedRows[i].time}</td>
 
-                    <td
-                      className={styles.Content}
-                      onClick={() => {
-                        FilenameDown(calculatedRows[i].userId, calculatedRows[i].fileName);
-                      }}
-                    >
-                      {calculatedRows[i].fileName}
-                    </td>
-                  </>
-                )}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      {count > 0 ? <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} /> : <center>{<h3 style={{ marginTop: "3%" }}>해당하는 검색결과가 없습니다.</h3>}</center>}
+                          <td
+                            className={styles.Content}
+                            onClick={() => {
+                              FilenameDown(calculatedRows[i].userId, calculatedRows[i].fileName);
+                            }}
+                          >
+                            클릭
+                          </td>
+                        </>
+                      )}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+            <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} />
+          </>
+        ) : (
+          <center>
+            <h1 style={{ marginTop: "10%" }}>데이터가 불러오는 중이거나 데이터가 존재하지 않습니다.</h1>
+          </center>
+        )}
+      </div>
+      {/* {count > 0 ? <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} /> : <center>{<h3 style={{ marginTop: "3%" }}>해당하는 검색결과가 없습니다.</h3>}</center>} */}
     </>
   );
 }
