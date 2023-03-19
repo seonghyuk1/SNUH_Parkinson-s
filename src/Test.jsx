@@ -209,7 +209,7 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
                           <td
                             className={styles.Content}
                             onClick={() => {
-                              navigate(process.env.REACT_APP_DB_HOST + `/user/${calculatedRows[i].userId}`, {
+                              navigate(`/user/${calculatedRows[i].userId}`, {
                                 state: {
                                   id: calculatedRows[i].userId,
                                   name: location.state.name,
