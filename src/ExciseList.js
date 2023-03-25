@@ -47,6 +47,7 @@ function ExciseList() {
   // 현재 페이지
   const [activePage, setActivePage] = useState(1);
   const [filters, setFilters] = useState({});
+
   // sorting 기본 : 오름차순, id 기준
   const [sort, setSort] = useState({ order: "desc", orderBy: "id" });
   // 한 페이지에 보여줄 행의 갯수
@@ -169,7 +170,7 @@ function ExciseList() {
                   return (
                     <>
                       <tr key={row.id}>
-                        {location.state.colHead.length == 6 ? (
+                        {location.state.test === "finger" || location.state.test === "screen-gaze" || location.state.test === "quick-blink" ? (
                           <>
                             {/* Finger, Screen, QuickBlink */}
                             <td className={styles.ContentEx}>{calculatedRows[i].id}</td>
@@ -186,8 +187,9 @@ function ExciseList() {
                             >
                               {calculatedRows[i].userId}
                             </td>
+                            {location.state.test === "finger" ? <td className={styles.ContentEx}>{calculatedRows[i].hand}</td> : <></>}
                             <td className={styles.ContentEx}>{calculatedRows[i].count}</td>
-                            <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}</td>
+                            <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}분</td>
                             <td
                               className={styles.Content}
                               onClick={() => {
@@ -199,9 +201,9 @@ function ExciseList() {
                               클릭하여 파일 다운로드
                             </td>
                           </>
-                        ) : location.state.colHead.length == 5 ? (
+                        ) : location.state.test === "a-sound" || location.state.test === "e-sound" || location.state.test === "dadada" || location.state.test === "pataka" ? (
                           <>
-                            {/* Sound, Dadada, Pataka*/}
+                            {/* a & e Sound, Dadada, Pataka*/}
                             <td className={styles.ContentEx}>{calculatedRows[i].id}</td>
                             <td className={styles.ContentEx}>{calculatedRows[i].createdAt}</td>
                             <td
@@ -216,7 +218,7 @@ function ExciseList() {
                             >
                               {calculatedRows[i].userId}
                             </td>
-                            <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}</td>
+                            <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}분</td>
 
                             <td
                               className={styles.Content}
@@ -246,11 +248,11 @@ function ExciseList() {
                             >
                               {calculatedRows[i].userId}
                             </td>
-                            <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}</td>
+                            <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}분</td>
                             <td className={styles.ContentEx}>{calculatedRows[i].stride}</td>
                             <td className={styles.ContentEx}>{calculatedRows[i].step}</td>
                             <td className={styles.ContentEx}>{calculatedRows[i].distance}</td>
-                            <td className={styles.ContentEx}>{calculatedRows[i].time}</td>
+                            <td className={styles.ContentEx}>{calculatedRows[i].time}분</td>
 
                             <td
                               className={styles.Content}

@@ -35,16 +35,18 @@ export default function Test() {
 
   {
     /* 
-finger : id, count, timeAfterTakingMedicine, fileName, createdAt, userId
-screen-gaze : id, count, timeAfterTakingMedicine, fileName, createdAt, userId
-quick-blink : id, count, timeAfterTakingMedicine, fileName, createdAt, userId
+    
+finger : id, count, hand,timeAfterTakingMedicine, fileName, createdAt, userId 7
 
-gait : id, "stride, step, distance, time", timeAfterTakingMedicine, fileName, createdAt, userId
+screen-gaze : id, count, timeAfterTakingMedicine, fileName, createdAt, userId 6
+quick-blink : id, count, timeAfterTakingMedicine, fileName, createdAt, userId 6
 
-a-sound : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
-e-sound : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
-dadada : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
-pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
+gait : id, "stride, step, distance, time", timeAfterTakingMedicine, fileName, createdAt, userId 9
+
+a-sound : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId 5
+e-sound : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId 5 
+dadada : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId 5
+pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId 5 
 */
   }
 
@@ -128,6 +130,7 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
       </div>
 
       <div>
+        {/* 데이터가 들어왔을 때 헤드 렌더링 */}
         {count > 0 ? (
           <>
             <table className={styles.Table}>
@@ -170,8 +173,8 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
                 {calculatedRows.map((row, i) => {
                   return (
                     <tr key={row.id}>
-                      {/* Finger, Screen, QuickBlink */}
-                      {location.state.colHead.length == 6 ? (
+                      {/* Finger */}
+                      {location.state.test === "finger" || location.state.test === "screen-gaze" || location.state.test === "quick-blink" ? (
                         <>
                           <td className={styles.ContentEx}>{calculatedRows[i].id}</td>
                           <td className={styles.ContentEx}>{calculatedRows[i].createdAt}</td>
@@ -188,8 +191,11 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
                           >
                             {calculatedRows[i].userId}
                           </td>
+                          {/* 핑거 일 때만 hand 추가 */}
+                          {location.state.test === "finger" ? <td className={styles.ContentEx}>{calculatedRows[i].hand}</td> : <></>}
+
                           <td className={styles.ContentEx}>{calculatedRows[i].count}</td>
-                          <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}</td>
+                          <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}분</td>
                           <td
                             className={styles.Content}
                             onClick={() => {
@@ -201,9 +207,9 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
                             클릭하여 파일 다운로드
                           </td>
                         </>
-                      ) : location.state.colHead.length == 5 ? (
+                      ) : location.state.test === "a-sound" || location.state.test === "e-sound" || location.state.test === "dadada" || location.state.test === "pataka" ? (
                         <>
-                          {/* Sound, Dadada, Pataka*/}
+                          {/* a & e Sound, Dadada, Pataka*/}
                           <td className={styles.ContentEx}>{calculatedRows[i].id}</td>
                           <td className={styles.ContentEx}>{calculatedRows[i].createdAt}</td>
                           <td
@@ -219,7 +225,7 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
                           >
                             {calculatedRows[i].userId}
                           </td>
-                          <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}</td>
+                          <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}분</td>
 
                           <td
                             className={styles.Content}
@@ -250,11 +256,11 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId
                           >
                             {calculatedRows[i].userId}
                           </td>
-                          <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}</td>
+                          <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}분</td>
                           <td className={styles.ContentEx}>{calculatedRows[i].stride}</td>
                           <td className={styles.ContentEx}>{calculatedRows[i].step}</td>
                           <td className={styles.ContentEx}>{calculatedRows[i].distance}</td>
-                          <td className={styles.ContentEx}>{calculatedRows[i].time}</td>
+                          <td className={styles.ContentEx}>{calculatedRows[i].time}분</td>
 
                           <td
                             className={styles.Content}

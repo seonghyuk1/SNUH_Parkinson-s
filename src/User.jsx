@@ -49,7 +49,7 @@ export default function User() {
                   name: location.state.name,
                   testName: "손가락 검사",
                   test: "finger",
-                  colHead: Finger_Screengaze_Quickblink,
+                  colHead: Finger,
                 },
               });
             }}
@@ -137,7 +137,7 @@ export default function User() {
                   name: location.state.name,
                   testName: "눈 검사 (화면주시)",
                   test: "screen-gaze",
-                  colHead: Finger_Screengaze_Quickblink,
+                  colHead: Screengze_Quickblink,
                 },
               });
             }}
@@ -155,7 +155,7 @@ export default function User() {
                   name: location.state.name,
                   testName: "눈 검사 (빠른 깜빡임)",
                   test: "quick-blink",
-                  colHead: Finger_Screengaze_Quickblink,
+                  colHead: Screengze_Quickblink,
                 },
               });
             }}
@@ -185,7 +185,8 @@ export default function User() {
     </>
   );
 }
-const Finger_Screengaze_Quickblink = [
+
+const Screengze_Quickblink = [
   {
     accessor: "id",
     Header: "검사 번호",
@@ -198,9 +199,10 @@ const Finger_Screengaze_Quickblink = [
     accessor: "userId",
     Header: "검사자 ID",
   },
+
   {
     accessor: "count",
-    Header: "터치 횟수",
+    Header: "눈 깜빡임 횟수",
   },
 
   {
@@ -212,7 +214,6 @@ const Finger_Screengaze_Quickblink = [
     Header: "파일 다운로드",
   },
 ];
-
 const Sound_Dadada_Pataka = [
   {
     accessor: "id",
@@ -268,9 +269,39 @@ const Gait = [
   },
   {
     accessor: "time",
-    Header: "걸은시간(분)",
+    Header: "걸은시간",
   },
 
+  {
+    accessor: "fileName",
+    Header: "파일 다운로드",
+  },
+];
+const Finger = [
+  {
+    accessor: "id",
+    Header: "검사 번호",
+  },
+  {
+    accessor: "createdAt",
+    Header: "생성시간",
+  },
+  {
+    accessor: "userId",
+    Header: "검사자 ID",
+  },
+  {
+    accessor: "hand",
+    Header: "검사한 손",
+  },
+  {
+    accessor: "count",
+    Header: "터치 횟수",
+  },
+  {
+    accessor: "timeAfterTakingMedicine",
+    Header: "약복용후 지난시간",
+  },
   {
     accessor: "fileName",
     Header: "파일 다운로드",
