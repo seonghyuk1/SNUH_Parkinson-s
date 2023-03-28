@@ -13,16 +13,6 @@ function Login() {
   // 헤더 설정
   useEffect(() => {
     token ? navigate("/Main") : navigate("/");
-
-    // axios
-    //   .post("auth/login", {
-    //     name: "admin",
-    //     birthdate: "1111-11-11",
-    //     password: "snuhkwu2023",
-    //   })
-    //   .then((response) => {
-    //     console.log(response);
-    //   });
   }, []);
 
   const password = process.env.REACT_APP_PW;
