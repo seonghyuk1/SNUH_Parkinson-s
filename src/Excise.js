@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import styles from "./styles/Excise.module.css";
-import axios from "axios";
+import client from "./client";
 
 function Excise() {
   const [rows, setRows] = useState([]);
@@ -15,9 +15,9 @@ function Excise() {
     !token && navigate("/");
   }, []);
 
-  axios.defaults.withCredentials = true;
+  client.defaults.withCredentials = true;
   useEffect(() => {
-    axios
+    client
       .get(process.env.REACT_APP_DB_HOST + "/users", {
         params: { size: 1000 },
         headers: {},

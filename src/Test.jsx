@@ -6,18 +6,20 @@ import styles from "./styles/Test.module.css";
 import { sortRows, filterRows, paginateRows } from "./helpers";
 import Pagination from "./Pagination";
 import Button from "react-bootstrap/Button";
+import client from "./client";
 
 export default function Test() {
   let location = useLocation();
   const [data, setData] = useState([]);
   const navigate = useNavigate();
+
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
     console.log("로케", location.state);
     console.log("헤드", location.state.colHead);
 
-    axios
+    client
       .get(process.env.REACT_APP_DB_HOST + "/tests/" + location.state.test, {
         params: {
           userId: location.state.id,

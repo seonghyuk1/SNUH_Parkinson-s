@@ -1,14 +1,12 @@
 /* eslint-disable*/
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import client from "./client";
 
 function Login() {
   const navigate = useNavigate();
   const token = sessionStorage.getItem("token");
   const [pw, setPw] = useState("");
-
-  const client = axios.create();
 
   // 헤더 설정
   useEffect(() => {
@@ -24,7 +22,7 @@ function Login() {
 
   const ROGER = (pw) => {
     if (pw === password) {
-      axios
+      client
         .post("auth/login", {
           name: "admin",
           birthdate: "1111-11-11",

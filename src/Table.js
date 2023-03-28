@@ -4,13 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { sortRows, filterRows, paginateRows } from "./helpers";
 import Pagination from "./Pagination";
 import styles from "./styles/Table.module.css";
-import axios from "axios";
 import Button from "react-bootstrap/Button";
+import client from "./client";
 
 export const Table = () => {
   const [data, setData] = useState([]);
 
-  axios.defaults.withCredentials = true;
+  client.defaults.withCredentials = true;
 
   const navigate = useNavigate();
   const token = sessionStorage.getItem("token");
@@ -20,7 +20,7 @@ export const Table = () => {
   }, []);
 
   useEffect(() => {
-    axios
+    client
       .get(process.env.REACT_APP_DB_HOST + "/users", {
         // 파라미터 전달로 최대 1,000개 받아옴
         params: { size: 1000 },

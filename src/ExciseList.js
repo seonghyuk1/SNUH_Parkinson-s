@@ -2,17 +2,17 @@
 import { useState, useMemo, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { sortRows, filterRows, paginateRows } from "./helpers";
-import axios from "axios";
 import Button from "react-bootstrap/Button";
 import styles from "./styles/Test.module.css";
 import Pagination from "./Pagination";
+import client from "./client";
 
 function ExciseList() {
   const [data, setData] = useState([]);
   const location = useLocation();
 
   const navigate = useNavigate();
-  axios.defaults.withCredentials = true;
+  client.defaults.withCredentials = true;
 
   console.log("로케", location.state);
 
@@ -21,7 +21,7 @@ function ExciseList() {
 
     const ARRAY = [...location.state.ids];
     const promises = ARRAY.map((v, i) => {
-      return axios.get(process.env.REACT_APP_DB_HOST + "/tests/" + location.state.test, {
+      return client.get(process.env.REACT_APP_DB_HOST + "/tests/" + location.state.test, {
         params: {
           userId: location.state.ids[i].id,
           size: 1000,
@@ -194,7 +194,7 @@ function ExciseList() {
                               className={styles.Content}
                               onClick={() => {
                                 // fileName이라 한 개 일 때
-                                // 클릭 했을 때 가지고 온 열들에서 fileName이 있다면 이 형식으로 Axios
+                                // 클릭 했을 때 가지고 온 열들에서 fileName이 있다면 이 형식으로 client
                                 FilenameDown(calculatedRows[i].userId, calculatedRows[i].fileName);
                               }}
                             >
@@ -286,7 +286,7 @@ function ExciseList() {
 export default ExciseList;
 
 function FilenameDown(userId, Name) {
-  axios
+  client
     .get("/tests/download/" + Number(userId) + "/" + Name, {
       responseType: "blob",
       params: {
@@ -314,7 +314,7 @@ function FilenameDown(userId, Name) {
 }
 
 function FilenameListDown(userId, NameList) {
-  axios
+  client
     .get("/tests/download/" + Number(userId) + "/" + NameList, {
       responseType: "blob",
       params: {
