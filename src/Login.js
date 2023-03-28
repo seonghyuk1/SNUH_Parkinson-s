@@ -1,14 +1,28 @@
 /* eslint-disable*/
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Login() {
   const navigate = useNavigate();
-  const OK = sessionStorage.getItem("OK");
+  const token = sessionStorage.getItem("token");
   const [pw, setPw] = useState("");
 
+  const client = axios.create();
+
+  // 헤더 설정
   useEffect(() => {
-    OK ? navigate("/Main") : navigate("/");
+    token ? navigate("/Main") : navigate("/");
+
+    // axios
+    //   .post("auth/login", {
+    //     name: "admin",
+    //     birthdate: "1111-11-11",
+    //     password: "snuhkwu2023",
+    //   })
+    //   .then((response) => {
+    //     console.log(response);
+    //   });
   }, []);
 
   const password = process.env.REACT_APP_PW;
@@ -18,11 +32,23 @@ function Login() {
     setPw(e.target.value);
   };
 
-  let ROGER = (pw) => {
+  const ROGER = (pw) => {
     if (pw === password) {
-      sessionStorage.setItem("OK", "확인");
-      sessionStorage.OK != null && navigate("/Main");
-      window.location.replace("/");
+      axios
+        .post("auth/login", {
+          name: "admin",
+          birthdate: "1111-11-11",
+          password: pw,
+        })
+        .then((response) => {
+          console.log(response);
+          sessionStorage.setItem("token", response.data.token);
+
+          client.defaults.headers.common["X-AUTH-TOKEN"] = response.data.token ? response.data.token : null;
+
+          sessionStorage.token != null && navigate("/Main");
+          window.location.replace("/");
+        });
     }
   };
 
@@ -30,6 +56,7 @@ function Login() {
     <>
       <center>
         <img src={process.env.PUBLIC_URL + "login_logo.png"} alt="로고" style={{ width: "20%", display: "block", marginBottom: "3%", marginTop: "10%" }} />
+        <input type="password" className="form-control form-control-lg rounded-pill" placeholder="admin" style={{ width: 300, display: "inline-block", marginBottom: 10 }} disabled={true}></input>
         <form onClick={ROGER(pw)}>
           <input type="password" className="form-control form-control-lg rounded-pill" placeholder="비밀번호를 입력하세요." value={pw} onChange={pwHandler} style={{ width: 300, display: "inline-block" }}></input>
         </form>

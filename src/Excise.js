@@ -9,10 +9,10 @@ function Excise() {
   const [rows, setRows] = useState([]);
   const navigate = useNavigate();
 
-  const OK = sessionStorage.getItem("OK");
+  const token = sessionStorage.getItem("token");
 
   useEffect(() => {
-    !OK && navigate("/");
+    !token && navigate("/");
   }, []);
 
   axios.defaults.withCredentials = true;

@@ -5,10 +5,10 @@ import { Link, useNavigate } from "react-router-dom";
 
 function Main() {
   const navigate = useNavigate();
-  const OK = sessionStorage.getItem("OK");
+  const token = sessionStorage.getItem("token");
 
   useEffect(() => {
-    !OK && navigate("/");
+    !token && navigate("/");
   }, []);
 
   return (

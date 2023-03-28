@@ -12,11 +12,10 @@ import Header from "./Header";
 import Main from "./Main";
 
 function App() {
-  console.log(sessionStorage.getItem("OK"));
   return (
     <>
       <BrowserRouter>
-        {sessionStorage.getItem("OK") && <Header />}
+        {sessionStorage.getItem("token") && <Header />}
 
         <Routes>
           <>

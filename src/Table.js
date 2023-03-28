@@ -10,15 +10,13 @@ import Button from "react-bootstrap/Button";
 export const Table = () => {
   const [data, setData] = useState([]);
 
-  console.log(process.env.REACT_APP_DB_HOST);
-
   axios.defaults.withCredentials = true;
 
   const navigate = useNavigate();
-  const OK = sessionStorage.getItem("OK");
+  const token = sessionStorage.getItem("token");
 
   useEffect(() => {
-    !OK && navigate("/");
+    !token && navigate("/");
   }, []);
 
   useEffect(() => {
@@ -26,7 +24,9 @@ export const Table = () => {
       .get(process.env.REACT_APP_DB_HOST + "/users", {
         // 파라미터 전달로 최대 1,000개 받아옴
         params: { size: 1000 },
-        headers: {},
+        headers: {
+          "X-AUTH-TOKEN": token,
+        },
       })
       .then((response) => {
         console.log(response);
