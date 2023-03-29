@@ -13,41 +13,35 @@ import Main from "./Main";
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        {sessionStorage.getItem("token") && <Header />}
+    <BrowserRouter>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/Main" element={<Main />} />
+        <Route path="/table" element={<Table />} />
+        <Route path="/Excise" element={<Excise />} />
 
-        <Routes>
-          <>
-            <Route path="/" element={<Login />} />
+        <Route path="/user/:id" element={<User />} />
 
-            <Route exact path="/Main" element={<Main />} />
-            <Route exact path="/table" element={<Table />} />
-            <Route exact path="/Excise" element={<Excise />} />
+        <Route path="/fingerTest" element={<Test />} />
+        <Route path="/screenGazeTest" element={<Test />} />
+        <Route path="/quickBlinkTest" element={<Test />} />
+        <Route path="/gaitTest" element={<Test />} />
+        <Route path="/aSoundTest" element={<Test />} />
+        <Route path="/eSoundTest" element={<Test />} />
+        <Route path="/dadadaTest" element={<Test />} />
+        <Route path="/patakaTest" element={<Test />} />
 
-            <Route exact path="/user/:id" element={<User />} />
-
-            <Route exact path="/fingerTest" element={<Test />} />
-            <Route exact path="/screenGazeTest" element={<Test />} />
-            <Route exact path="/quickBlinkTest" element={<Test />} />
-            <Route exact path="/gaitTest" element={<Test />} />
-            <Route exact path="/aSoundTest" element={<Test />} />
-            <Route exact path="/eSoundTest" element={<Test />} />
-            <Route exact path="/dadadaTest" element={<Test />} />
-            <Route exact path="/patakaTest" element={<Test />} />
-
-            <Route exact path="/fingerTest_Records" element={<ExciseList />} />
-            <Route exact path="/screenGazeTest_Records" element={<ExciseList />} />
-            <Route exact path="/quickBlinkTest_Records" element={<ExciseList />} />
-            <Route exact path="/gaitTest_Records" element={<ExciseList />} />
-            <Route exact path="/aSoundTest_Records" element={<ExciseList />} />
-            <Route exact path="/eSoundTest_Records" element={<ExciseList />} />
-            <Route exact path="/dadadaTest_Records" element={<ExciseList />} />
-            <Route exact path="/patakaTest_Records" element={<ExciseList />} />
-          </>
-        </Routes>
-      </BrowserRouter>
-    </>
+        <Route path="/fingerTest_Records" element={<ExciseList />} />
+        <Route path="/screenGazeTest_Records" element={<ExciseList />} />
+        <Route path="/quickBlinkTest_Records" element={<ExciseList />} />
+        <Route path="/gaitTest_Records" element={<ExciseList />} />
+        <Route path="/aSoundTest_Records" element={<ExciseList />} />
+        <Route path="/eSoundTest_Records" element={<ExciseList />} />
+        <Route path="/dadadaTest_Records" element={<ExciseList />} />
+        <Route path="/patakaTest_Records" element={<ExciseList />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

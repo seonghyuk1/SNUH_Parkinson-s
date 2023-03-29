@@ -1,23 +1,24 @@
 /* eslint-disable*/
-import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles/Test.module.css";
+import { useLocation } from "react-router-dom";
 
 function Header() {
-  const token = sessionStorage.getItem("token");
+  const { pathname } = useLocation();
   const navigate = useNavigate();
 
-  // 헤더를 사용하여 스토리지 변경시(로그아웃) 로그인 화면 이동
-  useEffect(() => {
-    token ? navigate("/Main") : navigate("/");
-  }, []);
-
-  return (
+  return pathname === "/" ? (
+    <></>
+  ) : (
     <>
       <div className={styles.display}>
         {sessionStorage.getItem("token") && (
           <Link to="/Main">
-            <img src={process.env.PUBLIC_URL + "SNUH.jpg"} alt="로고" className={styles.logo} />
+            <img
+              src={process.env.PUBLIC_URL + "SNUH.jpg"}
+              alt="로고"
+              className={styles.logo}
+            />
           </Link>
         )}
 
