@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import styles from "./styles/Excise.module.css";
-import client from "./client";
+import { getUsers } from "./lib/api/users";
 
 function Excise() {
   const [rows, setRows] = useState([]);
@@ -15,22 +15,10 @@ function Excise() {
     !token && navigate("/");
   }, []);
 
-  client.defaults.withCredentials = true;
   useEffect(() => {
-    client
-      .get(process.env.REACT_APP_DB_HOST + "/users", {
-        params: { size: 1000 },
-        headers: {},
-      })
-      .then((response) => {
-        console.log(response);
-        console.log(response.data);
-
-        setRows(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    getUsers()
+      .then((response) => setRows(response.data))
+      .catch((e) => console.log(e));
   }, []);
 
   return (
