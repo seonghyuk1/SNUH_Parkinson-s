@@ -7,7 +7,7 @@ import styles from "./styles/User.module.css";
 export default function User() {
   const location = useLocation();
   const navigate = useNavigate();
-  console.log("로케", location.state);
+  console.log("locationData : ", location.state);
 
   const url = `${process.env.REACT_APP_DB_HOST}/tests/download/` + location.state.id;
 
@@ -32,7 +32,6 @@ export default function User() {
           <span className={styles.Name}>{location.state.name ? `ID : ${location.state.name}` : `${location.state.id}번 검사자`}</span>
           <Button className={styles.BtnFile}>
             <a className={styles.All} href={url}>
-              {console.log(url)}
               전체 테스트 파일 다운로드
             </a>
           </Button>

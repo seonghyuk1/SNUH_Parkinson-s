@@ -14,7 +14,7 @@ function ExciseList() {
   const navigate = useNavigate();
   client.defaults.withCredentials = true;
 
-  console.log("로케", location.state);
+  console.log("locationData : ", location.state);
 
   useEffect(() => {
     console.log(location.state.ids);
@@ -326,10 +326,7 @@ function FilenameListDown(userId, NameList) {
       },
     })
     .then((response) => {
-      console.log("파일명22 :" + NameList);
-
       console.log("결과 ", response);
-      console.log("결과 속 ", response.data);
 
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");

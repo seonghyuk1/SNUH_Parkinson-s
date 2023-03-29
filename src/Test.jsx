@@ -16,8 +16,8 @@ export default function Test() {
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
-    console.log("로케", location.state);
-    console.log("헤드", location.state.colHead);
+    console.log("locationData : ", location.state);
+    console.log("colHeadData : ", location.state.colHead);
 
     client
       .get(process.env.REACT_APP_DB_HOST + "/tests/" + location.state.test, {
@@ -28,8 +28,6 @@ export default function Test() {
         headers: {},
       })
       .then((response) => {
-        console.log(response);
-
         setData(response.data);
       })
       .catch((error) => {});
