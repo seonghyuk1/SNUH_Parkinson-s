@@ -31,6 +31,8 @@ function Login() {
       sessionStorage.setItem("token", response.data.token);
       setToken(response.data);
       sessionStorage.token ? navigate("/Main") : navigate("/");
+
+      window.location.replace("/");
     } catch (e) {
       console.log(e);
     }
@@ -49,22 +51,9 @@ function Login() {
             marginTop: "10%",
           }}
         />
-        <input
-          type="password"
-          className="form-control form-control-lg rounded-pill"
-          placeholder="admin"
-          style={{ width: 300, display: "inline-block", marginBottom: 10 }}
-          disabled={true}
-        ></input>
+        <input type="password" className="form-control form-control-lg rounded-pill" placeholder="admin" style={{ width: 300, display: "inline-block", marginBottom: 10 }} disabled={true}></input>
         <form>
-          <input
-            type="password"
-            className="form-control form-control-lg rounded-pill"
-            placeholder="비밀번호를 입력하세요."
-            value={pw}
-            onChange={pwHandler}
-            style={{ width: 300, display: "inline-block" }}
-          ></input>
+          <input type="password" className="form-control form-control-lg rounded-pill" placeholder="비밀번호를 입력하세요." value={pw} onChange={pwHandler} style={{ width: 300, display: "inline-block" }}></input>
         </form>
       </center>
     </>
