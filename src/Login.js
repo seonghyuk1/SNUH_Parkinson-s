@@ -1,7 +1,8 @@
 /* eslint-disable*/
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import client from "./client";
+import { login } from "./lib/api/auth";
+import { setToken } from "./lib/api/client";
 
 function Login() {
   const navigate = useNavigate();
@@ -20,33 +21,50 @@ function Login() {
     setPw(e.target.value);
   };
 
-  const ROGER = (pw) => {
-    if (pw === password) {
-      client
-        .post("auth/login", {
-          name: "admin",
-          birthdate: "1111-11-11",
-          password: pw,
-        })
-        .then((response) => {
-          console.log(response);
-          sessionStorage.setItem("token", response.data.token);
+  useEffect(() => {
+    if (pw === password) ROGER(pw);
+  }, [pw]);
 
-          client.defaults.headers.common["X-AUTH-TOKEN"] = response.data.token ? response.data.token : null;
-
-          sessionStorage.token != null && navigate("/Main");
-          window.location.replace("/");
-        });
+  const ROGER = async (pw) => {
+    try {
+      const response = await login(pw);
+      sessionStorage.setItem("token", response.data.token);
+      setToken(response.data);
+      sessionStorage.token ? navigate("/Main") : navigate("/");
+    } catch (e) {
+      console.log(e);
     }
   };
 
   return (
     <>
       <center>
-        <img src={process.env.PUBLIC_URL + "login_logo.png"} alt="로고" style={{ width: "20%", display: "block", marginBottom: "3%", marginTop: "10%" }} />
-        <input type="password" className="form-control form-control-lg rounded-pill" placeholder="admin" style={{ width: 300, display: "inline-block", marginBottom: 10 }} disabled={true}></input>
-        <form onClick={ROGER(pw)}>
-          <input type="password" className="form-control form-control-lg rounded-pill" placeholder="비밀번호를 입력하세요." value={pw} onChange={pwHandler} style={{ width: 300, display: "inline-block" }}></input>
+        <img
+          src={process.env.PUBLIC_URL + "login_logo.png"}
+          alt="로고"
+          style={{
+            width: "20%",
+            display: "block",
+            marginBottom: "3%",
+            marginTop: "10%",
+          }}
+        />
+        <input
+          type="password"
+          className="form-control form-control-lg rounded-pill"
+          placeholder="admin"
+          style={{ width: 300, display: "inline-block", marginBottom: 10 }}
+          disabled={true}
+        ></input>
+        <form>
+          <input
+            type="password"
+            className="form-control form-control-lg rounded-pill"
+            placeholder="비밀번호를 입력하세요."
+            value={pw}
+            onChange={pwHandler}
+            style={{ width: 300, display: "inline-block" }}
+          ></input>
         </form>
       </center>
     </>

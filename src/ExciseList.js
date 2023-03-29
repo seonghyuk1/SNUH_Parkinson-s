@@ -5,14 +5,13 @@ import { sortRows, filterRows, paginateRows } from "./helpers";
 import Button from "react-bootstrap/Button";
 import styles from "./styles/Test.module.css";
 import Pagination from "./Pagination";
-import client from "./client";
+import { getTestsByTypeAndUserId } from "./lib/api/tests";
 
 function ExciseList() {
   const [data, setData] = useState([]);
   const location = useLocation();
 
   const navigate = useNavigate();
-  client.defaults.withCredentials = true;
 
   console.log("로케", location.state);
 
@@ -20,15 +19,9 @@ function ExciseList() {
     console.log(location.state.ids);
 
     const ARRAY = [...location.state.ids];
-    const promises = ARRAY.map((v, i) => {
-      return client.get(process.env.REACT_APP_DB_HOST + "/tests/" + location.state.test, {
-        params: {
-          userId: location.state.ids[i].id,
-          size: 1000,
-        },
-        headers: {},
-      });
-    });
+    const promises = ARRAY.map((v, i) =>
+      getTestsByTypeAndUserId(location.state.test, location.state.ids[i].id)
+    );
 
     // Promise.all 사용하여 모든 처리가 끝났을 때 넣어줌
     Promise.all(promises)
@@ -55,11 +48,17 @@ function ExciseList() {
 
   // 필터
   // rows와 filters의 값이 바뀔 때만 실행 (첫 계산 제외)
-  const filteredRows = useMemo(() => filterRows(data, filters), [data, filters]);
+  const filteredRows = useMemo(
+    () => filterRows(data, filters),
+    [data, filters]
+  );
 
   // 결과 sort
   // filteredRows와 sort의 값이 바뀔 때만 실행 (첫 계산 제외)
-  const sortedRows = useMemo(() => sortRows(filteredRows, sort), [filteredRows, sort]);
+  const sortedRows = useMemo(
+    () => sortRows(filteredRows, sort),
+    [filteredRows, sort]
+  );
 
   // 결과 행수 계산
   const calculatedRows = paginateRows(sortedRows, activePage, rowsPerPage);
@@ -91,7 +90,10 @@ function ExciseList() {
   const handleSort = (accessor) => {
     setActivePage(1);
     setSort((prevSort) => ({
-      order: prevSort.order === "asc" && prevSort.orderBy === accessor ? "desc" : "asc",
+      order:
+        prevSort.order === "asc" && prevSort.orderBy === accessor
+          ? "desc"
+          : "asc",
       orderBy: accessor,
     }));
   };
@@ -146,7 +148,9 @@ function ExciseList() {
                     return (
                       <th key={column.accessor}>
                         <span>{column.Header}</span>
-                        <button onClick={() => handleSort(column.accessor)}>{sortIcon()}</button>
+                        <button onClick={() => handleSort(column.accessor)}>
+                          {sortIcon()}
+                        </button>
                       </th>
                     );
                   })}
@@ -157,7 +161,15 @@ function ExciseList() {
                   {columns.map((column) => {
                     return (
                       <th>
-                        <input key={`${column.accessor}-search`} type="search" placeholder={`${column.Header} 검색`} value={filters[column.accessor]} onChange={(e) => handleSearch(e.target.value, column.accessor)} />
+                        <input
+                          key={`${column.accessor}-search`}
+                          type="search"
+                          placeholder={`${column.Header} 검색`}
+                          value={filters[column.accessor]}
+                          onChange={(e) =>
+                            handleSearch(e.target.value, column.accessor)
+                          }
+                        />
                       </th>
                     );
                   })}
@@ -170,11 +182,17 @@ function ExciseList() {
                   return (
                     <>
                       <tr key={row.id}>
-                        {location.state.test === "finger" || location.state.test === "screen-gaze" || location.state.test === "quick-blink" ? (
+                        {location.state.test === "finger" ||
+                        location.state.test === "screen-gaze" ||
+                        location.state.test === "quick-blink" ? (
                           <>
                             {/* Finger, Screen, QuickBlink */}
-                            <td className={styles.ContentEx}>{calculatedRows[i].id}</td>
-                            <td className={styles.ContentEx}>{calculatedRows[i].createdAt}</td>
+                            <td className={styles.ContentEx}>
+                              {calculatedRows[i].id}
+                            </td>
+                            <td className={styles.ContentEx}>
+                              {calculatedRows[i].createdAt}
+                            </td>
                             <td
                               className={styles.Content}
                               onClick={() => {
@@ -187,25 +205,45 @@ function ExciseList() {
                             >
                               {calculatedRows[i].userId}
                             </td>
-                            {location.state.test === "finger" ? <td className={styles.ContentEx}>{calculatedRows[i].hand}</td> : <></>}
-                            <td className={styles.ContentEx}>{calculatedRows[i].count}</td>
-                            <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}분</td>
+                            {location.state.test === "finger" ? (
+                              <td className={styles.ContentEx}>
+                                {calculatedRows[i].hand}
+                              </td>
+                            ) : (
+                              <></>
+                            )}
+                            <td className={styles.ContentEx}>
+                              {calculatedRows[i].count}
+                            </td>
+                            <td className={styles.ContentEx}>
+                              {calculatedRows[i].timeAfterTakingMedicine}분
+                            </td>
                             <td
                               className={styles.Content}
                               onClick={() => {
                                 // fileName이라 한 개 일 때
                                 // 클릭 했을 때 가지고 온 열들에서 fileName이 있다면 이 형식으로 client
-                                FilenameDown(calculatedRows[i].userId, calculatedRows[i].fileName);
+                                FilenameDown(
+                                  calculatedRows[i].userId,
+                                  calculatedRows[i].fileName
+                                );
                               }}
                             >
                               클릭하여 파일 다운로드
                             </td>
                           </>
-                        ) : location.state.test === "a-sound" || location.state.test === "e-sound" || location.state.test === "dadada" || location.state.test === "pataka" ? (
+                        ) : location.state.test === "a-sound" ||
+                          location.state.test === "e-sound" ||
+                          location.state.test === "dadada" ||
+                          location.state.test === "pataka" ? (
                           <>
                             {/* a & e Sound, Dadada, Pataka*/}
-                            <td className={styles.ContentEx}>{calculatedRows[i].id}</td>
-                            <td className={styles.ContentEx}>{calculatedRows[i].createdAt}</td>
+                            <td className={styles.ContentEx}>
+                              {calculatedRows[i].id}
+                            </td>
+                            <td className={styles.ContentEx}>
+                              {calculatedRows[i].createdAt}
+                            </td>
                             <td
                               className={styles.Content}
                               onClick={() => {
@@ -218,13 +256,18 @@ function ExciseList() {
                             >
                               {calculatedRows[i].userId}
                             </td>
-                            <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}분</td>
+                            <td className={styles.ContentEx}>
+                              {calculatedRows[i].timeAfterTakingMedicine}분
+                            </td>
 
                             <td
                               className={styles.Content}
                               onClick={() => {
                                 row.fileNameList.map((a, k) => {
-                                  FilenameListDown(calculatedRows[i].userId, calculatedRows[i].fileNameList[k]);
+                                  FilenameListDown(
+                                    calculatedRows[i].userId,
+                                    calculatedRows[i].fileNameList[k]
+                                  );
                                 });
                               }}
                             >
@@ -234,8 +277,12 @@ function ExciseList() {
                         ) : (
                           <>
                             {/* Gait */}
-                            <td className={styles.ContentEx}>{calculatedRows[i].id}</td>
-                            <td className={styles.ContentEx}>{calculatedRows[i].createdAt}</td>
+                            <td className={styles.ContentEx}>
+                              {calculatedRows[i].id}
+                            </td>
+                            <td className={styles.ContentEx}>
+                              {calculatedRows[i].createdAt}
+                            </td>
                             <td
                               className={styles.Content}
                               onClick={() => {
@@ -248,16 +295,29 @@ function ExciseList() {
                             >
                               {calculatedRows[i].userId}
                             </td>
-                            <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}분</td>
-                            <td className={styles.ContentEx}>{calculatedRows[i].stride}</td>
-                            <td className={styles.ContentEx}>{calculatedRows[i].step}</td>
-                            <td className={styles.ContentEx}>{calculatedRows[i].distance}</td>
-                            <td className={styles.ContentEx}>{calculatedRows[i].time}분</td>
+                            <td className={styles.ContentEx}>
+                              {calculatedRows[i].timeAfterTakingMedicine}분
+                            </td>
+                            <td className={styles.ContentEx}>
+                              {calculatedRows[i].stride}
+                            </td>
+                            <td className={styles.ContentEx}>
+                              {calculatedRows[i].step}
+                            </td>
+                            <td className={styles.ContentEx}>
+                              {calculatedRows[i].distance}
+                            </td>
+                            <td className={styles.ContentEx}>
+                              {calculatedRows[i].time}분
+                            </td>
 
                             <td
                               className={styles.Content}
                               onClick={() => {
-                                FilenameDown(calculatedRows[i].userId, calculatedRows[i].fileName);
+                                FilenameDown(
+                                  calculatedRows[i].userId,
+                                  calculatedRows[i].fileName
+                                );
                               }}
                             >
                               클릭
@@ -270,7 +330,13 @@ function ExciseList() {
                 })}
               </tbody>
             </table>
-            <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} />
+            <Pagination
+              activePage={activePage}
+              count={count}
+              rowsPerPage={rowsPerPage}
+              totalPages={totalPages}
+              setActivePage={setActivePage}
+            />
           </>
         ) : (
           <center>
@@ -292,9 +358,6 @@ function FilenameDown(userId, Name) {
       params: {
         userId: userId,
         fileName: Name,
-      },
-      headers: {
-        contentType: "text/csv",
       },
     })
     .then((response) => {
