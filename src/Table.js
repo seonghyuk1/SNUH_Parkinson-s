@@ -5,13 +5,10 @@ import { sortRows, filterRows, paginateRows } from "./helpers";
 import Pagination from "./Pagination";
 import styles from "./styles/Table.module.css";
 import Button from "react-bootstrap/Button";
-import client from "./client";
+import { getUsers } from "./lib/api/users";
 
 export const Table = () => {
   const [data, setData] = useState([]);
-
-  client.defaults.withCredentials = true;
-
   const navigate = useNavigate();
   const token = sessionStorage.getItem("token");
 
@@ -20,20 +17,9 @@ export const Table = () => {
   }, []);
 
   useEffect(() => {
-    client
-      .get(process.env.REACT_APP_DB_HOST + "/users", {
-        // 파라미터 전달로 최대 1,000개 받아옴
-        params: { size: 1000 },
-        headers: {
-          "X-AUTH-TOKEN": token,
-        },
-      })
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.log("에러", error);
-      });
+    getUsers()
+      .then((response) => setData(response.data))
+      .catch((e) => console.log(e));
   }, []);
 
   const columns = useMemo(

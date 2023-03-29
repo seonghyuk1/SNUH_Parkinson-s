@@ -6,7 +6,7 @@ import styles from "./styles/Test.module.css";
 import { sortRows, filterRows, paginateRows } from "./helpers";
 import Pagination from "./Pagination";
 import Button from "react-bootstrap/Button";
-import client from "./client";
+import { getTestsByTypeAndUserId } from "./lib/api/tests";
 
 export default function Test() {
   let location = useLocation();
@@ -19,18 +19,9 @@ export default function Test() {
     console.log("locationData : ", location.state);
     console.log("colHeadData : ", location.state.colHead);
 
-    client
-      .get(process.env.REACT_APP_DB_HOST + "/tests/" + location.state.test, {
-        params: {
-          userId: location.state.id,
-          size: 1000,
-        },
-        headers: {},
-      })
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((error) => {});
+    getTestsByTypeAndUserId(location.state.test, location.state.id)
+      .then((response) => setData(response.data))
+      .catch((e) => console.log(e));
   }, []);
 
   {
