@@ -13,11 +13,7 @@ function ExciseList() {
 
   const navigate = useNavigate();
 
-  console.log("locationData : ", location.state);
-
   useEffect(() => {
-    console.log(location.state.ids);
-
     const ARRAY = [...location.state.ids];
     const promises = ARRAY.map((v, i) =>
       getTestsByTypeAndUserId(location.state.test, location.state.ids[i].id)
@@ -101,13 +97,23 @@ function ExciseList() {
   const clearAll = () => {
     setSort({ order: "desc", orderBy: "id" });
     setActivePage(1);
-    setFilters({});
+    setFilters({
+      count: "",
+      createdAt: "",
+      fileName: "",
+      hand: "",
+      id: "",
+      timeAfterTakingMedicine: "",
+      userId: "",
+    });
   };
+
+  useEffect(() => {
+    console.log(filters);
+  }, [filters]);
 
   return (
     <>
-      {console.log("들어온 데이터", data)}
-
       <div className={styles.Container}>
         <h5>
           <Link to="/" className={styles.Links}>
@@ -128,221 +134,204 @@ function ExciseList() {
       </div>
 
       <div>
-        {count > 0 ? (
-          <>
-            <table className={styles.Table}>
-              <thead className={styles.theader}>
-                <tr>
-                  {/* 헤더 */}
-                  {columns.map((column) => {
-                    const sortIcon = () => {
-                      if (column.accessor === sort.orderBy) {
-                        if (sort.order === "asc") {
-                          return "🔼";
-                        }
-                        return "🔽";
-                      } else {
-                        return "️🔁";
+        <table className={styles.Table}>
+          <thead className={styles.theader}>
+            <tr>
+              {columns.map((column) => {
+                return (
+                  <th key={column.accessor}>
+                    <span>{column.Header}</span>
+                    <button onClick={() => handleSort(column.accessor)}>
+                      {column.accessor !== sort.orderBy
+                        ? "️🔁"
+                        : sort.order === "asc"
+                        ? "🔼"
+                        : "🔽"}
+                    </button>
+                  </th>
+                );
+              })}
+            </tr>
+            <tr>
+              {columns.map((column) => {
+                return (
+                  <th>
+                    <input
+                      key={`${column.accessor}-search`}
+                      type="search"
+                      placeholder={`${column.Header} 검색`}
+                      value={filters[column.accessor]}
+                      onChange={(e) =>
+                        handleSearch(e.target.value, column.accessor)
                       }
-                    };
-                    return (
-                      <th key={column.accessor}>
-                        <span>{column.Header}</span>
-                        <button onClick={() => handleSort(column.accessor)}>
-                          {sortIcon()}
-                        </button>
-                      </th>
-                    );
-                  })}
-                </tr>
+                    />
+                  </th>
+                );
+              })}
+            </tr>
+          </thead>
 
-                {/* 필터  */}
-                <tr>
-                  {columns.map((column) => {
-                    return (
-                      <th>
-                        <input
-                          key={`${column.accessor}-search`}
-                          type="search"
-                          placeholder={`${column.Header} 검색`}
-                          value={filters[column.accessor]}
-                          onChange={(e) =>
-                            handleSearch(e.target.value, column.accessor)
-                          }
-                        />
-                      </th>
-                    );
-                  })}
-                </tr>
-              </thead>
-
-              {/* 바디 */}
-              <tbody>
-                {calculatedRows.map((row, i) => {
-                  return (
-                    <>
-                      <tr key={row.id}>
-                        {location.state.test === "finger" ||
-                        location.state.test === "screen-gaze" ||
-                        location.state.test === "quick-blink" ? (
-                          <>
-                            {/* Finger, Screen, QuickBlink */}
-                            <td className={styles.ContentEx}>
-                              {calculatedRows[i].id}
-                            </td>
-                            <td className={styles.ContentEx}>
-                              {calculatedRows[i].createdAt}
-                            </td>
-                            <td
-                              className={styles.Content}
-                              onClick={() => {
-                                navigate(`/user/${calculatedRows[i].userId}`, {
-                                  state: {
-                                    id: calculatedRows[i].userId,
-                                  },
-                                });
-                              }}
-                            >
-                              {calculatedRows[i].userId}
-                            </td>
-                            {location.state.test === "finger" ? (
-                              <td className={styles.ContentEx}>
-                                {calculatedRows[i].hand}
-                              </td>
-                            ) : (
-                              <></>
-                            )}
-                            <td className={styles.ContentEx}>
-                              {calculatedRows[i].count}
-                            </td>
-                            <td className={styles.ContentEx}>
-                              {calculatedRows[i].timeAfterTakingMedicine}분
-                            </td>
-                            <td
-                              className={styles.Content}
-                              onClick={() => {
-                                // fileName이라 한 개 일 때
-                                // 클릭 했을 때 가지고 온 열들에서 fileName이 있다면 이 형식으로 client
-                                FilenameDown(
-                                  calculatedRows[i].userId,
-                                  calculatedRows[i].fileName
-                                );
-                              }}
-                            >
-                              클릭하여 파일 다운로드
-                            </td>
-                          </>
-                        ) : location.state.test === "a-sound" ||
-                          location.state.test === "e-sound" ||
-                          location.state.test === "dadada" ||
-                          location.state.test === "pataka" ? (
-                          <>
-                            {/* a & e Sound, Dadada, Pataka*/}
-                            <td className={styles.ContentEx}>
-                              {calculatedRows[i].id}
-                            </td>
-                            <td className={styles.ContentEx}>
-                              {calculatedRows[i].createdAt}
-                            </td>
-                            <td
-                              className={styles.Content}
-                              onClick={() => {
-                                navigate(`/user/${calculatedRows[i].userId}`, {
-                                  state: {
-                                    id: calculatedRows[i].userId,
-                                  },
-                                });
-                              }}
-                            >
-                              {calculatedRows[i].userId}
-                            </td>
-                            <td className={styles.ContentEx}>
-                              {calculatedRows[i].timeAfterTakingMedicine}분
-                            </td>
-
-                            <td
-                              className={styles.Content}
-                              onClick={() => {
-                                row.fileNameList.map((a, k) => {
-                                  FilenameListDown(
-                                    calculatedRows[i].userId,
-                                    calculatedRows[i].fileNameList[k]
-                                  );
-                                });
-                              }}
-                            >
-                              클릭하여 파일 다운로드
-                            </td>
-                          </>
+          {/* 바디 */}
+          <tbody>
+            {calculatedRows.map((row, i) => {
+              return (
+                <>
+                  <tr key={row.id}>
+                    {location.state.test === "finger" ||
+                    location.state.test === "screen-gaze" ||
+                    location.state.test === "quick-blink" ? (
+                      <>
+                        {/* Finger, Screen, QuickBlink */}
+                        <td className={styles.ContentEx}>
+                          {calculatedRows[i].id}
+                        </td>
+                        <td className={styles.ContentEx}>
+                          {calculatedRows[i].createdAt}
+                        </td>
+                        <td
+                          className={styles.Content}
+                          onClick={() => {
+                            navigate(`/user/${calculatedRows[i].userId}`, {
+                              state: {
+                                id: calculatedRows[i].userId,
+                              },
+                            });
+                          }}
+                        >
+                          {calculatedRows[i].userId}
+                        </td>
+                        {location.state.test === "finger" ? (
+                          <td className={styles.ContentEx}>
+                            {calculatedRows[i].hand}
+                          </td>
                         ) : (
-                          <>
-                            {/* Gait */}
-                            <td className={styles.ContentEx}>
-                              {calculatedRows[i].id}
-                            </td>
-                            <td className={styles.ContentEx}>
-                              {calculatedRows[i].createdAt}
-                            </td>
-                            <td
-                              className={styles.Content}
-                              onClick={() => {
-                                navigate(`/user/${calculatedRows[i].userId}`, {
-                                  state: {
-                                    id: calculatedRows[i].userId,
-                                  },
-                                });
-                              }}
-                            >
-                              {calculatedRows[i].userId}
-                            </td>
-                            <td className={styles.ContentEx}>
-                              {calculatedRows[i].timeAfterTakingMedicine}분
-                            </td>
-                            <td className={styles.ContentEx}>
-                              {calculatedRows[i].stride}
-                            </td>
-                            <td className={styles.ContentEx}>
-                              {calculatedRows[i].step}
-                            </td>
-                            <td className={styles.ContentEx}>
-                              {calculatedRows[i].distance}
-                            </td>
-                            <td className={styles.ContentEx}>
-                              {calculatedRows[i].time}분
-                            </td>
-
-                            <td
-                              className={styles.Content}
-                              onClick={() => {
-                                FilenameDown(
-                                  calculatedRows[i].userId,
-                                  calculatedRows[i].fileName
-                                );
-                              }}
-                            >
-                              클릭
-                            </td>
-                          </>
+                          <></>
                         )}
-                      </tr>
-                    </>
-                  );
-                })}
-              </tbody>
-            </table>
-            <Pagination
-              activePage={activePage}
-              count={count}
-              rowsPerPage={rowsPerPage}
-              totalPages={totalPages}
-              setActivePage={setActivePage}
-            />
-          </>
-        ) : (
-          <center>
-            <h1 style={{ marginTop: "10%" }}>데이터를 불러오는 중입니다.</h1>
-          </center>
-        )}
+                        <td className={styles.ContentEx}>
+                          {calculatedRows[i].count}
+                        </td>
+                        <td className={styles.ContentEx}>
+                          {calculatedRows[i].timeAfterTakingMedicine}분
+                        </td>
+                        <td
+                          className={styles.Content}
+                          onClick={() => {
+                            // fileName이라 한 개 일 때
+                            // 클릭 했을 때 가지고 온 열들에서 fileName이 있다면 이 형식으로 client
+                            FilenameDown(
+                              calculatedRows[i].userId,
+                              calculatedRows[i].fileName
+                            );
+                          }}
+                        >
+                          클릭하여 파일 다운로드
+                        </td>
+                      </>
+                    ) : location.state.test === "a-sound" ||
+                      location.state.test === "e-sound" ||
+                      location.state.test === "dadada" ||
+                      location.state.test === "pataka" ? (
+                      <>
+                        {/* a & e Sound, Dadada, Pataka*/}
+                        <td className={styles.ContentEx}>
+                          {calculatedRows[i].id}
+                        </td>
+                        <td className={styles.ContentEx}>
+                          {calculatedRows[i].createdAt}
+                        </td>
+                        <td
+                          className={styles.Content}
+                          onClick={() => {
+                            navigate(`/user/${calculatedRows[i].userId}`, {
+                              state: {
+                                id: calculatedRows[i].userId,
+                              },
+                            });
+                          }}
+                        >
+                          {calculatedRows[i].userId}
+                        </td>
+                        <td className={styles.ContentEx}>
+                          {calculatedRows[i].timeAfterTakingMedicine}분
+                        </td>
+
+                        <td
+                          className={styles.Content}
+                          onClick={() => {
+                            row.fileNameList.map((a, k) => {
+                              FilenameListDown(
+                                calculatedRows[i].userId,
+                                calculatedRows[i].fileNameList[k]
+                              );
+                            });
+                          }}
+                        >
+                          클릭하여 파일 다운로드
+                        </td>
+                      </>
+                    ) : (
+                      <>
+                        {/* Gait */}
+                        <td className={styles.ContentEx}>
+                          {calculatedRows[i].id}
+                        </td>
+                        <td className={styles.ContentEx}>
+                          {calculatedRows[i].createdAt}
+                        </td>
+                        <td
+                          className={styles.Content}
+                          onClick={() => {
+                            navigate(`/user/${calculatedRows[i].userId}`, {
+                              state: {
+                                id: calculatedRows[i].userId,
+                              },
+                            });
+                          }}
+                        >
+                          {calculatedRows[i].userId}
+                        </td>
+                        <td className={styles.ContentEx}>
+                          {calculatedRows[i].timeAfterTakingMedicine}분
+                        </td>
+                        <td className={styles.ContentEx}>
+                          {calculatedRows[i].stride}
+                        </td>
+                        <td className={styles.ContentEx}>
+                          {calculatedRows[i].step}
+                        </td>
+                        <td className={styles.ContentEx}>
+                          {calculatedRows[i].distance}
+                        </td>
+                        <td className={styles.ContentEx}>
+                          {calculatedRows[i].time}분
+                        </td>
+
+                        <td
+                          className={styles.Content}
+                          onClick={() => {
+                            FilenameDown(
+                              calculatedRows[i].userId,
+                              calculatedRows[i].fileName
+                            );
+                          }}
+                        >
+                          클릭
+                        </td>
+                      </>
+                    )}
+                  </tr>
+                </>
+              );
+            })}
+          </tbody>
+        </table>
+        <Pagination
+          activePage={activePage}
+          count={count}
+          rowsPerPage={rowsPerPage}
+          totalPages={totalPages}
+          setActivePage={setActivePage}
+        />
         {console.log(location.state)}
       </div>
     </>

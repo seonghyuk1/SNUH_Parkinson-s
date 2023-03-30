@@ -50,6 +50,8 @@ export function filterRows(rows, filters) {
       // 필터에 넣어준 값
       const searchValue = filters[accessor];
 
+      if (searchValue.length === 0) return rows;
+
       // 소문자로 포함 여부 계산
       if (isString(value)) {
         return toLower(value).includes(toLower(searchValue));
@@ -86,9 +88,13 @@ export function sortRows(rows, sort) {
     // 오름차순 일 때 aLocale이 bLocale보다 먼저 오면 음수반환 (기존유지)
     if (order === "asc") {
       // 오름차순일 경우 a와 b비교 | false시 양수 주어 앞으로
-      return aLocale.localeCompare(bLocale, "en", { numeric: isNumber(b[orderBy]) });
+      return aLocale.localeCompare(bLocale, "en", {
+        numeric: isNumber(b[orderBy]),
+      });
     } else {
-      return bLocale.localeCompare(aLocale, "en", { numeric: isNumber(a[orderBy]) });
+      return bLocale.localeCompare(aLocale, "en", {
+        numeric: isNumber(a[orderBy]),
+      });
     }
   });
 }
@@ -96,5 +102,8 @@ export function sortRows(rows, sort) {
 // 필터된 행들, 현재페이지, 페이지당 갯수
 export function paginateRows(sortedRows, activePage, rowsPerPage) {
   // 설정했던 최대 rowPerPage갯수까지
-  return [...sortedRows].slice((activePage - 1) * rowsPerPage, activePage * rowsPerPage);
+  return [...sortedRows].slice(
+    (activePage - 1) * rowsPerPage,
+    activePage * rowsPerPage
+  );
 }

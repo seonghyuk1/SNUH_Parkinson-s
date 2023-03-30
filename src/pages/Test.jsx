@@ -1,7 +1,6 @@
 /* eslint-disable*/
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
 import styles from "./../styles/Test.module.css";
 import { sortRows, filterRows, paginateRows } from "../lib/utils/helpers";
 import Pagination from "../components/common/Pagination";
@@ -11,40 +10,23 @@ import { getTestsByTypeAndUserId } from "../lib/api/tests";
 export default function Test() {
   let location = useLocation();
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-
-  axios.defaults.withCredentials = true;
 
   useEffect(() => {
     console.log("locationData : ", location.state);
     console.log("colHeadData : ", location.state.colHead);
 
     getTestsByTypeAndUserId(location.state.test, location.state.id)
-      .then((response) => setData(response.data))
+      .then((response) => {
+        setData(response.data);
+        setIsLoading(false);
+      })
       .catch((e) => console.log(e));
   }, []);
 
-  {
-    /* 
-    
-finger : id, count, hand,timeAfterTakingMedicine, fileName, createdAt, userId 7
-
-screen-gaze : id, count, timeAfterTakingMedicine, fileName, createdAt, userId 6
-quick-blink : id, count, timeAfterTakingMedicine, fileName, createdAt, userId 6
-
-gait : id, "stride, step, distance, time", timeAfterTakingMedicine, fileName, createdAt, userId 9
-
-a-sound : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId 5
-e-sound : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId 5 
-dadada : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId 5
-pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId 5 
-*/
-  }
-
   // 스프레드 문법을 통해 받아온 객체를 리스트 안에
   const columns = useMemo(() => [...location.state.colHead], []);
-
-  // const navigate = useNavigate();
 
   const [activePage, setActivePage] = useState(1);
   const [filters, setFilters] = useState({});
@@ -140,7 +122,13 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId 5
 
       <div>
         {/* 데이터가 들어왔을 때 헤드 렌더링 */}
-        {count > 0 ? (
+        {isLoading ? (
+          <center>
+            <h1 style={{ marginTop: "10%" }}>
+              데이터가 불러오는 중이거나 데이터가 존재하지 않습니다.
+            </h1>
+          </center>
+        ) : (
           <>
             <table className={styles.Table}>
               <thead className={styles.theader}>
@@ -360,12 +348,6 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId 5
               setActivePage={setActivePage}
             />
           </>
-        ) : (
-          <center>
-            <h1 style={{ marginTop: "10%" }}>
-              데이터가 불러오는 중이거나 데이터가 존재하지 않습니다.
-            </h1>
-          </center>
         )}
       </div>
       {/* {count > 0 ? <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} /> : <center>{<h3 style={{ marginTop: "3%" }}>해당하는 검색결과가 없습니다.</h3>}</center>} */}
