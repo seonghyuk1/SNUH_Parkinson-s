@@ -1,5 +1,5 @@
 /* eslint-disable*/
-import styles from "./styles/App.module.css";
+import styles from "./../styles/App.module.css";
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 

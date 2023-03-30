@@ -2,11 +2,11 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import styles from "./styles/Test.module.css";
-import { sortRows, filterRows, paginateRows } from "./helpers";
-import Pagination from "./Pagination";
+import styles from "./../styles/Test.module.css";
+import { sortRows, filterRows, paginateRows } from "../lib/utils/helpers";
+import Pagination from "../components/common/Pagination";
 import Button from "react-bootstrap/Button";
-import { getTestsByTypeAndUserId } from "./lib/api/tests";
+import { getTestsByTypeAndUserId } from "../lib/api/tests";
 
 export default function Test() {
   let location = useLocation();
@@ -53,8 +53,14 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId 5
 
   const rowsPerPage = 15;
 
-  const filteredRows = useMemo(() => filterRows(data, filters), [data, filters]);
-  const sortedRows = useMemo(() => sortRows(filteredRows, sort), [filteredRows, sort]);
+  const filteredRows = useMemo(
+    () => filterRows(data, filters),
+    [data, filters]
+  );
+  const sortedRows = useMemo(
+    () => sortRows(filteredRows, sort),
+    [filteredRows, sort]
+  );
   const calculatedRows = paginateRows(sortedRows, activePage, rowsPerPage);
 
   const count = filteredRows.length;
@@ -82,7 +88,10 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId 5
   const handleSort = (accessor) => {
     setActivePage(1);
     setSort((prevSort) => ({
-      order: prevSort.order === "asc" && prevSort.orderBy === accessor ? "desc" : "asc",
+      order:
+        prevSort.order === "asc" && prevSort.orderBy === accessor
+          ? "desc"
+          : "asc",
       orderBy: accessor,
     }));
   };
@@ -105,15 +114,24 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId 5
             전체 사용자 명단
           </Link>
           {" > "}
-          <Link to={`/user/ + ${location.state.id}`} state={{ id: location.state.id, name: location.state.name }} className={styles.Links}>
-            {location.state.name ? location.state.name : `${location.state.id}번 검사자`}
+          <Link
+            to={`/user/ + ${location.state.id}`}
+            state={{ id: location.state.id, name: location.state.name }}
+            className={styles.Links}
+          >
+            {location.state.name
+              ? location.state.name
+              : `${location.state.id}번 검사자`}
           </Link>
           {" > "}
           {location.state.testName}
         </h5>
 
         <div className={styles.Title}>
-          {location.state.name ? `${location.state.name}님의` : `${location.state.id}번 검사자`} {location.state.testName}{" "}
+          {location.state.name
+            ? `${location.state.name}님의`
+            : `${location.state.id}번 검사자`}{" "}
+          {location.state.testName}{" "}
         </div>
         <Button onClick={clearAll} className={styles.Btn}>
           필터 초기화
@@ -141,7 +159,9 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId 5
                     return (
                       <th key={column.accessor}>
                         <span>{column.Header}</span>
-                        <button onClick={() => handleSort(column.accessor)}>{sortIcon()}</button>
+                        <button onClick={() => handleSort(column.accessor)}>
+                          {sortIcon()}
+                        </button>
                       </th>
                     );
                   })}
@@ -150,7 +170,15 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId 5
                   {columns.map((column) => {
                     return (
                       <th>
-                        <input key={`${column.accessor}-search`} type="search" placeholder={`${column.Header} 검색`} value={filters[column.accessor]} onChange={(e) => handleSearch(e.target.value, column.accessor)} />
+                        <input
+                          key={`${column.accessor}-search`}
+                          type="search"
+                          placeholder={`${column.Header} 검색`}
+                          value={filters[column.accessor]}
+                          onChange={(e) =>
+                            handleSearch(e.target.value, column.accessor)
+                          }
+                        />
                       </th>
                     );
                   })}
@@ -165,44 +193,74 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId 5
                   return (
                     <tr key={row.id}>
                       {/* Finger */}
-                      {location.state.test === "finger" || location.state.test === "screen-gaze" || location.state.test === "quick-blink" ? (
+                      {location.state.test === "finger" ||
+                      location.state.test === "screen-gaze" ||
+                      location.state.test === "quick-blink" ? (
                         <>
-                          <td className={styles.ContentEx}>{calculatedRows[i].id}</td>
-                          <td className={styles.ContentEx}>{calculatedRows[i].createdAt}</td>
+                          <td className={styles.ContentEx}>
+                            {calculatedRows[i].id}
+                          </td>
+                          <td className={styles.ContentEx}>
+                            {calculatedRows[i].createdAt}
+                          </td>
                           <td
                             className={styles.Content}
                             onClick={() => {
-                              navigate(process.env.REACT_APP_DB_HOST + `/user/${calculatedRows[i].userId}`, {
-                                state: {
-                                  id: calculatedRows[i].userId,
-                                  name: location.state.name,
-                                },
-                              });
+                              navigate(
+                                process.env.REACT_APP_DB_HOST +
+                                  `/user/${calculatedRows[i].userId}`,
+                                {
+                                  state: {
+                                    id: calculatedRows[i].userId,
+                                    name: location.state.name,
+                                  },
+                                }
+                              );
                             }}
                           >
                             {calculatedRows[i].userId}
                           </td>
                           {/* 핑거 일 때만 hand 추가 */}
-                          {location.state.test === "finger" ? <td className={styles.ContentEx}>{calculatedRows[i].hand}</td> : <></>}
+                          {location.state.test === "finger" ? (
+                            <td className={styles.ContentEx}>
+                              {calculatedRows[i].hand}
+                            </td>
+                          ) : (
+                            <></>
+                          )}
 
-                          <td className={styles.ContentEx}>{calculatedRows[i].count}</td>
-                          <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}분</td>
+                          <td className={styles.ContentEx}>
+                            {calculatedRows[i].count}
+                          </td>
+                          <td className={styles.ContentEx}>
+                            {calculatedRows[i].timeAfterTakingMedicine}분
+                          </td>
                           <td
                             className={styles.Content}
                             onClick={() => {
                               // fileName이라 한 개 일 때
                               // 클릭 했을 때 가지고 온 열들에서 fileName이 있다면 이 형식으로 Axios
-                              FilenameDown(calculatedRows[i].userId, calculatedRows[i].fileName);
+                              FilenameDown(
+                                calculatedRows[i].userId,
+                                calculatedRows[i].fileName
+                              );
                             }}
                           >
                             클릭하여 파일 다운로드
                           </td>
                         </>
-                      ) : location.state.test === "a-sound" || location.state.test === "e-sound" || location.state.test === "dadada" || location.state.test === "pataka" ? (
+                      ) : location.state.test === "a-sound" ||
+                        location.state.test === "e-sound" ||
+                        location.state.test === "dadada" ||
+                        location.state.test === "pataka" ? (
                         <>
                           {/* a & e Sound, Dadada, Pataka*/}
-                          <td className={styles.ContentEx}>{calculatedRows[i].id}</td>
-                          <td className={styles.ContentEx}>{calculatedRows[i].createdAt}</td>
+                          <td className={styles.ContentEx}>
+                            {calculatedRows[i].id}
+                          </td>
+                          <td className={styles.ContentEx}>
+                            {calculatedRows[i].createdAt}
+                          </td>
                           <td
                             className={styles.Content}
                             onClick={() => {
@@ -216,13 +274,18 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId 5
                           >
                             {calculatedRows[i].userId}
                           </td>
-                          <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}분</td>
+                          <td className={styles.ContentEx}>
+                            {calculatedRows[i].timeAfterTakingMedicine}분
+                          </td>
 
                           <td
                             className={styles.Content}
                             onClick={() => {
                               row.fileNameList.map((a, k) => {
-                                FilenameListDown(calculatedRows[i].userId, calculatedRows[i].fileNameList[k]);
+                                FilenameListDown(
+                                  calculatedRows[i].userId,
+                                  calculatedRows[i].fileNameList[k]
+                                );
                               });
                             }}
                           >
@@ -232,31 +295,52 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId 5
                       ) : (
                         <>
                           {/* Gait */}
-                          <td className={styles.ContentEx}>{calculatedRows[i].id}</td>
-                          <td className={styles.ContentEx}>{calculatedRows[i].createdAt}</td>
+                          <td className={styles.ContentEx}>
+                            {calculatedRows[i].id}
+                          </td>
+                          <td className={styles.ContentEx}>
+                            {calculatedRows[i].createdAt}
+                          </td>
                           <td
                             className={styles.Content}
                             onClick={() => {
-                              navigate(process.env.REACT_APP_DB_HOST + `/user/${calculatedRows[i].userId}`, {
-                                state: {
-                                  id: calculatedRows[i].userId,
-                                  name: location.state.name,
-                                },
-                              });
+                              navigate(
+                                process.env.REACT_APP_DB_HOST +
+                                  `/user/${calculatedRows[i].userId}`,
+                                {
+                                  state: {
+                                    id: calculatedRows[i].userId,
+                                    name: location.state.name,
+                                  },
+                                }
+                              );
                             }}
                           >
                             {calculatedRows[i].userId}
                           </td>
-                          <td className={styles.ContentEx}>{calculatedRows[i].timeAfterTakingMedicine}분</td>
-                          <td className={styles.ContentEx}>{calculatedRows[i].stride}</td>
-                          <td className={styles.ContentEx}>{calculatedRows[i].step}</td>
-                          <td className={styles.ContentEx}>{calculatedRows[i].distance}</td>
-                          <td className={styles.ContentEx}>{calculatedRows[i].time}분</td>
+                          <td className={styles.ContentEx}>
+                            {calculatedRows[i].timeAfterTakingMedicine}분
+                          </td>
+                          <td className={styles.ContentEx}>
+                            {calculatedRows[i].stride}
+                          </td>
+                          <td className={styles.ContentEx}>
+                            {calculatedRows[i].step}
+                          </td>
+                          <td className={styles.ContentEx}>
+                            {calculatedRows[i].distance}
+                          </td>
+                          <td className={styles.ContentEx}>
+                            {calculatedRows[i].time}분
+                          </td>
 
                           <td
                             className={styles.Content}
                             onClick={() => {
-                              FilenameDown(calculatedRows[i].userId, calculatedRows[i].fileName);
+                              FilenameDown(
+                                calculatedRows[i].userId,
+                                calculatedRows[i].fileName
+                              );
                             }}
                           >
                             클릭
@@ -268,11 +352,19 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId 5
                 })}
               </tbody>
             </table>
-            <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} />
+            <Pagination
+              activePage={activePage}
+              count={count}
+              rowsPerPage={rowsPerPage}
+              totalPages={totalPages}
+              setActivePage={setActivePage}
+            />
           </>
         ) : (
           <center>
-            <h1 style={{ marginTop: "10%" }}>데이터가 불러오는 중이거나 데이터가 존재하지 않습니다.</h1>
+            <h1 style={{ marginTop: "10%" }}>
+              데이터가 불러오는 중이거나 데이터가 존재하지 않습니다.
+            </h1>
           </center>
         )}
       </div>
@@ -284,16 +376,23 @@ pataka : id, timeAfterTakingMedicine, fileNameList[], createdAt, userId 5
 // 한 개짜리 파일 다운로드 함수
 function FilenameDown(userId, Name) {
   axios
-    .get(process.env.REACT_APP_DB_HOST + "/tests/download/" + Number(userId) + "/" + Name, {
-      responseType: "blob",
-      params: {
-        userId: userId,
-        fileName: Name,
-      },
-      headers: {
-        contentType: "text/csv",
-      },
-    })
+    .get(
+      process.env.REACT_APP_DB_HOST +
+        "/tests/download/" +
+        Number(userId) +
+        "/" +
+        Name,
+      {
+        responseType: "blob",
+        params: {
+          userId: userId,
+          fileName: Name,
+        },
+        headers: {
+          contentType: "text/csv",
+        },
+      }
+    )
     .then((response) => {
       console.log("결과 ", response);
       console.log("결과 속 ", response.data);
@@ -313,16 +412,23 @@ function FilenameDown(userId, Name) {
 // 세 개짜리 파일 다운로드 함수
 function FilenameListDown(userId, NameList) {
   axios
-    .get(process.env.REACT_APP_DB_HOST + "/tests/download/" + Number(userId) + "/" + NameList, {
-      responseType: "blob",
-      params: {
-        userId: userId,
-        fileName: NameList,
-      },
-      headers: {
-        contentType: "video/mp4",
-      },
-    })
+    .get(
+      process.env.REACT_APP_DB_HOST +
+        "/tests/download/" +
+        Number(userId) +
+        "/" +
+        NameList,
+      {
+        responseType: "blob",
+        params: {
+          userId: userId,
+          fileName: NameList,
+        },
+        headers: {
+          contentType: "video/mp4",
+        },
+      }
+    )
     .then((response) => {
       console.log("파일명22 :" + NameList);
 

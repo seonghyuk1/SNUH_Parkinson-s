@@ -1,11 +1,11 @@
 /* eslint-disable*/
 import { useState, useMemo, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { sortRows, filterRows, paginateRows } from "./helpers";
-import Pagination from "./Pagination";
-import styles from "./styles/Table.module.css";
+import { sortRows, filterRows, paginateRows } from "./../lib/utils/helpers";
+import Pagination from "../components/common/Pagination";
+import styles from "./../styles/Table.module.css";
 import Button from "react-bootstrap/Button";
-import { getUsers } from "./lib/api/users";
+import { getUsers } from "./../lib/api/users";
 
 export const Table = () => {
   const [data, setData] = useState([]);
@@ -61,12 +61,18 @@ export const Table = () => {
 
   // 필터
   // rows와 filters의 값이 바뀔 때만 실행 (첫 계산 제외)
-  const filteredRows = useMemo(() => filterRows(data, filters), [data, filters]);
+  const filteredRows = useMemo(
+    () => filterRows(data, filters),
+    [data, filters]
+  );
 
   // 결과 sort
   // filteredRows와 sort의 값이 바뀔 때만 실행 (첫 계산 제외)
   // sort 처음에 id 기준 내림차순으로 정렬돼있음
-  const sortedRows = useMemo(() => sortRows(filteredRows, sort), [filteredRows, sort]);
+  const sortedRows = useMemo(
+    () => sortRows(filteredRows, sort),
+    [filteredRows, sort]
+  );
 
   // 결과 행수 계산
   const calculatedRows = paginateRows(sortedRows, activePage, rowsPerPage);
@@ -98,7 +104,10 @@ export const Table = () => {
   const handleSort = (accessor) => {
     setActivePage(1);
     setSort((prevSort) => ({
-      order: prevSort.order === "asc" && prevSort.orderBy === accessor ? "desc" : "asc",
+      order:
+        prevSort.order === "asc" && prevSort.orderBy === accessor
+          ? "desc"
+          : "asc",
       orderBy: accessor,
     }));
   };
@@ -147,7 +156,9 @@ export const Table = () => {
                     return (
                       <th key={column.accessor}>
                         <span>{column.Header}</span>
-                        <button onClick={() => handleSort(column.accessor)}>{sortIcon()}</button>
+                        <button onClick={() => handleSort(column.accessor)}>
+                          {sortIcon()}
+                        </button>
                       </th>
                     );
                   })}
@@ -156,7 +167,15 @@ export const Table = () => {
                   {columns.map((column) => {
                     return (
                       <th>
-                        <input key={`${column.accessor}-search`} type="search" placeholder={`${column.Header} 검색`} value={filters[column.accessor]} onChange={(e) => handleSearch(e.target.value, column.accessor)} />
+                        <input
+                          key={`${column.accessor}-search`}
+                          type="search"
+                          placeholder={`${column.Header} 검색`}
+                          value={filters[column.accessor]}
+                          onChange={(e) =>
+                            handleSearch(e.target.value, column.accessor)
+                          }
+                        />
                       </th>
                     );
                   })}
@@ -190,7 +209,13 @@ export const Table = () => {
                 })}
               </tbody>
             </table>
-            <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} />
+            <Pagination
+              activePage={activePage}
+              count={count}
+              rowsPerPage={rowsPerPage}
+              totalPages={totalPages}
+              setActivePage={setActivePage}
+            />
           </>
         ) : (
           <center>

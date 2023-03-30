@@ -1,11 +1,11 @@
 /* eslint-disable*/
 import { useState, useMemo, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { sortRows, filterRows, paginateRows } from "./helpers";
+import { sortRows, filterRows, paginateRows } from "../lib/utils/helpers";
 import Button from "react-bootstrap/Button";
-import styles from "./styles/Test.module.css";
-import Pagination from "./Pagination";
-import { getTestsByTypeAndUserId } from "./lib/api/tests";
+import styles from "./../styles/Test.module.css";
+import Pagination from "../components/common/Pagination";
+import { getTestsByTypeAndUserId } from "../lib/api/tests";
 
 function ExciseList() {
   const [data, setData] = useState([]);

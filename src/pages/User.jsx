@@ -2,14 +2,15 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import styles from "./styles/User.module.css";
+import styles from "./../styles/User.module.css";
 
 export default function User() {
   const location = useLocation();
   const navigate = useNavigate();
   console.log("locationData : ", location.state);
 
-  const url = `${process.env.REACT_APP_DB_HOST}/tests/download/` + location.state.id;
+  const url =
+    `${process.env.REACT_APP_DB_HOST}/tests/download/` + location.state.id;
 
   return (
     <>
@@ -23,13 +24,19 @@ export default function User() {
             전체 사용자 명단
           </Link>
           {" > "}
-          {location.state.name ? location.state.name : `${location.state.id}번 검사자`}
+          {location.state.name
+            ? location.state.name
+            : `${location.state.id}번 검사자`}
         </h5>
       </div>
 
       <div className={styles.Container}>
         <div className={styles.UserInfo}>
-          <span className={styles.Name}>{location.state.name ? `ID : ${location.state.name}` : `${location.state.id}번 검사자`}</span>
+          <span className={styles.Name}>
+            {location.state.name
+              ? `ID : ${location.state.name}`
+              : `${location.state.id}번 검사자`}
+          </span>
           <Button className={styles.BtnFile}>
             <a className={styles.All} href={url}>
               전체 테스트 파일 다운로드

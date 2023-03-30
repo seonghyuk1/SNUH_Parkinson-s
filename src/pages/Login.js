@@ -1,9 +1,9 @@
 /* eslint-disable*/
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "./lib/api/auth";
-import { setToken } from "./lib/api/client";
-import styles from "./styles/Test.module.css";
+import { login } from "../lib/api/auth";
+import { setToken } from "../lib/api/client";
+import styles from "./../styles/Test.module.css";
 
 function Login() {
   const navigate = useNavigate();

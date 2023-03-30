@@ -2,8 +2,8 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import styles from "./styles/Excise.module.css";
-import { getUsers } from "./lib/api/users";
+import styles from "./../styles/Excise.module.css";
+import { getUsers } from "./../lib/api/users";
 
 function Excise() {
   const [rows, setRows] = useState([]);

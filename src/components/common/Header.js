@@ -1,7 +1,7 @@
 /* eslint-disable*/
 import { Link, useNavigate } from "react-router-dom";
-import styles from "./styles/Test.module.css";
 import { useLocation } from "react-router-dom";
+import styles from "./../../styles/Test.module.css";
 
 function Header() {
   const { pathname } = useLocation();
