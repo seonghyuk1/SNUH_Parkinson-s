@@ -3,14 +3,12 @@ import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import styles from "./../styles/User.module.css";
+import { downloadAllTestFilesByUserId } from "../lib/api/tests";
 
 export default function User() {
   const location = useLocation();
   const navigate = useNavigate();
   console.log("locationData : ", location.state);
-
-  const url =
-    `${process.env.REACT_APP_DB_HOST}/tests/download/` + location.state.id;
 
   return (
     <>
@@ -37,10 +35,11 @@ export default function User() {
               ? `ID : ${location.state.name}`
               : `${location.state.id}번 검사자`}
           </span>
-          <Button className={styles.BtnFile}>
-            <a className={styles.All} href={url}>
-              전체 테스트 파일 다운로드
-            </a>
+          <Button
+            className={styles.BtnFile}
+            onClick={() => downloadAllTestFilesByUserId(location.state.id)}
+          >
+            모든 검사 파일 다운로드
           </Button>
         </div>
 

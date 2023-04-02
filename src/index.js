@@ -4,6 +4,13 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.css";
 import App from "./App";
+import { setToken } from "./lib/api/client";
+
+try {
+  setToken({ token: sessionStorage.getItem("token") });
+} catch (e) {
+  console.log("토큰 로드 실패");
+}
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<App />);

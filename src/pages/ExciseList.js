@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import styles from "./../styles/Test.module.css";
 import Pagination from "../components/common/Pagination";
 import { getTestsByTypeAndUserId } from "../lib/api/tests";
+import { downloadTestFileByUserIdAndFilename } from "./../lib/api/tests";
 
 function ExciseList() {
   const [data, setData] = useState([]);
@@ -215,16 +216,14 @@ function ExciseList() {
                         </td>
                         <td
                           className={styles.Content}
-                          onClick={() => {
-                            // fileName이라 한 개 일 때
-                            // 클릭 했을 때 가지고 온 열들에서 fileName이 있다면 이 형식으로 client
-                            FilenameDown(
+                          onClick={() =>
+                            downloadTestFileByUserIdAndFilename(
                               calculatedRows[i].userId,
                               calculatedRows[i].fileName
-                            );
-                          }}
+                            )
+                          }
                         >
-                          클릭하여 파일 다운로드
+                          다운로드
                         </td>
                       </>
                     ) : location.state.test === "a-sound" ||
@@ -258,15 +257,15 @@ function ExciseList() {
                         <td
                           className={styles.Content}
                           onClick={() => {
-                            row.fileNameList.map((a, k) => {
-                              FilenameListDown(
+                            row.fileNameList.map((a, k) =>
+                              downloadTestFileByUserIdAndFilename(
                                 calculatedRows[i].userId,
                                 calculatedRows[i].fileNameList[k]
-                              );
-                            });
+                              )
+                            );
                           }}
                         >
-                          클릭하여 파일 다운로드
+                          다운로드
                         </td>
                       </>
                     ) : (
