@@ -1,4 +1,3 @@
-/* eslint-disable*/
 import { useState, useMemo, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { sortRows, filterRows, paginateRows } from "../lib/utils/helpers";
@@ -308,7 +307,7 @@ function ExciseList() {
                         <td
                           className={styles.Content}
                           onClick={() => {
-                            FilenameDown(
+                            downloadTestFileByUserIdAndFilename(
                               calculatedRows[i].userId,
                               calculatedRows[i].fileName
                             );
@@ -338,56 +337,3 @@ function ExciseList() {
 }
 
 export default ExciseList;
-
-function FilenameDown(userId, Name) {
-  client
-    .get("/tests/download/" + Number(userId) + "/" + Name, {
-      responseType: "blob",
-      params: {
-        userId: userId,
-        fileName: Name,
-      },
-    })
-    .then((response) => {
-      console.log("결과 ", response);
-      console.log("결과 속 ", response.data);
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", `${Name}`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
-
-function FilenameListDown(userId, NameList) {
-  client
-    .get("/tests/download/" + Number(userId) + "/" + NameList, {
-      responseType: "blob",
-      params: {
-        userId: userId,
-        fileName: NameList,
-      },
-      headers: {
-        contentType: "video/mp4",
-      },
-    })
-    .then((response) => {
-      console.log("결과 ", response);
-
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", `${NameList}`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}

@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 // 데이터가 없을 때
 export function isEmpty(obj = {}) {
   return Object.keys(obj).length === 0;
@@ -59,7 +57,7 @@ export function filterRows(rows, filters) {
 
       // 숫자값 일치 비교
       if (isNumber(value)) {
-        return value == searchValue;
+        return value === searchValue;
       }
     });
   });

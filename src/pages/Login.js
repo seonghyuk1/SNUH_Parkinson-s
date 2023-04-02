@@ -1,4 +1,3 @@
-/* eslint-disable*/
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../lib/api/auth";
@@ -13,7 +12,7 @@ function Login() {
   // 헤더 설정
   useEffect(() => {
     token ? navigate("/Main") : navigate("/");
-  }, []);
+  }, [navigate, token]);
 
   const pwHandler = (e) => {
     e.preventDefault();

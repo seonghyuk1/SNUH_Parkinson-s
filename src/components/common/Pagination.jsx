@@ -1,4 +1,3 @@
-/* eslint-disable */
 import styles from "./../../styles/App.module.css";
 
 function Pagination({
@@ -47,11 +46,11 @@ function Pagination({
           총 {count}개 중 {beginning === end ? end : `${beginning} - ${end}`}개
         </h6>
         <h6>
-          {"ㅤ"}
           {totalPages} 페이지 중 {activePage} 페이지
         </h6>
       </div>
     </>
   );
 }
+
 export default Pagination;

@@ -1,4 +1,3 @@
-/* eslint-disable*/
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./../styles/Test.module.css";
@@ -6,6 +5,7 @@ import { sortRows, filterRows, paginateRows } from "../lib/utils/helpers";
 import Pagination from "../components/common/Pagination";
 import Button from "react-bootstrap/Button";
 import { getTestsByTypeAndUserId } from "../lib/api/tests";
+import { downloadTestFileByUserIdAndFilename } from "./../lib/api/tests";
 
 export default function Test() {
   let location = useLocation();
@@ -23,7 +23,7 @@ export default function Test() {
         setIsLoading(false);
       })
       .catch((e) => console.log(e));
-  }, []);
+  }, [location.state]);
 
   // 스프레드 문법을 통해 받아온 객체를 리스트 안에
   const columns = useMemo(() => [...location.state.colHead], []);
@@ -226,9 +226,7 @@ export default function Test() {
                           <td
                             className={styles.Content}
                             onClick={() => {
-                              // fileName이라 한 개 일 때
-                              // 클릭 했을 때 가지고 온 열들에서 fileName이 있다면 이 형식으로 Axios
-                              FilenameDown(
+                              downloadTestFileByUserIdAndFilename(
                                 calculatedRows[i].userId,
                                 calculatedRows[i].fileName
                               );
@@ -269,8 +267,8 @@ export default function Test() {
                           <td
                             className={styles.Content}
                             onClick={() => {
-                              row.fileNameList.map((a, k) => {
-                                FilenameListDown(
+                              row.fileNameList.foreach((a, k) => {
+                                downloadTestFileByUserIdAndFilename(
                                   calculatedRows[i].userId,
                                   calculatedRows[i].fileNameList[k]
                                 );
@@ -325,7 +323,7 @@ export default function Test() {
                           <td
                             className={styles.Content}
                             onClick={() => {
-                              FilenameDown(
+                              downloadTestFileByUserIdAndFilename(
                                 calculatedRows[i].userId,
                                 calculatedRows[i].fileName
                               );
@@ -350,82 +348,6 @@ export default function Test() {
           </>
         )}
       </div>
-      {/* {count > 0 ? <Pagination activePage={activePage} count={count} rowsPerPage={rowsPerPage} totalPages={totalPages} setActivePage={setActivePage} /> : <center>{<h3 style={{ marginTop: "3%" }}>해당하는 검색결과가 없습니다.</h3>}</center>} */}
     </>
   );
-}
-
-// 한 개짜리 파일 다운로드 함수
-function FilenameDown(userId, Name) {
-  axios
-    .get(
-      process.env.REACT_APP_DB_HOST +
-        "/tests/download/" +
-        Number(userId) +
-        "/" +
-        Name,
-      {
-        responseType: "blob",
-        params: {
-          userId: userId,
-          fileName: Name,
-        },
-        headers: {
-          contentType: "text/csv",
-        },
-      }
-    )
-    .then((response) => {
-      console.log("결과 ", response);
-      console.log("결과 속 ", response.data);
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", `${Name}`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
-
-// 세 개짜리 파일 다운로드 함수
-function FilenameListDown(userId, NameList) {
-  axios
-    .get(
-      process.env.REACT_APP_DB_HOST +
-        "/tests/download/" +
-        Number(userId) +
-        "/" +
-        NameList,
-      {
-        responseType: "blob",
-        params: {
-          userId: userId,
-          fileName: NameList,
-        },
-        headers: {
-          contentType: "video/mp4",
-        },
-      }
-    )
-    .then((response) => {
-      console.log("파일명22 :" + NameList);
-
-      console.log("결과 ", response);
-      console.log("결과 속 ", response.data);
-
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", `${NameList}`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
 }

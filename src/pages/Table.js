@@ -1,4 +1,3 @@
-/* eslint-disable*/
 import { useState, useMemo, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { sortRows, filterRows, paginateRows } from "./../lib/utils/helpers";
@@ -14,7 +13,7 @@ export const Table = () => {
 
   useEffect(() => {
     !token && navigate("/");
-  }, []);
+  }, [navigate, token]);
 
   useEffect(() => {
     getUsers()
