@@ -128,7 +128,7 @@ export default function Test() {
           >
             <CircularProgress size={80} thickness={2.8} />
           </center>
-        ) : sortedRows > 0 ? (
+        ) : sortedRows.length > 0 ? (
           <>
             <TestTable
               data={sortedRows}

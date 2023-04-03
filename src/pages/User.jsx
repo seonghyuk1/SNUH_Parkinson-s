@@ -14,7 +14,6 @@ export default function User() {
     location.state.id &&
       getUser(location.state.id)
         .then((response) => {
-          console.log(response.data);
           setUser(response.data);
         })
         .catch((e) => console.log(e));
