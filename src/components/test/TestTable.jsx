@@ -146,7 +146,8 @@ const TestTable = ({
                 <td
                   className={styles.Content}
                   onClick={() => {
-                    row.fileNameList.foreach((filename, j) =>
+                    console.log(row.fileNameList);
+                    row.fileNameList.forEach((filename, j) =>
                       downloadTestFileByUserIdAndFilename(row.userId, filename)
                     );
                   }}
