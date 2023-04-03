@@ -16,7 +16,7 @@ function Main() {
         <div className={styles.Title}>전체 사용자 명단</div>
       </Link>
       <Link to="/Excise">
-        <div className={styles.Title}>운동 기록</div>
+        <div className={styles.Title}>검사 기록</div>
       </Link>
     </div>
   );

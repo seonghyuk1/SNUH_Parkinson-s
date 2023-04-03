@@ -101,7 +101,7 @@ export function sortRows(rows, sort) {
 export function paginateRows(sortedRows, activePage, rowsPerPage) {
   // 설정했던 최대 rowPerPage갯수까지
   return [...sortedRows].slice(
-    (activePage - 1) * rowsPerPage,
-    activePage * rowsPerPage
+    activePage * rowsPerPage,
+    (activePage + 1) * rowsPerPage
   );
 }

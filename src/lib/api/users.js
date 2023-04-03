@@ -1,6 +1,8 @@
 import client from "./client";
 
-export const getUsers = () =>
+export const getUser = (userId) => client.get(`/users/${userId}`);
+
+export const getUsers = (page) =>
   client.get("/users", {
-    params: { size: 1000 },
+    params: { size: 10, page },
   });

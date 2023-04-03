@@ -1,52 +1,48 @@
 import styles from "./../../styles/App.module.css";
 
-function Pagination({
-  activePage,
-  count,
-  rowsPerPage,
-  totalPages,
-  setActivePage,
-}) {
-  const beginning = activePage === 1 ? 1 : rowsPerPage * (activePage - 1) + 1;
-  const end = activePage === totalPages ? count : beginning + rowsPerPage - 1;
+function Pagination({ pageInfo, setPage }) {
+  const { page, size, totalElements, totalPages } = pageInfo;
+  const beginning = page === 0 ? 0 : size * page;
+  const end = page === totalPages ? totalElements : beginning + size;
 
   return (
     <>
       <div className={styles.Container}>
         <button
-          disabled={activePage === 1}
-          onClick={() => setActivePage(1)}
+          disabled={page === 0}
+          onClick={() => setPage(0)}
           className={styles.pagelink}
         >
           ⏮️ 처음
         </button>
         <button
-          disabled={activePage === 1}
-          onClick={() => setActivePage(activePage - 1)}
+          disabled={page === 0}
+          onClick={() => setPage(page - 1)}
           className={styles.pagelink}
         >
           ⬅️ 이전
         </button>
         <button
-          disabled={activePage === totalPages}
-          onClick={() => setActivePage(activePage + 1)}
+          disabled={page + 1 === totalPages}
+          onClick={() => setPage(page + 1)}
           className={styles.pagelink}
         >
           다음 ➡️
         </button>
         <button
-          disabled={activePage === totalPages}
-          onClick={() => setActivePage(totalPages)}
+          disabled={page + 1 === totalPages}
+          onClick={() => setPage(totalPages - 1)}
           className={styles.pagelink}
         >
           마지막 ⏭️
         </button>
 
         <h6 className={styles.forMargin}>
-          총 {count}개 중 {beginning === end ? end : `${beginning} - ${end}`}개
+          총 {totalElements}개 중{" "}
+          {beginning === end ? end : `${beginning} - ${end}`}개
         </h6>
         <h6>
-          {totalPages} 페이지 중 {activePage} 페이지
+          {totalPages} 페이지 중 {page + 1} 페이지
         </h6>
       </div>
     </>

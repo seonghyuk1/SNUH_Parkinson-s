@@ -6,7 +6,6 @@ import { Table } from "./pages/Table";
 import Excise from "./pages/Excise";
 import User from "./pages/User";
 import Test from "./pages/Test";
-import ExciseList from "./pages/ExciseList";
 import Header from "./components/common/Header";
 
 function App() {
@@ -27,14 +26,14 @@ function App() {
         <Route path="/eSoundTest" element={<Test />} />
         <Route path="/dadadaTest" element={<Test />} />
         <Route path="/patakaTest" element={<Test />} />
-        <Route path="/fingerTest_Records" element={<ExciseList />} />
+        {/* <Route path="/fingerTest_Records" element={<ExciseList />} />
         <Route path="/screenGazeTest_Records" element={<ExciseList />} />
         <Route path="/quickBlinkTest_Records" element={<ExciseList />} />
         <Route path="/gaitTest_Records" element={<ExciseList />} />
         <Route path="/aSoundTest_Records" element={<ExciseList />} />
         <Route path="/eSoundTest_Records" element={<ExciseList />} />
         <Route path="/dadadaTest_Records" element={<ExciseList />} />
-        <Route path="/patakaTest_Records" element={<ExciseList />} />
+        <Route path="/patakaTest_Records" element={<ExciseList />} /> */}
       </Routes>
     </BrowserRouter>
   );
